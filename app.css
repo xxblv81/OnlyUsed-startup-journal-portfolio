@@ -633,5 +633,11 @@ dialog.viewer::backdrop{background:rgba(21,15,21,.55);backdrop-filter:blur(3px);
   .cart-item{grid-template-columns:56px minmax(0,1fr) auto;}
   .cart-thumb{width:56px;height:56px;}
   .bub{max-width:88%;}
+  .post-head{flex-wrap:wrap;}
+  .post-head .vis{order:3;}
+  .pstep{min-width:0;}
+  .plab{display:none;}
+  .pstep.cur .plab{display:block;font-size:.72rem;white-space:nowrap;}
+  .order{padding:16px 14px;}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}html{scroll-behavior:auto;}}

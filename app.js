@@ -30,7 +30,7 @@
     versions:['i-pivot',{zh:'三個版本',en:'Three versions'},{zh:'核心、台灣對外、海外——同一個想法的三種做法。',en:'Core, Taiwan-facing, overseas — one idea, three shapes.'}],
     market:['i-chart',{zh:'痛點與市場',en:'Problem & market'},{zh:'交易散落在私訊；國外已有 AllThingsWorn 等先例。',en:'Trades scattered in DMs; AllThingsWorn proves it abroad.'}],
     product:['i-phone',{zh:'產品',en:'Product'},{zh:'規格：前台 19 頁、API 14 類、後台 27 模組。',en:'Spec: 19 pages, 14 API groups, 27 admin modules.'}],
-    model:['i-coins',{zh:'收費方式',en:'Pricing'},{zh:'四次調整：分項抽成 → 10% → 月費 → 買家保障費。',en:'Four revisions: per-type → 10% → subscription → buyer fee.'}],
+    model:['i-coins',{zh:'收費方式',en:'Pricing'},{zh:'四個版本：分項抽成 → 10% → 月費 → 買家保障費。',en:'Four versions: per-type → 10% → subscription → buyer fee.'}],
     trust:['i-shield',{zh:'信任與法遵',en:'Trust & compliance'},{zh:'實名、18+、出貨前後驗證、10 項法律風險清單。',en:'ID checks, 18+, two-sided proof, a 10-item legal risk list.'}],
     tech:['i-layers',{zh:'技術',en:'Technology'},{zh:'規格範圍、使用的服務、海外 12 層架構。',en:'Spec scope, services used, the overseas 12-layer plan.'}],
     growth:['i-trend',{zh:'成長策略',en:'Go-to-market'},{zh:'借創作者粉絲、等級制度、防跳平台。',en:'Borrow creator audiences, reward tiers, keep deals on-platform.'}],
@@ -517,9 +517,28 @@
   var shell=document.getElementById('shell'), cb=document.getElementById('collapseBtn');
   cb.addEventListener('click',function(){ var c=shell.classList.toggle('collapsed'); cb.setAttribute('aria-expanded',String(!c)); });
   var dlg=document.getElementById('viewer'), frame=document.getElementById('viewerFrame');
-  function openViewer(src,title){ document.getElementById('viewerTitle').textContent=title; frame.src=src; if(typeof dlg.showModal==='function'){ dlg.showModal(); } else { window.open(src,'_blank'); } }
+  function openViewer(src,title){ document.getElementById('viewerTitle').textContent=title; frame.src=src; if(typeof dlg.showModal!=='function'){ window.open(src,'_blank'); } else if(!dlg.open){ dlg.showModal(); } }
   document.getElementById('viewerClose').addEventListener('click',function(){ dlg.close(); });
   dlg.addEventListener('close',function(){ frame.src='about:blank'; });
+
+  /* 原始檔案裡的連結是原站路由（/sell、/feed…）：有留存的頁面就在預覽裡切換，對應到還原畫面就跳過去，其餘說明未保存 */
+  var PAGEBYSLUG={}; PAGES.forEach(function(pg){ PAGEBYSLUG['/'+pg[1].replace(/^pages\/|\.html$/g,'')]=pg; });
+  var OLDROUTES={'/':'home','/feed':'feed','/creators':'creators','/categories':'marketplace','/marketplace':'marketplace','/orders':'orders','/terms':'terms'};
+  var note=document.getElementById('viewerNote'), noteHTML=note.innerHTML, nt2;
+  function viewerSay(m){ note.textContent=m; note.style.color='var(--warn)'; clearTimeout(nt2); nt2=setTimeout(function(){ note.innerHTML=noteHTML; note.style.color=''; },3200); }
+  frame.addEventListener('load',function(){
+    var d; try{ d=frame.contentDocument; }catch(err){ return; }
+    if(!d) return;
+    d.addEventListener('click',function(e){
+      var a=e.target.closest&&e.target.closest('a[href]'), h=a&&a.getAttribute('href');
+      if(!h||h.charAt(0)!=='/') return;
+      e.preventDefault();
+      var i=h.indexOf('#'), path=i>-1?h.slice(0,i):h, hash=i>-1?h.slice(i):'';
+      if(PAGEBYSLUG[path]){ var pg=PAGEBYSLUG[path]; openViewer(pg[1]+hash,pg[2][lang]); return; }
+      if(OLDROUTES[path]){ dlg.close(); location.hash='#/'+OLDROUTES[path]; return; }
+      viewerSay(T('原站的「'+path+'」頁面未於下架前保存。','The original "'+path+'" page wasn\'t preserved before the takedown.'));
+    });
+  });
   dlg.addEventListener('click',function(e){ if(e.target===dlg) dlg.close(); });
 
   /* 拍賣倒數：每秒更新畫面上所有倒數 */
