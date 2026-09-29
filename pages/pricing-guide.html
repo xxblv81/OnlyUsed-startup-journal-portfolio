@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>定價指南 | OnlyUsed 賣家</title>
+  <meta name="description" content="OnlyUsed 賣家定價建議：成色等級、折扣參考、零抽成定價方式，幫你訂出有競爭力的售價。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #ffb7c5; --pink-light: #fff0f3; --pink-dark: #e8899a;
+      --black: #1a1a1a; --gray: #6b6b6b; --gray-light: #f5f5f5; --white: #ffffff;
+      --radius: 14px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body { font-family: var(--font); color: var(--black); background: var(--white); line-height: 1.6; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px); border-bottom: 1px solid #f0e8ea;
+      padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--black); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--pink-dark); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--gray); text-decoration: none; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links a.active { color: var(--black); font-weight: 700; }
+
+    section { padding: 64px 24px; }
+    .container { max-width: 820px; margin: 0 auto; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--pink-dark); margin-bottom: 8px; }
+    .section-title { font-size: clamp(22px, 3.5vw, 34px); font-weight: 900;
+      letter-spacing: -1px; margin-bottom: 12px; }
+    .section-sub { font-size: 15px; color: var(--gray); margin-bottom: 36px; max-width: 560px; }
+    hr.divider { border: none; border-top: 1px solid #f0e8ea; }
+
+    /* HERO */
+    .hero { background: linear-gradient(160deg, #fff0f3 0%, #ffd6df 50%, #ffb7c5 100%);
+      padding: 72px 24px 60px; text-align: center; }
+    .hero-tag { display: inline-block; background: var(--white); color: var(--pink-dark);
+      border: 1.5px solid var(--pink); border-radius: 999px; font-size: 13px; font-weight: 600;
+      padding: 4px 16px; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(26px, 5vw, 44px); font-weight: 900;
+      line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 14px; }
+    .hero h1 em { font-style: normal; color: var(--pink-dark); }
+    .hero p { font-size: 16px; color: #555; max-width: 460px; margin: 0 auto; }
+
+    /* CONDITION TABLE */
+    .condition-grid { display: flex; flex-direction: column; gap: 10px; }
+    .condition-row {
+      display: grid; grid-template-columns: 28px 1fr auto;
+      align-items: center; gap: 14px;
+      background: var(--white); border: 1.5px solid #f0e8ea;
+      border-radius: var(--radius); padding: 18px 22px;
+      transition: box-shadow 0.15s;
+    }
+    .condition-row:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .condition-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .condition-info { display: flex; flex-direction: column; gap: 4px; }
+    .condition-name { font-size: 15px; font-weight: 800; }
+    .condition-desc { font-size: 13px; color: var(--gray); }
+    .condition-price { text-align: right; }
+    .condition-ratio { font-size: 22px; font-weight: 900; }
+    .condition-hint { font-size: 12px; color: var(--gray); }
+
+    /* CALCULATOR */
+    .calc-card { background: var(--pink-light); border: 1.5px solid var(--pink);
+      border-radius: var(--radius); padding: 28px 32px; }
+    .calc-title { font-size: 16px; font-weight: 800; margin-bottom: 20px; }
+    .calc-row { display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,183,197,0.35); font-size: 14px; }
+    .calc-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .calc-label { color: var(--gray); }
+    .calc-value { font-weight: 800; font-size: 16px; }
+    .calc-value.result { color: var(--pink-dark); font-size: 22px; }
+    .calc-example { font-size: 12px; color: var(--gray); margin-top: 16px;
+      background: rgba(255,255,255,0.6); border-radius: 8px; padding: 12px 16px; line-height: 1.65; }
+
+    /* CATEGORY TIPS */
+    .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .category-card { border: 1.5px solid #f0e8ea; border-radius: var(--radius); padding: 20px; }
+    .category-card h4 { font-size: 15px; font-weight: 800; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px; }
+    .category-card p { font-size: 13px; color: var(--gray); line-height: 1.65; }
+    .category-tag { background: var(--pink-light); color: var(--pink-dark); font-size: 11px;
+      font-weight: 700; border-radius: 999px; padding: 2px 8px; }
+
+    /* DOS DONTS */
+    .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .dos, .donts { border-radius: var(--radius); padding: 22px 24px; }
+    .dos { background: #f0faf4; border: 1.5px solid #b7e4c7; }
+    .donts { background: #fff5f5; border: 1.5px solid #ffc2c2; }
+    .dos h4 { color: #2d7a4f; font-size: 14px; font-weight: 800; margin-bottom: 12px; }
+    .donts h4 { color: #c0392b; font-size: 14px; font-weight: 800; margin-bottom: 12px; }
+    .dos-item, .donts-item { display: flex; gap: 10px; font-size: 13px; line-height: 1.55; margin-bottom: 8px; }
+    @media (max-width: 580px) { .dos-donts { grid-template-columns: 1fr; } }
+
+    /* TIPS BOX */
+    .tip-box { background: var(--pink-light); border-left: 4px solid var(--pink-dark);
+      border-radius: 0 12px 12px 0; padding: 16px 20px; margin-top: 24px; font-size: 14px; color: #444; line-height: 1.65; }
+    .tip-box strong { color: var(--black); }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    details { background: var(--gray-light); border-radius: var(--radius); padding: 18px 22px; cursor: pointer; }
+    summary { font-size: 15px; font-weight: 700; list-style: none;
+      display: flex; justify-content: space-between; user-select: none; }
+    summary::after { content: '+'; font-size: 20px; color: var(--pink-dark); font-weight: 300; }
+    details[open] summary::after { content: '−'; }
+    details p { margin-top: 10px; font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+    /* FOOTER */
+    footer { background: var(--black); color: rgba(255,255,255,0.45);
+      padding: 56px 24px 32px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-inner { max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 32px;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-col h4 { font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.9); margin-bottom: 14px; }
+    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.45);
+      text-decoration: none; padding: 5px 0; transition: color 0.15s; }
+    .footer-col a:hover { color: rgba(255,255,255,0.85); }
+    .footer-bottom { max-width: 1080px; margin: 24px auto 0;
+      display: flex; justify-content: space-between; font-size: 12px;
+      color: rgba(255,255,255,0.3); flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 680px) {
+      .footer-inner { grid-template-columns: repeat(2,1fr); gap: 28px; }
+      .footer-bottom { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Only<span>Used</span></a>
+  <div class="nav-links">
+    <a href="/sell">立即開店</a>
+    <a href="/seller-guide">賣家指南</a>
+    <a href="/pricing-guide" class="active">定價指南</a>
+    <a href="/packaging">包裝寄送</a>
+    <a href="/seller-safety">安全守則</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">賣家資源</div>
+  <h1>怎麼訂一個<br /><em>賣得出去的價格？</em></h1>
+  <p>參考成色等級、品牌價值與市場行情，讓你的商品更有競爭力。</p>
+</section>
+
+<!-- CONDITION GRADES -->
+<section>
+  <div class="container">
+    <div class="section-label">成色等級</div>
+    <h2 class="section-title">依成色定價參考</h2>
+    <p class="section-sub">「成色」是買家購買二手衣的最重要依據。如實描述才能獲得好評、避免退貨。</p>
+
+    <div class="condition-grid">
+      <div class="condition-row">
+        <div class="condition-dot" style="background:#1db954;"></div>
+        <div class="condition-info">
+          <div class="condition-name">全新未拆</div>
+          <div class="condition-desc">全新、附吊牌、從未穿過。附原廠包裝或收據加分。</div>
+        </div>
+        <div class="condition-price">
+          <div class="condition-ratio" style="color:#1db954;">85–100%</div>
+          <div class="condition-hint">建議售價／原價</div>
+        </div>
+      </div>
+      <div class="condition-row">
+        <div class="condition-dot" style="background:#60a5fa;"></div>
+        <div class="condition-info">
+          <div class="condition-name">近全新（試穿 1–2 次）</div>
+          <div class="condition-desc">試穿過但無任何使用痕跡。無褪色、無起毛球、無異味。</div>
+        </div>
+        <div class="condition-price">
+          <div class="condition-ratio" style="color:#60a5fa;">65–80%</div>
+          <div class="condition-hint">建議售價／原價</div>
+        </div>
+      </div>
+      <div class="condition-row">
+        <div class="condition-dot" style="background:var(--pink-dark);"></div>
+        <div class="condition-info">
+          <div class="condition-name">二手良品（正常穿過）</div>
+          <div class="condition-desc">正常使用，整體完好。可能有輕微摺痕，整燙後幾乎看不出。</div>
+        </div>
+        <div class="condition-price">
+          <div class="condition-ratio" style="color:var(--pink-dark);">45–65%</div>
+          <div class="condition-hint">建議售價／原價</div>
+        </div>
+      </div>
+      <div class="condition-row">
+        <div class="condition-dot" style="background:#f59e0b;"></div>
+        <div class="condition-info">
+          <div class="condition-name">有輕微瑕疵</div>
+          <div class="condition-desc">有小污漬、輕微褪色或起毛球等，已在描述和照片中如實說明。</div>
+        </div>
+        <div class="condition-price">
+          <div class="condition-ratio" style="color:#f59e0b;">25–45%</div>
+          <div class="condition-hint">建議售價／原價</div>
+        </div>
+      </div>
+      <div class="condition-row">
+        <div class="condition-dot" style="background:#a78bfa;"></div>
+        <div class="condition-info">
+          <div class="condition-name">限定 / 絕版 / 古著</div>
+          <div class="condition-desc">市場稀缺性高的單品——限量聯名、品牌停產款、年代古著等。</div>
+        </div>
+        <div class="condition-price">
+          <div class="condition-ratio" style="color:#a78bfa;">市場行情</div>
+          <div class="condition-hint">不受成色限制</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box" style="margin-top:20px;">
+      ⚠️ <strong>重要：</strong>成色描述必須如實。高估成色、隱瞞瑕疵是退換貨糾紛的主要原因，也可能導致帳號評分下降。
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CALCULATOR -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">定價與收益</div>
+    <h2 class="section-title">你設定多少，就收到多少</h2>
+    <p class="section-sub">OnlyUsed 採用<strong>訂閱制、零抽成</strong>模式——你設定的售價就是買家支付給你的金額，平台不收手續費、不抽成。唯一的費用是賣家月費（前 14 天免費試用，之後 NT$89/月）。</p>
+
+    <div class="calc-card">
+      <div class="calc-title">💰 定價運作方式</div>
+      <div class="calc-row">
+        <span class="calc-label">你設定的售價</span>
+        <span class="calc-value">NT$1,000</span>
+      </div>
+      <div class="calc-row" style="border-bottom:none;padding-bottom:6px;">
+        <span class="calc-label" style="font-size:13px;">　├ 平台手續費 / 抽成</span>
+        <span style="font-size:14px;font-weight:700;color:#2e9e6b;">NT$0</span>
+      </div>
+      <div class="calc-row" style="padding-top:4px;">
+        <span class="calc-label" style="font-size:13px;">　└ 運費（含運或另計，由你設定）</span>
+        <span style="font-size:14px;font-weight:700;color:#e8899a;">依約定</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">買家支付給你的金額</span>
+        <span class="calc-value result">NT$1,000 + 運費</span>
+      </div>
+      <div class="calc-example">
+        <strong>幾個定價範例：</strong><br />
+        你設 NT$500 → 買家付你 NT$500，全額歸你<br />
+        你設 NT$1,500 → 買家付你 NT$1,500，全額歸你<br />
+        你設 NT$3,000 → 買家付你 NT$3,000，全額歸你<br /><br />
+        💡 記得把包材與寄件成本考慮進定價或運費中——物流由你自行安排，賣 10 件的月費成本平均下來每件不到 NT$9。
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CATEGORY TIPS -->
+<section>
+  <div class="container">
+    <div class="section-label">品類建議</div>
+    <h2 class="section-title">不同品類的定價考量</h2>
+    <p class="section-sub">不同類型的二手衣，買家的預期價格差異很大。</p>
+
+    <div class="category-grid">
+      <div class="category-card">
+        <h4>👗 上衣 / 洋裝 <span class="category-tag">最熱門</span></h4>
+        <p>市場大、競爭高。建議參考同款售價，成色決定定價空間。快時尚品牌折扣需更大（3–4折）。</p>
+      </div>
+      <div class="category-card">
+        <h4>👜 包包 / 配件</h4>
+        <p>品牌溢價明顯。精品包即使二手也可維持高價；非品牌包定價則需貼近市場行情。附保卡可加分。</p>
+      </div>
+      <div class="category-card">
+        <h4>👙 泳裝 / 比基尼</h4>
+        <p>衛生考量讓買家更謹慎。成色影響更大——近全新（1–2次）才能維持較高售價；使用過較多次建議定低價。</p>
+      </div>
+      <div class="category-card">
+        <h4>🧥 大衣 / 外套</h4>
+        <p>實用性高、季節性強。秋冬上市前 1–2 個月是最佳上架時機，旺季前定價可略高。</p>
+      </div>
+      <div class="category-card">
+        <h4>👟 鞋子</h4>
+        <p>尺寸限制買家族群，流通較慢。限量球鞋或品牌球鞋例外——轉售市場有獨立行情，可參考 StockX 等平台。</p>
+      </div>
+      <div class="category-card">
+        <h4>✨ 限定 / 聯名 <span class="category-tag">特殊定價</span></h4>
+        <p>市場稀缺性主導定價。可參考社群媒體、二手平台的成交行情，不受成色折扣規則限制。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- DOS AND DONTS -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">定價心法</div>
+    <h2 class="section-title">讓商品賣出去的定價策略</h2>
+    <p class="section-sub">以下是賣家常見的成功定價習慣與需要避免的錯誤。</p>
+
+    <div class="dos-donts">
+      <div class="dos">
+        <h4>✅ 建議這樣做</h4>
+        <div class="dos-item"><span>📊</span><span>先搜尋同款商品在平台上的現有售價，確認你的定價具競爭力</span></div>
+        <div class="dos-item"><span>📅</span><span>考慮季節性——在旺季前 1 個月上架，定價空間更大</span></div>
+        <div class="dos-item"><span>📸</span><span>用好照片支撐高定價：照片品質越好，買家越願意買單</span></div>
+        <div class="dos-item"><span>🏷️</span><span>附上品牌吊牌、原廠包裝或購買憑證，可提高定價 10–15%</span></div>
+        <div class="dos-item"><span>💬</span><span>接受合理議價，靈活應對能加快成交速度</span></div>
+      </div>
+      <div class="donts">
+        <h4>❌ 避免這樣做</h4>
+        <div class="donts-item"><span>🚫</span><span>高估成色、用「近全新」描述有瑕疵的商品——容易引發退換貨</span></div>
+        <div class="donts-item"><span>🚫</span><span>定價高於原購入價（非限定品）——買家不容易接受</span></div>
+        <div class="donts-item"><span>🚫</span><span>快時尚品牌（H&M、Zara 等）維持高折扣——這類品牌溢價空間有限</span></div>
+        <div class="donts-item"><span>🚫</span><span>長時間不調整滯銷商品的定價——適時降價可以刺激成交</span></div>
+        <div class="donts-item"><span>🚫</span><span>因急需資金而惡意極低價傾銷——影響平台整體二手市場健康</span></div>
+      </div>
+    </div>
+
+    <div class="tip-box" style="margin-top:24px;">
+      💡 <strong>小技巧：</strong>上架後 7 天仍無成效？試著把售價調降 10–15%，或重新拍攝照片重新上架，通常能帶動曝光。
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="section-label">常見問題</div>
+    <h2 class="section-title">定價 Q&A</h2>
+    <div class="faq-list">
+      <details>
+        <summary>買家可以討價還價嗎？</summary>
+        <p>可以。買家可以透過站內訊息與你議價，是否接受由你決定。我們建議你設定一個心理底價，在合理範圍內靈活應對議價。</p>
+      </details>
+      <details>
+        <summary>我賣出後怎麼收款？</summary>
+        <p>收款方式由你與買家透過站內訊息自行約定（銀行轉帳、面交付現等），款項直接進你的帳戶，平台不經手、不抽成。務必確認款項實際入帳後再出貨。</p>
+      </details>
+      <details>
+        <summary>如果商品沒賣出，我需要付什麼費用嗎？</summary>
+        <p>上架、下架、修改全部免費，賣不賣得掉都不另外收費。唯一的費用是賣家月費：前 14 天免費試用，之後每月 NT$89，無論賣出幾件都是同一價格，可隨時取消。</p>
+      </details>
+      <details>
+        <summary>可以上架後再更改售價嗎？</summary>
+        <p>可以。你可以隨時在商品管理頁面修改售價。建議在無訂單時再調整，以免引起買家誤解。</p>
+      </details>
+      <details>
+        <summary>如何知道我的定價是否合理？</summary>
+        <p>進入 OnlyUsed 商品頁面，搜尋同款或類似商品，參考其他賣家的售價和成交速度。售出越快通常表示定價具競爭力。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>賣家</h4>
+      <a href="/sell">立即開店</a>
+      <a href="/seller-guide">賣家指南</a>
+      <a href="/pricing-guide">定價指南</a>
+      <a href="/packaging">包裝寄送</a>
+      <a href="/seller-safety">安全守則</a>
+    </div>
+    <div class="footer-col">
+      <h4>瀏覽</h4>
+      <a href="/feed">動態</a>
+      <a href="/categories">分類</a>
+      <a href="/creators">創作者</a>
+    </div>
+    <div class="footer-col">
+      <h4>買家</h4>
+      <a href="/how-to-buy">如何購買</a>
+      <a href="/delivery-info">取貨注意事項</a>
+    </div>
+    <div class="footer-col">
+      <h4>政策規範</h4>
+      <a href="/terms">法律條款</a>
+      <a href="/privacy">隱私權政策</a>
+      <a href="/refund-policy">退款與爭議處理</a>
+    </div>
+    <div class="footer-col">
+      <h4>關於 OnlyUsed</h4>
+      <a href="/about">什麼是 OnlyUsed</a>
+      <a href="/support">聯絡我們</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 OnlyUsed. All rights reserved.</span>
+    <span>Taiwan · 繁體中文</span>
+  </div>
+</footer>
+</body>
+</html>

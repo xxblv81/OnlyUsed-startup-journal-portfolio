@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>填寫寄件編號（賣家）| OnlyUsed 範本</title>
+  <meta name="description" content="OnlyUsed 賣家出貨頁範本：填寫寄件編號並完成寄送。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #ffb7c5; --pink-light: #fff0f3; --pink-dark: #e8899a;
+      --black: #1a1a1a; --gray: #6b6b6b; --gray-light: #f5f5f5; --white: #ffffff;
+      --green: #2e9e6b; --green-light: #eefaf3;
+      --radius: 14px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body { font-family: var(--font); color: var(--black); background: #faf7f8; line-height: 1.6; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px); border-bottom: 1px solid #f0e8ea;
+      padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--black); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--pink-dark); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--gray); text-decoration: none; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links a.active { color: var(--black); font-weight: 700; }
+
+    .page { max-width: 560px; margin: 0 auto; padding: 40px 20px 80px; }
+    .breadcrumb { font-size: 13px; color: var(--gray); margin-bottom: 18px; }
+    .breadcrumb a { color: var(--gray); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb .sep { margin: 0 6px; color: #ccc; }
+
+    .page-title { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .page-sub { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
+
+    /* ORDER CARD */
+    .card { background: var(--white); border: 1.5px solid #f0e8ea; border-radius: var(--radius);
+      padding: 22px 24px; margin-bottom: 16px; }
+    .order-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .order-no { font-size: 13px; font-weight: 800; color: var(--gray); }
+    .status-badge { background: var(--black); color: white; border-radius: 999px;
+      padding: 3px 12px; font-size: 11.5px; font-weight: 700; }
+    .status-badge.done { background: var(--green); }
+    .order-item { display: flex; gap: 14px; align-items: center; }
+    .order-thumb { width: 64px; height: 64px; border-radius: 10px; background: #e8d8db;
+      display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+    .order-info h3 { font-size: 15px; font-weight: 800; }
+    .order-info p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+    .order-price { margin-left: auto; font-size: 15px; font-weight: 900; white-space: nowrap; }
+    .order-meta { margin-top: 14px; padding-top: 14px; border-top: 1px dashed #f0e8ea;
+      font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 5px; }
+    .order-meta strong { color: var(--black); }
+
+    /* SHIP FORM */
+    .form-card { background: var(--white); border: 1.5px solid var(--pink); border-radius: var(--radius);
+      padding: 24px; margin-bottom: 16px; }
+    .form-title { font-size: 16px; font-weight: 900; margin-bottom: 4px; }
+    .form-sub { font-size: 13px; color: var(--gray); margin-bottom: 18px; }
+
+    .field-label { font-size: 13px; font-weight: 800; margin-bottom: 8px; display: block; }
+    .carrier-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+    .carrier-opt { border: 1.5px solid #f0e8ea; border-radius: 10px; padding: 12px 14px;
+      display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700;
+      cursor: pointer; background: var(--white); transition: all 0.15s; }
+    .carrier-opt:hover { border-color: var(--pink); }
+    .carrier-opt.selected { border-color: var(--pink-dark); background: var(--pink-light); }
+    .carrier-emoji { font-size: 20px; }
+
+    .track-input-wrap { position: relative; margin-bottom: 8px; }
+    .track-input { width: 100%; border: 1.5px solid #e5dadd; border-radius: 10px;
+      padding: 14px 16px; font-size: 16px; font-family: var(--font); letter-spacing: 1px;
+      outline: none; transition: border-color 0.15s; }
+    .track-input:focus { border-color: var(--pink-dark); }
+    .track-hint { font-size: 12.5px; color: var(--gray); margin-bottom: 18px; line-height: 1.6; }
+    .track-hint strong { color: var(--pink-dark); }
+
+    .safety-note { background: #fffbe6; border: 1.5px solid #ffe066; border-radius: 10px;
+      padding: 12px 16px; font-size: 13px; color: #7a6000; line-height: 1.6;
+      display: flex; gap: 10px; margin-bottom: 18px; }
+
+    .submit-btn { width: 100%; background: var(--black); color: white; border: none;
+      border-radius: 999px; padding: 15px; font-size: 15.5px; font-weight: 800;
+      font-family: var(--font); cursor: pointer; transition: all 0.15s; }
+    .submit-btn:hover:not(:disabled) { background: #333; }
+    .submit-btn:disabled { background: #d9cfd2; cursor: not-allowed; }
+    .submit-note { text-align: center; font-size: 12px; color: var(--gray); margin-top: 10px; }
+
+    /* SUCCESS STATE -->  */
+    .success-card { display: none; background: var(--green-light); border: 1.5px solid #bfe6d2;
+      border-radius: var(--radius); padding: 28px 24px; text-align: center; margin-bottom: 16px; }
+    .success-card.show { display: block; }
+    .success-emoji { font-size: 40px; margin-bottom: 10px; }
+    .success-card h3 { font-size: 18px; font-weight: 900; color: var(--green); margin-bottom: 6px; }
+    .success-card p { font-size: 13.5px; color: #4a4a4a; }
+    .success-track { display: inline-block; margin-top: 12px; background: var(--white);
+      border: 1.5px dashed #bfe6d2; border-radius: 8px; padding: 8px 18px;
+      font-size: 15px; font-weight: 900; letter-spacing: 1.5px; }
+
+    .steps-strip { display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 28px; font-size: 12px; color: var(--gray); flex-wrap: wrap; }
+    .strip-step { display: flex; align-items: center; gap: 6px; }
+    .strip-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--pink);
+      color: var(--black); font-weight: 900; font-size: 11px; display: flex;
+      align-items: center; justify-content: center; }
+    .strip-dot.dim { background: #eee0e3; color: #b09aa0; }
+    .strip-arrow { color: #d9c7cc; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Only<span>Used</span></a>
+  <div class="nav-links">
+    <a href="/orders" class="active">訂單管理</a>
+    <a href="/publish">發佈</a>
+    <a href="/seller-guide">賣家指南</a>
+    <a href="/packaging">包裝寄送</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="breadcrumb">
+    <a href="/orders">訂單管理</a><span class="sep">›</span><span>訂單 #2026070001</span><span class="sep">›</span><strong>填寫寄件編號</strong>
+  </div>
+
+  <h1 class="page-title">填寫寄件編號，完成寄送</h1>
+  <p class="page-sub">寄出包裹後，輸入物流單據上的寄件編號。買家將立即收到通知，並可自行查詢貨態。</p>
+
+  <div class="steps-strip">
+    <div class="strip-step"><div class="strip-dot">✓</div>確認收款</div>
+    <span class="strip-arrow">──</span>
+    <div class="strip-step"><div class="strip-dot">✓</div>包裝寄出</div>
+    <span class="strip-arrow">──</span>
+    <div class="strip-step"><div class="strip-dot">3</div>填寫寄件編號</div>
+    <span class="strip-arrow">──</span>
+    <div class="strip-step"><div class="strip-dot dim">4</div>買家收貨</div>
+  </div>
+
+  <!-- 訂單摘要 -->
+  <div class="card">
+    <div class="order-head">
+      <span class="order-no">訂單 #2026070001</span>
+      <span class="status-badge" id="orderStatus">待填寄件編號</span>
+    </div>
+    <div class="order-item">
+      <div class="order-thumb">👗</div>
+      <div class="order-info">
+        <h3>薰衣草針織洋裝</h3>
+        <p>近全新（試穿 1 次）· 尺寸 M</p>
+      </div>
+      <div class="order-price">NT$1,280</div>
+    </div>
+    <div class="order-meta">
+      <span><strong>買家：</strong>chloe___style</span>
+      <span><strong>取貨門市：</strong>7-ELEVEN 信義門市（門市代號 123456）</span>
+      <span><strong>收款狀態：</strong>✅ 已確認入帳（7/19 14:02）</span>
+    </div>
+  </div>
+
+  <!-- 填寫表單 -->
+  <div class="form-card" id="shipForm">
+    <div class="form-title">您的寄件編號</div>
+    <p class="form-sub">請填寫物流單據（小白單／交貨便收據）上的寄件編號。</p>
+
+    <label class="field-label">寄件通路</label>
+    <div class="carrier-grid">
+      <button class="carrier-opt selected" type="button" data-carrier="seven"><span class="carrier-emoji">🟠</span>7-ELEVEN 交貨便</button>
+      <button class="carrier-opt" type="button" data-carrier="fami"><span class="carrier-emoji">🟢</span>全家 店到店</button>
+      <button class="carrier-opt" type="button" data-carrier="tcat"><span class="carrier-emoji">🐱</span>黑貓宅急便</button>
+      <button class="carrier-opt" type="button" data-carrier="post"><span class="carrier-emoji">📮</span>中華郵政</button>
+    </div>
+
+    <label class="field-label" for="trackNo">寄件編號</label>
+    <div class="track-input-wrap">
+      <input class="track-input" id="trackNo" type="text" placeholder="例：TW123456789" maxlength="20" autocomplete="off" />
+    </div>
+    <p class="track-hint">💡 寄件編號在寄件收據上，7-ELEVEN 為「交貨便服務單號」、全家為「訂單號碼」。<strong>請再次核對編號無誤</strong>，這是買家追蹤包裹與爭議舉證的唯一依據。</p>
+
+    <div class="safety-note">
+      <span>🧾</span>
+      <span><strong>保險起見：</strong>寄件收據請拍照留存並保管至交易完成後 30 天，發生爭議時可作為出貨證明。</span>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" disabled>完成寄送</button>
+    <p class="submit-note">按下後買家將收到出貨通知，寄件編號送出後如需修改請聯絡客服。</p>
+  </div>
+
+  <!-- 完成狀態 -->
+  <div class="success-card" id="successCard">
+    <div class="success-emoji">📦</div>
+    <h3>已完成寄送！</h3>
+    <p>買家已收到出貨通知，可隨時在訂單頁查詢貨態。<br />記得保留寄件收據唷。</p>
+    <div class="success-track" id="successTrack"></div>
+  </div>
+</div>
+
+<script>
+  var input = document.getElementById('trackNo');
+  var btn = document.getElementById('submitBtn');
+  var carriers = document.querySelectorAll('.carrier-opt');
+
+  carriers.forEach(function (c) {
+    c.addEventListener('click', function () {
+      carriers.forEach(function (x) { x.classList.remove('selected'); });
+      c.classList.add('selected');
+    });
+  });
+
+  input.addEventListener('input', function () {
+    btn.disabled = input.value.trim().length < 6; // 保險：至少 6 碼才能送出
+  });
+
+  btn.addEventListener('click', function () {
+    var no = input.value.trim();
+    if (!no) return;
+    if (!confirm('請確認寄件編號無誤：\n\n' + no + '\n\n送出後買家將立即收到通知。')) return;
+    document.getElementById('shipForm').style.display = 'none';
+    document.getElementById('successTrack').textContent = no;
+    document.getElementById('successCard').classList.add('show');
+    var badge = document.getElementById('orderStatus');
+    badge.textContent = '已寄出';
+    badge.classList.add('done');
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OnlyUsed 創辦人作品集 v2</title>
+<link rel="stylesheet" href="app.css?v=3" />
+<style>
+/* ===== v2 新增元件 ===== */
+.fid.s{background:var(--blue-bg);color:var(--blue);}
+.lockwrap{position:relative;overflow:hidden;}
+.lock-mask{position:absolute;inset:0;z-index:3;display:grid;place-items:center;align-content:center;gap:10px;text-align:center;background:linear-gradient(180deg,rgba(20,10,16,.55),rgba(20,10,16,.82));backdrop-filter:blur(16px);color:#FFE3EA;padding:16px;}
+.lock-mask b{font-size:1rem;}
+.lock-mask .btn{justify-self:center;}
+.lock-ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(255,183,197,.2);border:1px solid rgba(255,183,197,.5);justify-self:center;}
+.vis{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:800;border-radius:999px;padding:2px 10px;background:var(--pink-3);color:var(--hot);border:1px solid var(--line);}
+.proof{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:800;color:var(--ok);}
+.auctions{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+.auc{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;}
+.auc-img{position:relative;aspect-ratio:16/10;display:grid;place-items:center;font-size:3.4rem;}
+.live{position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:6px;background:#1A0F14;color:#FFB7C5;border-radius:999px;padding:4px 10px;font-size:.72rem;font-weight:900;}
+.live i{width:7px;height:7px;border-radius:50%;background:#FF3F84;box-shadow:0 0 0 3px rgba(255,63,132,.3);}
+.auc-b{padding:12px 14px 14px;display:grid;gap:6px;}
+.auc-b h4{font-size:.98rem;}
+.auc-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:.84rem;color:var(--muted);}
+.auc-row b{font-size:1.15rem;color:var(--hot);font-variant-numeric:tabular-nums;}
+.cd{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700;}
+.bid-panel{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;}
+.bids{list-style:none;margin:0;padding:0;display:grid;gap:6px;}
+.bids li{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;border:1px solid var(--line-soft);border-radius:12px;font-size:.88rem;background:var(--card);}
+.bids li b{font-variant-numeric:tabular-nums;color:var(--ink);}
+.bids li.me{border-color:var(--hot-2);background:var(--pink-3);}
+.bid-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bid-form input{width:140px;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font:inherit;background:var(--card);color:var(--ink);font-variant-numeric:tabular-nums;}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.tier{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:6px;align-content:start;}
+.tier.hi{border:1.5px solid var(--hot-2);box-shadow:0 12px 30px rgba(237,95,145,.16);}
+.tier .p{font-size:1.4rem;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums;}
+.tier .p small{font-size:.8rem;color:var(--muted);font-weight:700;}
+.profile{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;}
+.profile .av{width:84px;height:84px;font-size:1.8rem;border:4px solid var(--card);}
+.pstats{display:flex;gap:16px;flex-wrap:wrap;font-size:.86rem;color:var(--muted);}
+.pstats b{color:var(--ink);font-variant-numeric:tabular-nums;}
+.pacts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.bub.locked{background:linear-gradient(135deg,#2A1420,#150B11);color:#FFD7E1;display:grid;gap:6px;border:1px solid rgba(255,183,197,.35);}
+.bub.locked button{justify-self:start;}
+.bub.warn{align-self:stretch;max-width:none;background:var(--warn-bg);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);border-radius:12px;font-size:.84rem;}
+.chat-tools{display:flex;gap:6px;padding:8px 12px 0;}
+.split{display:grid;gap:8px;}
+.split-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;font-size:.9rem;}
+.split-row b{font-variant-numeric:tabular-nums;color:var(--ink);}
+.split-row.net{border-top:1px dashed var(--line);padding-top:8px;font-weight:900;}
+.countdown-note{background:var(--blue-bg);color:var(--blue);border-radius:12px;padding:10px 12px;font-size:.84rem;font-weight:700;}
+.flowline{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;counter-reset:f;}
+.fstep{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:4px;align-content:start;}
+.fstep::before{counter-increment:f;content:counter(f);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--pink);color:#2F1A29;font-weight:900;font-size:.78rem;}
+.fstep h4{font-size:.88rem;}
+.fstep p{font-size:.78rem;color:var(--muted);line-height:1.5;}
+.versions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.ver{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:8px;align-content:start;border-top:5px solid var(--pink);}
+.ver.v1{border-top-color:var(--hot);}
+.ver.v3{border-top-color:var(--ink);}
+.ver .when{font-family:var(--mono);font-size:.78rem;color:var(--muted);}
+.ver h3{font-size:1.05rem;}
+.ver dl{margin:0;display:grid;gap:6px;}
+.ver dt{font-size:.72rem;font-weight:800;letter-spacing:.06em;color:var(--hot);}
+.ver dd{margin:0;font-size:.88rem;}
+.quote{border-left:3px solid var(--hot-3);padding:10px 16px;background:color-mix(in srgb,var(--hot-3) 6%,var(--card));border-radius:0 14px 14px 0;font-size:.95rem;color:var(--ink-2);}
+.quote cite{display:block;margin-top:6px;font-style:normal;font-size:.78rem;color:var(--muted);}
+.warnnote{font-size:.8rem;color:var(--warn);background:var(--warn-bg);border-radius:10px;padding:6px 10px;display:inline-block;}
+.deck-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;}
+.deck-strip button{padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;background:#111;}
+.deck-strip img{display:block;width:100%;height:auto;}
+dialog.gate{max-width:420px;width:calc(100vw - 32px);border:1px solid var(--line);border-radius:22px;padding:24px;background:var(--card);color:var(--ink);}
+dialog.gate::backdrop{background:rgba(21,15,21,.8);backdrop-filter:blur(8px);}
+.gate h2{font-size:1.3rem;margin-bottom:8px;}
+.gate p{font-size:.92rem;color:var(--body);}
+.gate .row-btns{margin-top:16px;}
+@media (max-width:1180px){.flowline{grid-template-columns:repeat(3,minmax(0,1fr));}.bid-panel{grid-template-columns:1fr;}}
+@media (max-width:960px){.versions,.tiers{grid-template-columns:1fr;}.deck-strip{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media (max-width:560px){.flowline{grid-template-columns:1fr;}.profile{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-feed" viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h9"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c1.4-3.5 4-5 7-5s5.6 1.5 7 5"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z"/><path d="M9.5 8V7a2.5 2.5 0 0 1 5 0v1"/><path d="M10 13h4"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M7 4h10v16l-5-3.5L7 20z"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><path d="M4 5h2l2 10h9l2-7H7"/><circle cx="10" cy="19" r="1"/><circle cx="16" cy="19" r="1"/></symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21z"/><path d="M10 8h4M10 12h4"/></symbol>
+    <symbol id="i-msg" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 17.5h2"/></symbol>
+    <symbol id="i-pivot" viewBox="0 0 24 24"><path d="M6 8h12l-3-3M18 16H6l3 3"/></symbol>
+    <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="12" cy="7" rx="6" ry="2.5"/><path d="M6 7v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V7M6 12v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="M4 17l6-6 4 4 6-7"/><path d="M15 8h5v5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M15 9l-2 4-4 2 2-4z"/></symbol>
+    <symbol id="i-login" viewBox="0 0 24 24"><path d="M14 4h5v16h-5"/><path d="M4 12h11M11 8l4 4-4 4"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-7z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14v10H10l-5 4z"/></symbol>
+  </defs>
+</svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-gavel" viewBox="0 0 24 24"><path d="M14 4l6 6M11 7l6 6M12.5 5.5l-5 5M18.5 11.5l-5 5M9 12l-6 6 2 2 6-6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M3 7h18v3H3zM12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3.5-2-5 1"/></symbol>
+    <symbol id="i-deck" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16M6 20h12M5 8h14M5 8l-3 6a3 3 0 0 0 6 0zM19 8l-3 6a3 3 0 0 0 6 0z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16v-5M12 16V8M16 16v-3"/></symbol>
+  </defs>
+</svg>
+
+<div class="shell" id="shell">
+  <aside class="side" aria-label="Navigation">
+    <div class="side-top">
+      <a class="brand" href="#/map" aria-label="OnlyUsed">
+        <svg viewBox="0 0 64 40" aria-hidden="true"><circle cx="16" cy="22" r="11.5" fill="none" stroke="#E8246F" stroke-width="5.5"/><path d="M16 26.2c-2.6-1.7-4.2-3.1-4.2-4.9a2.2 2.2 0 0 1 4.2-.9 2.2 2.2 0 0 1 4.2.9c0 1.8-1.6 3.2-4.2 4.9z" fill="#E8246F"/><path d="M36 7v15.5a9 9 0 0 0 18 0V7" fill="none" stroke="#E8246F" stroke-width="5.5" stroke-linecap="round"/></svg>
+        <span class="brand-word">OnlyUsed</span>
+      </a>
+      <button class="collapse-btn" id="collapseBtn" aria-expanded="true" data-al-zh="收合側欄" data-al-en="Collapse sidebar">‹</button>
+    </div>
+    <form class="side-search js-search" role="search">
+      <svg class="svg"><use href="#i-compass"/></svg>
+      <label class="sr" for="q2">Search</label>
+      <input id="q2" type="search" autocomplete="off" data-ph-zh="搜尋創作者、hashtag" data-ph-en="Search creators, hashtags" />
+    </form>
+    <span class="visitor"><span class="zh">訪客</span><span class="en">Visitor</span></span>
+    <nav class="browse" aria-label="At a glance">
+      <a class="nav-link" href="#/map" data-route="map"><span class="ic"><svg class="svg"><use href="#i-grid"/></svg></span><span class="nav-text"><span class="zh">作品集全覽</span><span class="en">At a glance</span></span></a>
+    </nav>
+    <nav class="browse" aria-label="Restored site" id="siteNav"></nav>
+    <nav class="browse" aria-label="Case study" id="caseNav"></nav>
+    <button class="side-cta js-demo"><span class="zh">登入</span><span class="en">Sign In</span></button>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <form class="search js-search" role="search">
+        <label class="sr" for="q">Search</label>
+        <input id="q" type="search" autocomplete="off" data-ph-zh="搜尋創作者、hashtag、商品、拍賣" data-ph-en="Search creators, hashtags, products, auctions" />
+        <button type="submit" data-al-zh="搜尋" data-al-en="Search"><svg class="svg"><use href="#i-search"/></svg></button>
+      </form>
+      <div class="top-right">
+        <button class="lang" id="langBtn" type="button">EN</button>
+        <button class="pill-out js-demo" type="button"><svg class="svg"><use href="#i-login"/></svg><span class="zh">登入</span><span class="en">Login</span></button>
+        <button class="pill-pink js-demo" type="button"><span class="zh">註冊</span><span class="en">Register</span></button>
+      </div>
+    </header>
+    <nav class="mnav" aria-label="Sections" id="mNav"></nav>
+
+    <main class="column">
+      <div class="restore" role="note">
+        <svg class="svg"><use href="#i-info"/></svg>
+        <p class="short"><span class="zh">原網站已下架，這是依留存文件重建的還原版；畫面中的帳號、商品、價格皆為示意，不含露骨內容。 <a href="#/map">完整說明</a></span><span class="en">The original site has been taken down; this is a restoration from preserved documents. Accounts, products and prices are illustrative, with no explicit content. <a href="#/map">Full note</a></span></p>
+        <div class="full">
+          <p class="zh"><strong>原本的 OnlyUsed 網站（onlyused.me）已經下架。</strong>這份作品集依據下架前留存的介面樣式、2026/04 的平台功能規格、2026/05 的提案簡報與當時的頁面檔案重建，盡可能還原平台原本的樣子。規格書、簡報與 13 個台灣版頁面是原始檔案；首頁、動態、拍賣等畫面依原站設計系統與規格書重新製作。畫面中的帳號、商品、價格與數字皆為示意資料，並非真實營運數據，也不含任何露骨內容。</p>
+          <p class="en"><strong>The original OnlyUsed website (onlyused.me) has been taken down.</strong> This portfolio was rebuilt from the interface styles preserved before the takedown, the April 2026 platform spec, the May 2026 pitch deck and the page files of the time, to restore the platform as faithfully as possible. The spec, the deck and the 13 Taiwan-version pages are original files; Home, Feed, Auctions and the other screens were recreated from the original design system and the spec. All accounts, products, prices and figures are illustrative, not real operating data, and there is no explicit content.</p>
+          <div class="restore-actions">
+            <a class="btn btn-dark" href="#/case/overview"><span class="zh">看創辦人作品集 →</span><span class="en">Read the founder case study →</span></a>
+            <a class="btn btn-line" href="#/case/files"><span class="zh">打開原始檔案</span><span class="en">Open the original files</span></a>
+          </div>
+        </div>
+      </div>
+      <nav class="crumb" id="crumb" aria-label="Breadcrumb" hidden></nav>
+
+      <!-- ============ 全覽 ============ -->
+      <section class="view" data-view="map" hidden>
+        <div class="map-head">
+          <div>
+            <span class="eyebrow"><span class="zh">作品集全覽 · ONLYUSED</span><span class="en">AT A GLANCE · ONLYUSED</span></span>
+            <h1 class="zh">一個只能在私訊裡進行的市場，我試著把它做成平台。</h1>
+            <h1 class="en">A market that only existed in DMs — and my attempt to make it a platform.</h1>
+            <p class="lede"><span class="zh">OnlyUsed 是我在 2026 年 3 月開始創辦的二手成人內衣物交易平台。我們在台灣設立公司、寫出完整的創作者平台規格、做出網站原型，並三次調整定位；最後受阻於法規、金流與驗證數據，2026 年 9 月結束。這份作品集分成三大類，點任何卡片就能進去。</span><span class="en">OnlyUsed is the marketplace for pre-owned adult intimates I started building in March 2026. We incorporated in Taiwan, wrote a full creator-platform spec, built a website prototype and repositioned three times — until regulation, payments and a lack of validation data stopped us in September 2026. The portfolio has three parts; click any card to jump in.</span></p>
+            <div class="chips">
+              <span class="chip"><span class="zh">創辦人：August</span><span class="en">Founder: August</span></span>
+              <span class="chip"><span class="zh">四人創始團隊</span><span class="en">4-person team</span></span>
+              <span class="chip"><span class="zh">台灣有限公司（2026/04 名稱核准）</span><span class="en">Taiwan Ltd (name approved Apr 2026)</span></span>
+              <span class="chip"><span class="zh">2026.03 – 2026.09</span><span class="en">Mar – Sep 2026</span></span>
+              <span class="chip ended"><span class="zh">已結束</span><span class="en">Ended</span></span>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat"><b>~6</b><span><span class="zh">個月</span><span class="en">Months</span></span></div>
+            <div class="stat"><b>1</b><span><span class="zh">間台灣公司</span><span class="en">Taiwan company</span></span></div>
+            <div class="stat"><b>19</b><span><span class="zh">規格前台頁面</span><span class="en">Spec front-end pages</span></span></div>
+            <div class="stat"><b>27</b><span><span class="zh">規格後台模組</span><span class="en">Spec admin modules</span></span></div>
+            <div class="stat"><b>3</b><span><span class="zh">次定位版本</span><span class="en">Positioning versions</span></span></div>
+            <div class="stat"><b>13</b><span><span class="zh">台灣版原始頁面</span><span class="en">Taiwan-version pages</span></span></div>
+          </div>
+        </div>
+        <div class="map-sec">
+          <div class="map-sec-head"><span class="cat cat-case"><span class="zh">第一類</span><span class="en">PART 1</span></span><h2><span class="zh">創辦人作品集</span><span class="en">Founder case study</span></h2><span class="muted"><span class="zh">13 個段落，依主題分成四組</span><span class="en">13 sections in four themes</span></span><a href="#/case/overview"><span class="zh">從頭讀 →</span><span class="en">Read from the start →</span></a></div>
+          <div class="case-groups" id="mapCase"></div>
+        </div>
+        <div class="map-2">
+          <div class="map-sec">
+            <div class="map-sec-head"><span class="cat cat-site"><span class="zh">第二類</span><span class="en">PART 2</span></span><h2><span class="zh">原站還原</span><span class="en">Restored site</span></h2><span class="muted"><span class="zh">10 個可操作的畫面</span><span class="en">10 working screens</span></span><a href="#/home"><span class="zh">進入原站 →</span><span class="en">Enter the site →</span></a></div>
+            <div class="fid-legend">
+              <span><span class="fid o"><span class="zh">原站樣式</span><span class="en">Original styles</span></span><span class="zh">用原站抓下的樣式規則</span><span class="en">rebuilt from the site's own CSS</span></span>
+              <span><span class="fid s"><span class="zh">依原始規格</span><span class="en">From the spec</span></span><span class="zh">功能照規格書，版面推估</span><span class="en">features per the spec, layout inferred</span></span>
+            </div>
+            <div class="site-grid" id="mapSite"></div>
+          </div>
+          <div class="map-sec">
+            <div class="map-sec-head"><span class="cat cat-file"><span class="zh">第三類</span><span class="en">PART 3</span></span><h2><span class="zh">原始檔案</span><span class="en">Original files</span></h2><span class="muted"><span class="zh">15 份，點一下就預覽</span><span class="en">15 files — click to preview</span></span></div>
+            <div class="file-groups" id="mapFiles"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 首頁 ============ -->
+      <section class="view" data-view="home" hidden>
+        <div class="mh">
+          <div class="mh-copy"><div id="mhCopy" class="mh-slide"></div></div>
+          <div class="mh-visual"><div class="mh-art" id="mhArt" aria-hidden="true"></div></div>
+          <span class="mh-label" id="mhLabel"></span>
+          <div class="mh-dots" id="mhDots" role="tablist"></div>
+          <button class="mh-arrow l" id="mhPrev" data-al-zh="上一張" data-al-en="Previous slide"><svg class="svg"><use href="#i-left"/></svg></button>
+          <button class="mh-arrow r" id="mhNext" data-al-zh="下一張" data-al-en="Next slide"><svg class="svg"><use href="#i-right"/></svg></button>
+        </div>
+        <div class="block"><div class="sec-head"><h2><span class="zh">精選創作者</span><span class="en">Featured creators</span></h2><a href="#/creators"><span class="zh">看全部 →</span><span class="en">See all →</span></a></div><div class="hrow" id="homeCreators"></div></div>
+        <div class="block"><div class="sec-head"><h2><span class="zh">進行中拍賣</span><span class="en">Live auctions</span></h2><a href="#/auctions"><span class="zh">看全部 →</span><span class="en">See all →</span></a></div><div class="auctions" id="homeAuctions"></div></div>
+        <div class="block"><div class="sec-head"><h2><span class="zh">熱門商品</span><span class="en">Popular pieces</span></h2><a href="#/marketplace"><span class="zh">逛市集 →</span><span class="en">Browse →</span></a></div><div class="tiles" id="homeProducts"></div></div>
+      </section>
+
+      <section class="view" data-view="feed" hidden>
+        <div class="tabs" role="group"><button aria-pressed="true" class="js-tab"><span class="zh">最新</span><span class="en">Latest</span></button><button aria-pressed="false" class="js-tab"><span class="zh">熱門</span><span class="en">Popular</span></button></div>
+        <div class="feed" id="feedList"></div>
+      </section>
+
+      <section class="view" data-view="creators" hidden>
+        <div class="block" id="creatorProfile"></div>
+        <div class="block"><div class="sec-head"><h2><span class="zh">所有創作者</span><span class="en">All creators</span></h2></div><div class="creators" id="creatorGrid"></div></div>
+      </section>
+
+      <section class="view" data-view="marketplace" hidden>
+        <div class="mkt">
+          <div class="mkt-copy">
+            <span class="k">MARKETPLACE</span>
+            <h1 class="zh">二手市集，<span>每件都附出貨驗證</span></h1>
+            <h1 class="en">The pre-owned market, <span>every piece verified at shipping</span></h1>
+            <small><span class="zh">賣家出貨前拍照或錄影、買家收貨後再上傳一次，確認沒問題才撥款。</span><span class="en">Sellers record before shipping, buyers upload after delivery — funds release once both check out.</span></small>
+          </div>
+          <div class="mkt-photo" aria-hidden="true">🎀</div>
+        </div>
+        <div class="chipbar" id="catBar"></div>
+        <div class="tiles" id="mktGrid"></div>
+      </section>
+
+      <section class="view" data-view="auctions" hidden>
+        <div class="block" id="aucDetail"></div>
+        <div class="block"><div class="sec-head"><h2><span class="zh">所有拍賣</span><span class="en">All auctions</span></h2></div><div class="auctions" id="aucGrid"></div></div>
+      </section>
+
+      <section class="view" data-view="closet" hidden>
+        <div class="acct">
+          <div class="acct-id"><div class="acct-av">訪</div><div><h1><span class="zh">我的衣櫃</span><span class="en">My Closet</span></h1><p><span class="zh">訂閱、收藏、出價與帳號安全 · 訪客示意帳號</span><span class="en">Subscriptions, saves, bids and account security · sample account</span></p></div></div>
+          <div class="acct-stats">
+            <div><b id="nSubs">0</b><span><span class="zh">訂閱中</span><span class="en">Subscriptions</span></span></div>
+            <div><b id="nSaved">0</b><span><span class="zh">收藏單品</span><span class="en">Saved pieces</span></span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="panel"><h3><span class="zh">帳號安全與身分驗證</span><span class="en">Security and verification</span></h3><div class="split">
+            <div class="split-row"><span><span class="zh">實名審核（KYC）</span><span class="en">ID verification (KYC)</span></span><b class="proof">✓ <span class="zh">已通過</span><span class="en">Approved</span></b></div>
+            <div class="split-row"><span><span class="zh">年齡確認（18+）</span><span class="en">Age check (18+)</span></span><b class="proof">✓ <span class="zh">已確認</span><span class="en">Confirmed</span></b></div>
+            <div class="split-row"><span><span class="zh">雙重驗證</span><span class="en">Two-factor auth</span></span><b class="proof">✓ Email</b></div>
+          </div><p class="muted"><span class="zh">規格：證件正反面＋自拍照人工審核；身分證字號以雜湊比對，敏感資料需權限才顯示。</span><span class="en">Per the spec: ID front/back plus a selfie, reviewed by hand; ID numbers compared as hashes; sensitive data shown only with permission.</span></p></div>
+          <div class="panel"><h3><span class="zh">我的訂閱</span><span class="en">My subscriptions</span></h3><div id="subList" class="split"></div></div>
+        </div>
+        <div class="block"><div class="sec-head"><h2><span class="zh">收藏的單品</span><span class="en">Saved pieces</span></h2></div><div class="tiles" id="closetGrid"></div></div>
+      </section>
+
+      <section class="view" data-view="cart" hidden>
+        <div class="cart-hero"><div><h1 id="cartTitle"></h1><p><span class="zh">付款統一由平台代收；確認收貨，或送達 7 天內沒有爭議，才會撥款給賣家。</span><span class="en">Payment is held by the platform; the seller is paid once you confirm receipt, or 7 days after delivery with no dispute.</span></p></div></div>
+        <div class="cart-grid"><div id="cartList" style="display:grid;gap:12px;"></div><aside class="summary" id="cartSummary"></aside></div>
+      </section>
+
+      <section class="view" data-view="orders" hidden>
+        <div class="sec-head"><h2 style="font-size:1.6rem"><span class="zh">訂單</span><span class="en">Orders</span></h2></div>
+        <div class="orders" id="orderList"></div>
+      </section>
+
+      <section class="view" data-view="messages" hidden>
+        <div class="msgs">
+          <div class="threads" id="threadList"></div>
+          <div class="chat">
+            <div class="chat-head" id="chatHead"></div>
+            <div class="chat-log" id="chatLog" aria-live="polite"></div>
+            <div class="chat-tools"><button class="btn btn-line" id="tipBtn"><svg class="svg"><use href="#i-gift"/></svg><span class="zh">打賞 NT$100</span><span class="en">Tip NT$100</span></button></div>
+            <form class="compose" id="compose"><label class="sr" for="msgIn">Message</label><input id="msgIn" autocomplete="off" data-ph-zh="輸入訊息…" data-ph-en="Write a message…" /><button type="submit"><svg class="svg"><use href="#i-send"/></svg><span class="zh">送出</span><span class="en">Send</span></button></form>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="terms" hidden>
+        <div class="terms-band">
+          <h1><span class="zh">服務條款與平台政策</span><span class="en">Terms and Platform Policies</span></h1>
+          <p><span class="zh">本條款適用於帳號、上架、創作者商務、付款、寄送、退款、爭議、隱私與平台安全。</span><span class="en">These terms apply to accounts, listings, creator commerce, payments, shipping, refunds, disputes, privacy, and platform safety.</span></p>
+        </div>
+        <div class="tnote"><span class="zh">中英文版本如有歧異，除法律另有規定外，以繁體中文版本為主要依據。</span><span class="en">If the Chinese and English versions differ, the Traditional Chinese version will be used as the primary reference unless applicable law requires otherwise.</span></div>
+        <div class="tdoc">
+          <header><h2><span class="zh">OnlyUsed 服務條款</span><span class="en">OnlyUsed Terms of Service</span></h2></header>
+          <div class="tdoc-body">
+            <details class="tacc" open><summary><span class="zh">OnlyUsed 服務條款</span><span class="en">OnlyUsed Terms of Service</span></summary><div class="tb">
+              <p class="zh">歡迎使用 OnlyUsed（以下稱「本平台」、「我們」或「OnlyUsed」）。使用本平台前，請詳閱本條款。當你註冊、瀏覽、上架、購買、傳送訊息、付款、申請退款、使用會員功能或以其他方式使用本平台，即表示你已閱讀、理解並同意受本條款拘束。若你不同意本條款任何部分，請立即停止使用本平台。</p>
+              <p class="en">Welcome to OnlyUsed (the "Platform", "we", "us", or "OnlyUsed"). Please read these Terms carefully before using the Platform. By registering, browsing, listing, buying, sending messages, making payments, requesting refunds, using member features, or otherwise using the Platform, you confirm that you have read, understood, and agreed to be bound by these Terms. If you do not agree with any part of these Terms, please stop using the Platform immediately.</p>
+              <p class="muted"><span class="zh">還原說明：英文為原站原文；中文依英文重新翻譯。</span><span class="en">Restoration note: the English is the original site text.</span></p>
+            </div></details>
+            <details class="tacc"><summary><span class="zh">1. 定義</span><span class="en">1. Definitions</span></summary><div class="tb"><p class="muted"><span class="zh">本段全文未於網站下架前保存。</span><span class="en">The full text of this section wasn't preserved before the site was taken down.</span></p></div></details>
+            <details class="tacc"><summary><span class="zh">2. 年齡與資格</span><span class="en">2. Age and eligibility</span></summary><div class="tb"><p class="muted"><span class="zh">本段全文未於網站下架前保存。</span><span class="en">The full text of this section wasn't preserved before the site was taken down.</span></p></div></details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 創辦人作品集 ============ -->
+      <div class="view" data-view="case" hidden>
+
+      <section id="overview" class="card bare">
+        <div class="hero">
+          <span class="eyebrow"><span class="zh">創辦人作品集 · ONLYUSED</span><span class="en">FOUNDER CASE STUDY · ONLYUSED</span></span>
+          <h1 class="zh">把只能在私訊裡進行的交易，<span>做成一個安全的平台</span>。</h1>
+          <h1 class="en">Taking a trade that only happened in DMs, and building <span>a safe platform</span> for it.</h1>
+          <p class="lede zh">OnlyUsed 是我在 2026 年 3 月開始創辦的平台，媒合二手成人內衣物與周邊商品的買賣，初期客群瞄準 OnlyFans、X 上創作者的粉絲。這類交易在台灣原本散落在 FB、PTT、X、Threads 的私訊裡，隱私、衛生、詐騙和人身安全都沒有保障。我們在台灣設立了公司、寫出完整的創作者平台規格、做出網站原型，並一路調整定位與收費方式；最後在開發階段受阻於法規與金流限制、驗證數據不足，於 2026 年 9 月結束。</p>
+          <p class="lede en">OnlyUsed is the platform I started building in March 2026: a marketplace for pre-owned adult intimates and related goods, initially aimed at the audiences of OnlyFans and X creators. In Taiwan these trades were scattered across private messages on Facebook, PTT, X and Threads, with no protection for privacy, hygiene, fraud or personal safety. We incorporated a company in Taiwan, wrote a full creator-platform spec, built a website prototype and kept adjusting our positioning and pricing — until regulation, payment restrictions and a lack of validation data stopped development. The project ended in September 2026.</p>
+          <div class="chips">
+            <span class="chip"><span class="zh">創辦人：August</span><span class="en">Founder: August</span></span>
+            <span class="chip"><span class="zh">四人創始團隊</span><span class="en">4-person founding team</span></span>
+            <span class="chip"><span class="zh">台灣有限公司（2026/04 名稱核准）</span><span class="en">Taiwan Ltd (name approved Apr 2026)</span></span>
+            <span class="chip"><span class="zh">2026.03 – 2026.09</span><span class="en">Mar – Sep 2026</span></span>
+            <span class="chip ended"><span class="zh">已結束</span><span class="en">Ended</span></span>
+          </div>
+        </div>
+        <div class="note"><svg class="svg"><use href="#i-info"/></svg><span><span class="zh">這是一份作品集，不是營運報告。專案在正式營運前結束，<strong>本頁不含任何真實營運數據</strong>。市場規模與法規內容引自當時的簡報與內部文件（2026/05–08），未經獨立查證，會另外標示。</span><span class="en">This is a portfolio, not an operating report. The project ended before commercial launch, so <strong>this page contains no real operating data</strong>. Market and regulatory figures are quoted from the deck and internal documents of the time (May–Aug 2026), not independently verified, and are labelled as such.</span></span></div>
+        <div class="stats">
+          <div class="stat"><b>~6</b><span><span class="zh">個月</span><span class="en">Months</span></span><small><span class="zh">2026.03 – 2026.09</span><span class="en">Mar – Sep 2026</span></small></div>
+          <div class="stat"><b>1</b><span><span class="zh">間台灣公司</span><span class="en">Taiwan company</span></span><small><span class="zh">完成設立登記</span><span class="en">Fully incorporated</span></small></div>
+          <div class="stat"><b>19 / 14 / 27</b><span><span class="zh">平台規格</span><span class="en">Platform spec</span></span><small><span class="zh">前台頁、API 類、後台模組</span><span class="en">Pages, API groups, admin modules</span></small></div>
+          <div class="stat"><b>10</b><span><span class="zh">頁提案簡報</span><span class="en">Pitch deck pages</span></span><small><span class="zh">2026/05</span><span class="en">May 2026</span></small></div>
+          <div class="stat"><b>3</b><span><span class="zh">個定位版本</span><span class="en">Positioning versions</span></span><small><span class="zh">核心、台灣對外、海外</span><span class="en">Core, Taiwan-facing, overseas</span></small></div>
+        </div>
+      </section>
+
+      <section id="timeline" class="card">
+        <header><span class="k">TIMELINE</span><h2><span class="zh">從構想到結束</span><span class="en">From idea to wind-down</span></h2><p><span class="zh">日期取自當時的文件、收據與核准函。</span><span class="en">Dates come from the documents, receipts and approval letters of the time.</span></p></header>
+        <div class="card-body"><div class="panel"><ol class="tl" id="tlList"></ol></div></div>
+      </section>
+
+      <section id="versions" class="card">
+        <header><span class="k">POSITIONING</span><h2><span class="zh">三個版本：核心、台灣對外、海外</span><span class="en">Three versions: core, Taiwan-facing, overseas</span></h2><p><span class="zh">核心想法沒變過；變的是在哪裡做、對外怎麼說、錢怎麼收。</span><span class="en">The core idea never changed. What changed was where to operate, how to present it and how to take money.</span></p></header>
+        <div class="card-body">
+          <div class="versions" id="verList"></div>
+          <div class="callout"><span class="zh"><b>為什麼有台灣對外版本：</b>在台灣做這類交易，會同時碰到猥褻、兒少保護與社會秩序維護等法規風險（4 月風險清單、5 月簡報都列為第一個問題），一般金流商也不承作成人商品。台灣版本因此改成一般二手女裝與穿搭社群，並在商品規範裡明文禁售使用過的貼身衣物。</span><span class="en"><b>Why a Taiwan-facing version existed:</b> in Taiwan this trade runs into obscenity, child-protection and public-order laws at once (listed first in both the April risk list and the May deck), and ordinary payment processors won't take adult goods. The Taiwan version was therefore reframed as general pre-loved womenswear with an outfit community, and its product rules explicitly banned used intimates.</span></div>
+        </div>
+      </section>
+
+      <section id="market" class="card">
+        <header><span class="k">PROBLEM &amp; MARKET</span><h2><span class="zh">痛點與市場</span><span class="en">The problem and the market</span></h2><p><span class="zh">內容取自 2026/05 的提案簡報。</span><span class="en">From the May 2026 pitch deck.</span></p></header>
+        <div class="card-body">
+          <div class="grid-3" id="painGrid"></div>
+          <div class="grid-2">
+            <div class="panel"><h3><span class="zh">市場規模（簡報推估）</span><span class="en">Market size (deck estimate)</span></h3>
+              <p><span class="zh">全球性健康市場 2025 年約 400–600 億美元、年成長 7–9%；亞太情趣用品市場約 100 億美元；台灣保守估計約新台幣 30 多億。簡報認為亞洲沒有專門交易此類商品的平台。</span><span class="en">Global sexual-wellness market roughly US$40–60bn in 2025, growing 7–9% a year; Asia-Pacific adult products about US$10bn; Taiwan conservatively NT$3bn+. The deck argued Asia had no dedicated platform for this trade.</span></p>
+              <span class="warnnote"><span class="zh">⚠️ 簡報引用 Taiwan News（2025-04-23），未經獨立查證</span><span class="en">⚠️ Deck cites Taiwan News (2025-04-23); not independently verified</span></span></div>
+            <div class="panel"><h3><span class="zh">國外競品</span><span class="en">Overseas comparables</span></h3>
+              <ul class="list"><li><span class="zh"><b>AllThingsWorn</b>——專賣穿過的內衣、襪子、情趣服；簡報稱 2025 年底月訪問量約 120 萬次。</span><span class="en"><b>AllThingsWorn</b> — worn lingerie, socks and costumes; the deck cites about 1.2m monthly visits in late 2025.</span></li>
+              <li><span class="zh"><b>Used Sex Toys Only</b>——主打驗證賣家與隱私安全，證明「匿名＋二手＋成人」的模式在國外已經存在。</span><span class="en"><b>Used Sex Toys Only</b> — built on verified sellers and privacy; proof the "anonymous + pre-owned + adult" model already works abroad.</span></li></ul>
+              <span class="warnnote"><span class="zh">⚠️ 流量數字為簡報宣稱，未查證</span><span class="en">⚠️ Traffic figure is the deck's claim; not verified</span></span></div>
+          </div>
+          <div class="quote"><span class="zh">「大型供應鏈／平台（如跨境電商、情趣用品品牌）基本上只賣全新產品，不會進入『二手』這一段，理由是衛生風險與法規不清，導致目前二手需求被迫在社群、論壇、私訊完成。」</span><span class="en">"Large supply chains and platforms (cross-border e-commerce, adult brands) sell only new products and won't touch the pre-owned segment because of hygiene risk and unclear law — so pre-owned demand is forced into social media, forums and DMs."</span><cite><span class="zh">— 2026/05 提案簡報第 8 頁（原文）</span><span class="en">— May 2026 pitch deck, p.8 (translated from Chinese)</span></cite></div>
+        </div>
+      </section>
+
+      <section id="product" class="card">
+        <header><span class="k">PRODUCT</span><h2><span class="zh">產品：一個創作者變現平台</span><span class="en">Product: a creator monetisation platform</span></h2><p><span class="zh">依 2026/04/28 與開發方定義的〈創作者平台功能規格清單（MVP＋拍賣核心版）〉。</span><span class="en">From the "Creator Platform Feature Spec (MVP + auctions)", defined with the development team on 28 Apr 2026.</span></p></header>
+        <div class="card-body">
+          <div class="grid-3" id="featGrid"></div>
+          <div class="panel"><h3><span class="zh">錢怎麼流：平台統一收款、月結撥款</span><span class="en">How money flows: collected by the platform, paid out monthly</span></h3>
+            <div class="flowline" id="moneyFlow"></div></div>
+          <div class="row-btns"><button class="btn btn-dark" data-open="pages/spec.html" data-title-zh="創作者平台功能規格清單" data-title-en="Creator platform feature spec"><span class="zh">打開完整規格書</span><span class="en">Open the full spec</span></button><a class="btn btn-line" href="#/home"><span class="zh">看還原的原站 →</span><span class="en">See the restored site →</span></a></div>
+        </div>
+      </section>
+
+      <section id="model" class="card">
+        <header><span class="k">BUSINESS MODEL</span><h2><span class="zh">收費方式，改了四次</span><span class="en">Pricing, revised four times</span></h2><p><span class="zh">每一次改動，都是被法規或金流條件推著走。</span><span class="en">Each change was pushed by regulation or payment constraints.</span></p></header>
+        <div class="card-body">
+          <div class="stack" id="modelSteps"></div>
+          <div class="grid-2">
+            <div class="panel"><h3><span class="zh">10% 服務費怎麼拆（2026/06–07）</span><span class="en">How the 10% fee split (Jun–Jul 2026)</span></h3>
+              <div class="bar" role="img" data-al-zh="NT$1,000 訂單：金流 25、服務費 75、賣家 900" data-al-en="NT$1,000 order: 25 payment fee, 75 service fee, 900 to seller"><div class="seg-item" style="flex:36"><span class="zh">賣家 NT$900</span><span class="en">Seller NT$900</span></div><div class="seg-fee" style="flex:3;padding:0 4px;justify-content:center">75</div><div style="flex:1;background:var(--ink);color:var(--page);padding:0;justify-content:center">25</div></div>
+              <div class="bar-label"><span><span class="zh">以 NT$1,000 訂單計</span><span class="en">On a NT$1,000 order</span></span><span><span class="zh">服務費 7.5%＋金流 2.5%（含稅）</span><span class="en">7.5% service + 2.5% payment (tax incl.)</span></span></div></div>
+            <div class="panel"><h3><span class="zh">海外版：向買家收保障費</span><span class="en">Overseas: a buyer protection fee</span></h3>
+              <div class="bar" role="img" data-al-zh="商品 40 美元加保障費 10 美元" data-al-en="Item $40 plus a $10 protection fee"><div class="seg-item"><span class="zh">商品 $40</span><span class="en">Item $40</span></div><div class="seg-fee"><span class="zh">保障費 $10</span><span class="en">Fee $10</span></div></div>
+              <div class="bar-label"><span><span class="zh">賣家拿滿 $40</span><span class="en">Seller keeps $40</span></span><span><span class="zh">成人收單成本約 13%，費率需高於此</span><span class="en">Adult card costs ~13%; fee must clear it</span></span></div>
+              <span class="warnnote"><span class="zh">⚠️ 收單成本引自 2026/07 內部文件，未查證</span><span class="en">⚠️ Acquiring cost from a July 2026 internal doc; not verified</span></span></div>
+          </div>
+          <div class="callout"><span class="zh"><b>回頭看：</b>7/15 改成的賣家月費 NT$89，在我們後來的營利模式比較裡，被評為冷啟動最不利的模式——等於請最需要討好的賣家，付錢進一個還沒有買家的平台。</span><span class="en"><b>Looking back:</b> the NT$89 monthly seller fee adopted on 15 July scored, in our own later comparison, as the least cold-start-friendly model — asking the sellers we most needed to pay to join a platform with no buyers yet.</span></div>
+        </div>
+      </section>
+
+      <section id="trust" class="card">
+        <header><span class="k">TRUST &amp; COMPLIANCE</span><h2><span class="zh">信任與法遵</span><span class="en">Trust and compliance</span></h2><p><span class="zh">法規是這個專案的第一個問題，也是最後一個。</span><span class="en">Regulation was this project's first problem — and its last.</span></p></header>
+        <div class="card-body">
+          <div class="grid-3" id="solveGrid"></div>
+          <div class="panel"><h3><span class="zh">2026/04/09 法律風險清單（節錄）</span><span class="en">Legal risk list, 9 Apr 2026 (excerpt)</span></h3>
+            <div class="scroll-x"><table id="riskTable"><thead><tr><th><span class="zh">風險</span><span class="en">Risk</span></th><th><span class="zh">問題</span><span class="en">Issue</span></th><th><span class="zh">對策</span><span class="en">Mitigation</span></th></tr></thead><tbody></tbody></table></div>
+            <p class="muted"><span class="zh">原清單共 10 項；其中 2 項涉及公開頁用詞與私訊內容的處理方式，未於此列出。</span><span class="en">The original list has 10 items; 2 concerning public wording and message content are not shown here.</span></p></div>
+          <details class="acc"><summary><span class="zh">海外版的信任設計：六種恐懼、六個功能</span><span class="en">Overseas trust design: six fears, six features</span></summary><div class="acc-body"><div class="ff" id="fearGrid"></div>
+            <span class="warnnote"><span class="zh">⚠️ 海外法規（英國年齡驗證、美國 FOSTA-SESTA 等）引自 2026/07–08 內部規劃文件，未經獨立查證</span><span class="en">⚠️ Overseas rules (UK age verification, US FOSTA-SESTA, etc.) are from Jul–Aug 2026 internal planning docs; not independently verified</span></span></div></details>
+        </div>
+      </section>
+
+      <section id="tech" class="card">
+        <header><span class="k">TECHNOLOGY</span><h2><span class="zh">技術：規格、工具與海外架構</span><span class="en">Technology: spec, tools and overseas architecture</span></h2><p><span class="zh">我不寫正式程式；我定義需求、選工具、訂架構原則。</span><span class="en">I don't write production code; I defined requirements, chose tools and set architecture rules.</span></p></header>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="panel"><h3><span class="zh">規格規模</span><span class="en">Spec scope</span></h3><p><span class="zh">前台 19 頁、前台 API 14 類、後台 27 個模組；含即時競標與私訊推播、KYC 與付費內容的私有檔案授權、電子發票串接。</span><span class="en">19 front-end pages, 14 API groups, 27 admin modules — including real-time bidding and chat, private-asset access for KYC and paid content, and e-invoicing.</span></p></div>
+            <div class="panel"><h3><span class="zh">用過的服務</span><span class="en">Services used</span></h3><p><span class="zh">AWS（2026/05 起）、Google Workspace（2026/06）、Readdy（2026/07）——依當時帳單。</span><span class="en">AWS (from May 2026), Google Workspace (Jun 2026), Readdy (Jul 2026) — per invoices of the time.</span></p></div>
+            <div class="panel"><h3><span class="zh">資安要求</span><span class="en">Security requirements</span></h3><p><span class="zh">雙重驗證、連續失敗鎖帳、角色權限分級、敏感資料（證件、撥款帳戶）獨立權限、所有後台操作可追溯。</span><span class="en">Two-factor auth, lockout after repeated failures, role-based access, separate permissions for sensitive data (IDs, payout accounts), and a full admin audit trail.</span></p></div>
+          </div>
+          <details class="acc"><summary><span class="zh">海外版：12 層「逃生艙」架構（2026/08 規劃）</span><span class="en">Overseas: a 12-layer "exit-ready" architecture (Aug 2026 plan)</span></summary><div class="acc-body"><div class="stack" id="stack"></div></div></details>
+        </div>
+      </section>
+
+      <section id="growth" class="card">
+        <header><span class="k">GO-TO-MARKET</span><h2><span class="zh">成長策略</span><span class="en">Go-to-market</span></h2><p><span class="zh">先借創作者既有的粉絲，再用等級制度留住她們。</span><span class="en">Borrow creators' existing audiences first, then keep them with a tier system.</span></p></header>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="panel"><h3><span class="zh">初始客群</span><span class="en">Initial audience</span></h3><p><span class="zh">OnlyFans、X 平台上創作者既有的粉絲——她們把粉絲帶進來，粉絲就是第一批買家。</span><span class="en">The existing fans of OnlyFans and X creators — creators bring their fans, and those fans are the first buyers.</span></p></div>
+            <div class="panel"><h3><span class="zh">獎勵等級制</span><span class="en">Reward tiers</span></h3><p><span class="zh">依賣家聲譽與成交量決定熱門榜推薦；累積到一定等級可享 Premium 待遇，再往上可以開社群、直播與拍賣議價。</span><span class="en">Reputation and sales volume drive ranking; higher tiers unlock Premium perks, then communities, live streams and auction bargaining.</span></p></div>
+            <div class="panel"><h3><span class="zh">防止跳平台</span><span class="en">Keeping deals on-platform</span></h3><p><span class="zh">私訊由 AI 偵測交換聯絡方式；平台保障只限站內成交，海外版再加上匿名寄件這個站外做不到的服務。</span><span class="en">AI flags contact details swapped in messages; protection only covers on-platform deals, and the overseas plan added anonymous shipping, which can't be had off-platform.</span></p></div>
+          </div>
+          <details class="acc"><summary><span class="zh">台灣對外版本與海外版的行銷</span><span class="en">Marketing for the Taiwan-facing and overseas versions</span></summary><div class="acc-body"><ul class="list">
+            <li><span class="zh"><b>台灣對外版本（2026/06–07）</b>——Meta／IG 廣告企劃、口碑滲透文案、種子賣家招募話術與追蹤表、零預算 Reels。</span><span class="en"><b>Taiwan-facing (Jun–Jul 2026)</b> — Meta/IG ad plan, word-of-mouth copy, seed-seller scripts and tracker, zero-budget Reels.</span></li>
+            <li><span class="zh"><b>海外版（2026/07–08 規劃）</b>——供給側優先、美英灘頭堡、前 30–50 位邀請制創始賣家；主流廣告禁止成人商品，改走 X、Reddit、Telegram 與 SEO。</span><span class="en"><b>Overseas (Jul–Aug 2026 plan)</b> — supply first, a US/UK beachhead, 30–50 invite-only founding sellers; mainstream ads ban adult goods, so X, Reddit, Telegram and SEO.</span></li></ul></div></details>
+        </div>
+      </section>
+
+      <section id="brand" class="card">
+        <header><span class="k">BRAND</span><h2><span class="zh">品牌</span><span class="en">Brand</span></h2><p><span class="zh">名字直接呼應 OnlyFans 的創作者經濟；2026/07 定案粉色 OU 心形標誌。</span><span class="en">The name nods to the OnlyFans creator economy; the pink OU heart mark was settled in July 2026.</span></p></header>
+        <div class="card-body">
+          <div class="brand-row">
+            <div class="brand-img"><img src="img/logo.png" data-alt-zh="OnlyUsed 標誌：粉紅色 OU 字樣，O 裡有一顆愛心" data-alt-en="OnlyUsed logo: pink OU lettering with a heart inside the O" alt="OnlyUsed logo" /></div>
+            <div class="brand-img"><img src="img/sticker.png" data-alt-zh="OnlyUsed 圓形貼紙" data-alt-en="OnlyUsed round sticker" alt="OnlyUsed sticker" /></div>
+            <div class="panel">
+              <span class="slogan">OnlyUsed</span>
+              <p><span class="zh">2026/05 的簡報還是另一套藍色結形圖示；7 月改為現在的粉色 OU 心形標誌與貼紙，並用於台灣對外版本「傳承品味，分享美感」。</span><span class="en">The May 2026 deck still used a blue knot mark; in July it became the pink OU heart and sticker, used for the Taiwan-facing tagline "Pass on taste, share style."</span></p>
+              <div class="swatches" role="img" data-al-zh="品牌色" data-al-en="Brand colors">
+                <div class="sw" style="background:#FFB7C5;color:#2F1A29;">FFB7C5</div><div class="sw" style="background:#E8899A;color:#2F1A29;">E8899A</div><div class="sw" style="background:#E84D7A;color:#fff;">E84D7A</div><div class="sw" style="background:#FFF0F3;color:#2F1A29;">FFF0F3</div><div class="sw" style="background:#1A1A1A;color:#fff;">1A1A1A</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="files" class="card">
+        <header><span class="k">ARTIFACTS</span><h2><span class="zh">原始檔案</span><span class="en">Original files</span></h2><p><span class="zh">提案簡報、平台規格，以及台灣對外版本的 13 個頁面。點「預覽」直接打開。</span><span class="en">The pitch deck, the platform spec and the 13 Taiwan-facing pages. Click Preview to open one.</span></p></header>
+        <div class="card-body">
+          <div class="panel"><h3><span class="zh">2026/05 提案簡報（10 頁）</span><span class="en">May 2026 pitch deck (10 pages)</span></h3><div class="deck-strip" id="deckStrip"></div></div>
+          <div class="filters" role="group" id="gFilters"></div>
+          <div class="gallery" id="gallery"></div>
+        </div>
+      </section>
+
+      <section id="ending" class="card">
+        <header><span class="k">WHAT HAPPENED</span><h2><span class="zh">為什麼結束，學到什麼</span><span class="en">Why it ended, and what I learned</span></h2><p><span class="zh">三道牆，沒有一道是靠產品能解決的。</span><span class="en">Three walls, none of which product work could solve.</span></p></header>
+        <div class="card-body">
+          <div class="walls">
+            <div class="wall"><span class="n">01</span><h4><span class="zh">法規與金流</span><span class="en">Regulation and payments</span></h4><p><span class="zh">這類交易在台灣牽涉猥褻、兒少保護與社會秩序維護等法規風險，一般金流商也不承作成人商品；要合規經營，就得在海外另設主體、申請成人金流。</span><span class="en">In Taiwan this trade touches obscenity, child-protection and public-order law, and ordinary processors refuse adult goods. Operating legally meant a new overseas entity and adult payment processing.</span></p></div>
+            <div class="wall"><span class="n">02</span><h4><span class="zh">數據</span><span class="en">Data</span></h4><p><span class="zh">我們沒有足夠的驗證數據，去支撐海外設立、成人金流申請與跨國營運的成本和風險。</span><span class="en">We didn't have enough validation data to justify the cost and risk of an overseas entity, adult payment applications and cross-border operations.</span></p></div>
+            <div class="wall"><span class="n">03</span><h4><span class="zh">團隊</span><span class="en">Team</span></h4><p><span class="zh">開發接連受阻後，四位成員各自有了下一步的規劃，專案在 2026 年 9 月結束。</span><span class="en">After repeated setbacks in development, the four founders moved on to their next plans, and the project closed in September 2026.</span></p></div>
+          </div>
+          <ol class="lessons">
+            <li><span class="zh"><b>先確認能不能合法營運、能不能收到錢，再開始做。</b>4 月的風險清單和 5 月的簡報都已經把法規列為第一個問題，我們還是先寫完完整規格、做出網站，才去碰金流與法規的硬關卡。下一次，這個問題會被最先、最省錢地驗證掉。</span><span class="en"><b>Confirm you can legally operate and get paid before you build.</b> Both the April risk list and the May deck put regulation first, yet we finished a full spec and a website before tackling payments and law. Next time that question gets answered first, and cheaply.</span></li>
+            <li><span class="zh"><b>沒有自有受眾的雙邊冷啟動非常殘酷。</b>收費方式要替冷啟動服務，而不是反過來——7 月的賣家月費就是反例。</span><span class="en"><b>A two-sided cold start with no audience is brutal.</b> Pricing has to serve the cold start, not the other way round — July's seller fee was the counter-example.</span></li>
+            <li><span class="zh"><b>知道何時該停，本身是一種能力。</b>根據證據、而不是根據希望，收掉一個投入很多的東西，跟任何創辦決策一樣，都是這份工作的一部分。</span><span class="en"><b>Knowing when to stop is a skill.</b> Closing something you've invested in, on evidence rather than hope, is a founder decision like any other.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="founder" class="card">
+        <header><span class="k">FOUNDER</span><h2><span class="zh">創辦人：開一間公司的每一件事，我都做過</span><span class="en">Founder: I've done every job it takes to start a company</span></h2><p><span class="zh">從合資協議到金流詢問，我負責把每一位成員的工作整合成同一份計畫。</span><span class="en">From the joint-venture draft to payment-provider outreach, I integrated everyone's work into one plan.</span></p></header>
+        <div class="card-body">
+          <div class="scroll-x"><table id="roles"><thead><tr><th><span class="zh">職能</span><span class="en">Function</span></th><th><span class="zh">我做了什麼</span><span class="en">What I did</span></th><th><span class="zh">留下的產出</span><span class="en">What it produced</span></th></tr></thead><tbody></tbody></table></div>
+          <div class="now">
+            <span class="eyebrow"><span class="zh">現在</span><span class="en">NOW</span></span>
+            <h3><span class="zh">正在尋找下一個題目，以及共同創辦人。</span><span class="en">Looking for my next idea — and a co-founder.</span></h3>
+            <p><span class="zh">我是執行力很強的人——只要看到可行的跡象，就會動手去做。這一次，我會先用最低成本驗證合法性、收款路徑和真實需求，再投入開發。</span><span class="en">I execute fast: if there's a sign something could work, I act on it. This time I'll validate legality, the payment path and real demand at the lowest possible cost before building anything.</span></p>
+            <p><span class="zh">聯絡方式：</span><span class="en">Contact: </span><span class="placeholder"><span class="zh">定稿時補上 Email／LinkedIn</span><span class="en">Add email / LinkedIn when finalised</span></span></p>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      <p class="foot"><span class="zh">OnlyUsed 創辦人作品集 · 原網站已下架，本頁依留存文件盡可能還原 · 不含真實營運數據與露骨內容</span><span class="en">OnlyUsed founder portfolio · The original site has been taken down; restored from preserved documents · No real operating data or explicit content</span></p>
+    </main>
+  </div>
+</div>
+
+<dialog class="gate" id="gate">
+  <h2><span class="zh">本平台僅限 18 歲以上</span><span class="en">This platform is 18+ only</span></h2>
+  <p><span class="zh">原站在登入時以彈窗確認年齡（2026/04 法律風險清單的對策之一）。這是還原展示，不會記錄任何資料。</span><span class="en">The original site confirmed age with a pop-up at sign-in (a mitigation from the April 2026 risk list). This is a restored demo; nothing is recorded.</span></p>
+  <div class="row-btns"><button class="btn btn-dark" id="gateYes"><span class="zh">我已年滿 18 歲</span><span class="en">I'm 18 or older</span></button><button class="btn btn-line" id="gateNo"><span class="zh">離開，回到全覽</span><span class="en">Leave, back to overview</span></button></div>
+</dialog>
+<dialog class="viewer" id="viewer">
+  <div class="viewer-head"><b id="viewerTitle"></b><span><span class="zh">原始檔案 · 頁內連結為原站路由</span><span class="en">Original file · in-page links are original routes</span></span><button class="btn btn-dark" id="viewerClose"><span class="zh">關閉</span><span class="en">Close</span></button></div>
+  <iframe id="viewerFrame" title="Preview" src="about:blank"></iframe>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="app.js?v=3"></script>
+</body>
+</html>

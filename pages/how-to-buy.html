@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>買家指南 | OnlyUsed</title>
+  <meta name="description" content="OnlyUsed 買家指南：從瀏覽穿搭到下單付款、取貨檢查、確認收貨，一次了解完整購物流程與買家保障。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #ffb7c5; --pink-light: #fff0f3; --pink-dark: #e8899a;
+      --black: #1a1a1a; --gray: #6b6b6b; --gray-light: #f5f5f5; --white: #ffffff;
+      --radius: 14px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body { font-family: var(--font); color: var(--black); background: var(--white); line-height: 1.6; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px); border-bottom: 1px solid #f0e8ea;
+      padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--black); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--pink-dark); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--gray); text-decoration: none; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links a.active { color: var(--black); font-weight: 700; }
+
+    section { padding: 64px 24px; }
+    .container { max-width: 820px; margin: 0 auto; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--pink-dark); margin-bottom: 8px; }
+    .section-title { font-size: clamp(22px, 3.5vw, 34px); font-weight: 900;
+      letter-spacing: -1px; margin-bottom: 12px; }
+    .section-sub { font-size: 15px; color: var(--gray); margin-bottom: 36px; max-width: 580px; }
+    hr.divider { border: none; border-top: 1px solid #f0e8ea; }
+
+    .hero { background: linear-gradient(160deg, #fff0f3 0%, #ffd6df 50%, #ffb7c5 100%);
+      padding: 72px 24px 60px; text-align: center; }
+    .hero-tag { display: inline-block; background: var(--white); color: var(--pink-dark);
+      border: 1.5px solid var(--pink); border-radius: 999px; font-size: 13px; font-weight: 600;
+      padding: 4px 16px; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(26px, 5vw, 44px); font-weight: 900;
+      line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 14px; }
+    .hero h1 em { font-style: normal; color: var(--pink-dark); }
+    .hero p { font-size: 16px; color: #555; max-width: 460px; margin: 0 auto; }
+
+    /* STEPS */
+    .steps-list { display: flex; flex-direction: column; gap: 0; }
+    .step-row { display: grid; grid-template-columns: 56px 1fr;
+      gap: 20px; padding: 24px 0; border-bottom: 1px solid #f0e8ea; align-items: start; }
+    .step-row:last-child { border-bottom: none; }
+    .step-num { width: 44px; height: 44px; border-radius: 50%; background: var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: var(--black); flex-shrink: 0; }
+    .step-content h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .step-content p { font-size: 14px; color: #555; line-height: 1.65; }
+
+    /* FEE CARD */
+    .fee-card { border: 1.5px solid #f0e8ea; border-radius: var(--radius); overflow: hidden; }
+    .fee-row { display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px; border-bottom: 1px solid #f0e8ea; font-size: 14px; }
+    .fee-row:last-child { border-bottom: none; }
+    .fee-row.total { background: var(--pink-light); font-weight: 800; }
+    .fee-row .fee-name { color: #444; }
+    .fee-row .fee-value { font-weight: 700; }
+    .fee-note { font-size: 12.5px; color: var(--gray); margin-top: 14px; line-height: 1.6; }
+
+    /* TRUST GRID */
+    .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+    .trust-card { border: 1.5px solid #f0e8ea; border-radius: 12px; padding: 22px; }
+    .trust-card .emoji { font-size: 26px; margin-bottom: 10px; display: block; }
+    .trust-card h4 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .trust-card p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+    /* NOTICE / TIP */
+    .notice { background: #fffbe6; border: 1.5px solid #ffe066; border-radius: 12px;
+      padding: 16px 20px; font-size: 14px; color: #7a6000; line-height: 1.65;
+      display: flex; gap: 12px; margin-top: 16px; }
+    .tip-box { background: var(--pink-light); border-left: 4px solid var(--pink-dark);
+      border-radius: 0 12px 12px 0; padding: 16px 20px; font-size: 14px; color: #444;
+      line-height: 1.65; margin-top: 20px; }
+
+    /* CHECKLIST */
+    .checklist { display: flex; flex-direction: column; gap: 12px; }
+    .check-item { display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 18px; border: 1.5px solid #f0e8ea; border-radius: 10px; font-size: 14px; line-height: 1.55; }
+    .check-box { width: 22px; height: 22px; border: 2px solid var(--pink); border-radius: 6px; flex-shrink: 0; margin-top: 1px; }
+    .check-item.critical { border-color: var(--pink); background: var(--pink-light); }
+
+    /* TIMELINE BANNER */
+    .deadline-banner { background: #1a1a1a; color: white; border-radius: var(--radius);
+      padding: 24px 28px; display: flex; align-items: flex-start; gap: 16px; margin-bottom: 32px; }
+    .deadline-icon { font-size: 32px; flex-shrink: 0; }
+    .deadline-content h3 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .deadline-content p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.65; }
+    .deadline-content strong { color: var(--pink); }
+
+    /* SAFETY DARK CARD */
+    .fraud-card { background: #1a1a1a; color: white; border-radius: var(--radius); padding: 28px 32px; }
+    .fraud-card h3 { font-size: 18px; font-weight: 900; margin-bottom: 16px; color: var(--pink); }
+    .fraud-item { display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 14px; font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.65; }
+    .fraud-item:last-child { margin-bottom: 0; }
+    .fraud-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* PROBLEM CTA */
+    .report-card { background: var(--pink-light); border: 1.5px solid var(--pink);
+      border-radius: var(--radius); padding: 28px 32px; }
+    .report-card h3 { font-size: 17px; font-weight: 900; margin-bottom: 10px; }
+    .report-card p { font-size: 14px; color: #555; line-height: 1.7; }
+    .report-card a { color: var(--pink-dark); font-weight: 700; }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    details { background: var(--gray-light); border-radius: var(--radius); padding: 18px 22px; cursor: pointer; }
+    summary { font-size: 15px; font-weight: 700; list-style: none;
+      display: flex; justify-content: space-between; user-select: none; }
+    summary::after { content: '+'; font-size: 20px; color: var(--pink-dark); font-weight: 300; }
+    details[open] summary::after { content: '−'; }
+    details p { margin-top: 10px; font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+    /* FOOTER */
+    footer { background: var(--black); color: rgba(255,255,255,0.45);
+      padding: 56px 24px 32px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-inner { max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 32px;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-col h4 { font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.9); margin-bottom: 14px; }
+    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.45);
+      text-decoration: none; padding: 5px 0; transition: color 0.15s; }
+    .footer-col a:hover { color: rgba(255,255,255,0.85); }
+    .footer-bottom { max-width: 1080px; margin: 24px auto 0;
+      display: flex; justify-content: space-between; font-size: 12px;
+      color: rgba(255,255,255,0.3); flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 680px) {
+      .footer-inner { grid-template-columns: repeat(2,1fr); gap: 28px; }
+      .footer-bottom { justify-content: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Only<span>Used</span></a>
+  <div class="nav-links">
+    <a href="/feed">動態</a>
+    <a href="/categories">分類</a>
+    <a href="/creators">創作者</a>
+    <a href="/how-to-buy" class="active">如何購買</a>
+    <a href="/refund-policy">退款政策</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">買家指南</div>
+  <h1>看上的穿搭，<br /><em>點一下就能帶回家</em></h1>
+  <p>從瀏覽穿搭到收貨評價，完整購物流程與買家保障一次了解。</p>
+</section>
+
+<!-- 購物流程 -->
+<section>
+  <div class="container">
+    <div class="section-label">購物流程</div>
+    <h2 class="section-title">五步驟完成購物</h2>
+    <p class="section-sub">在 OnlyUsed，每件商品都透過真人穿搭呈現。看到喜歡的，點商品標籤就能直接下單。</p>
+
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>瀏覽穿搭，發現心儀單品</h3>
+          <p>在「動態」看創作者的穿搭貼文與短影音，或從「分類」尋找特定品項。點擊貼文上的商品標籤，即可查看該單品的詳細資訊。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>確認商品詳情</h3>
+          <p>下單前仔細閱讀商品頁：成色等級、尺寸、實拍照片與瑕疵說明。有任何疑問，先透過站內訊息詢問賣家（例如平量尺寸、材質手感），確認後再下單能大幅減少退換貨。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>下單並與賣家約定付款</h3>
+          <p>下單後透過<strong>站內訊息</strong>與賣家約定付款方式（銀行轉帳、面交付現等）與運送細節。OnlyUsed 不經手交易款項，售價即為你支付給賣家的金額，平台不加收任何費用。<strong>所有約定務必留在站內訊息</strong>，發生爭議時才有紀錄可查。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>付款後追蹤出貨</h3>
+          <p>依平台規範，賣家確認收款後須在 3 個工作天內出貨並填入物流單號，你會收到通知並可追蹤包裹。若賣家遲未出貨，先透過站內訊息催告；置之不理可向平台檢舉，並要求賣家退還款項。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>收貨檢查、完成訂單、留下評價</h3>
+          <p>收到包裹後依「取貨注意事項」檢查商品。確認無誤後在訂單頁點選「完成訂單」，並為賣家留下評價——你的評價是其他買家最重要的參考。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- 費用說明 -->
+<section>
+  <div class="container">
+    <div class="section-label">費用說明</div>
+    <h2 class="section-title">買家完全免費，售價即價格</h2>
+    <p class="section-sub">OnlyUsed 不向買家收取任何費用，也不從交易中抽成。以下用一件售價 NT$1,000 的商品為例。</p>
+
+    <div class="fee-card">
+      <div class="fee-row">
+        <span class="fee-name">商品售價（賣家定價）</span>
+        <span class="fee-value">NT$1,000</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-name">平台服務費 / 手續費</span>
+        <span class="fee-value">NT$0</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-name">運費（依商品頁標示，付給賣家）</span>
+        <span class="fee-value">依約定</span>
+      </div>
+      <div class="fee-row total">
+        <span class="fee-name">你支付給賣家的金額</span>
+        <span class="fee-value">NT$1,000 + 運費</span>
+      </div>
+    </div>
+    <p class="fee-note">* 付款方式（銀行轉帳、面交付現等）與運費由你和賣家透過站內訊息約定，款項直接支付給賣家，平台不經手。註冊、瀏覽、追蹤創作者、購買皆免費；只有賣家販售商品需支付月費。</p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- 買家保障 -->
+<section>
+  <div class="container">
+    <div class="section-label">買家保障</div>
+    <h2 class="section-title">OnlyUsed 如何保護你</h2>
+    <p class="section-sub">OnlyUsed 不經手交易款項，但透過以下機制幫助你安心交易、辨識可信賴的賣家。</p>
+
+    <div class="trust-grid">
+      <div class="trust-card">
+        <span class="emoji">🪪</span>
+        <h4>賣家實名認證</h4>
+        <p>所有賣家上架前皆須完成身份驗證，且需訂閱付費才能販售，大幅提高詐騙帳號的成本與風險。</p>
+      </div>
+      <div class="trust-card">
+        <span class="emoji">⭐</span>
+        <h4>公開評價紀錄</h4>
+        <p>每位賣家的歷史評價、成交紀錄與加入時間公開透明。下單前花一分鐘查看，是最有效的自保。</p>
+      </div>
+      <div class="trust-card">
+        <span class="emoji">💬</span>
+        <h4>站內訊息完整保存</h4>
+        <p>付款方式、金額、運費等約定請都在站內訊息完成並保存，發生爭議時是平台調解的依據。</p>
+      </div>
+      <div class="trust-card">
+        <span class="emoji">⚖️</span>
+        <h4>爭議調解與帳號處置</h4>
+        <p>與賣家有糾紛時，平台依站內紀錄介入調解；違規賣家將被警告、停權，詐欺行為協助你報案處理。</p>
+      </div>
+    </div>
+
+    <div class="notice">
+      <span>⚠️</span>
+      <span><strong>付款前請務必確認：</strong>OnlyUsed 不經手款項，付出去的錢由賣家直接收取。下單前查看賣家評價與成交紀錄，所有約定留在站內訊息，並保留轉帳證明。對新賣家或高價商品，可優先選擇面交當面驗貨付款。</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- 取貨注意事項 -->
+<section id="delivery">
+  <div class="container">
+    <div class="deadline-banner">
+      <div class="deadline-icon">📦</div>
+      <div class="deadline-content">
+        <h3>收到包裹後，請立即完成檢查</h3>
+        <p>若商品有問題，請在收貨後 <strong>3 天內</strong>透過站內訊息向賣家反映並保留證據，逾時將大幅增加協商與調解的難度。<strong>先檢查、再完成訂單</strong>。</p>
+      </div>
+    </div>
+
+    <div class="section-label">取貨注意事項</div>
+    <h2 class="section-title">開箱檢查清單</h2>
+    <p class="section-sub">花三分鐘完成這份清單，是保護自己權益最有效的方式。</p>
+
+    <div class="checklist">
+      <div class="check-item critical">
+        <div class="check-box"></div>
+        <span><strong>開箱全程錄影</strong>——從包裹未拆封（拍到物流單號）到取出商品一鏡到底。這是與賣家協商退款、平台調解時最有力的證據。</span>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <span>核對商品款式、尺寸、顏色與訂單一致</span>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <span>對照商品頁照片與瑕疵說明，確認實物狀況相符</span>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <span>檢查是否有商品頁未揭露的污漬、破損、脫線或異味</span>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <span>試穿時保留吊牌與原包裝，勿剪標、勿下水洗滌——要退還給賣家的商品必須維持收貨時的狀態</span>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <span>確認無誤後，於訂單頁點選「完成訂單」並留下評價</span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      💡 <strong>超商取件提醒：</strong>包裹送達超商後通常保留 7 天，逾期將退回賣家。請留意取件通知簡訊，逾期退回所產生的重寄運費通常由買家負擔。
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- 完成訂單與評價 -->
+<section>
+  <div class="container">
+    <div class="section-label">完成訂單</div>
+    <h2 class="section-title">完成訂單與評價</h2>
+    <p class="section-sub">完成訂單代表交易順利結束，你的評價將成為賣家信譽的一部分。</p>
+
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num">✓</div>
+        <div class="step-content">
+          <h3>商品沒問題 → 完成訂單</h3>
+          <p>檢查無誤後，請在訂單頁點選「完成訂單」。若收貨後 <strong>14 天內</strong>未有任何回報，訂單將自動標記為完成。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">✕</div>
+        <div class="step-content">
+          <h3>商品有問題 → 反映並申請協助</h3>
+          <p>請在收貨後 <strong>3 天內</strong>透過站內訊息向賣家反映並協商退款退貨；協商不成，可於訂單頁點選「申請平台協助」，附上照片或開箱影片。詳細流程請見<a href="/refund-policy" style="color:var(--pink-dark); font-weight:700;">退款政策</a>。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">★</div>
+        <div class="step-content">
+          <h3>留下真實評價</h3>
+          <p>評價會顯示在賣家頁面，是社群信任的基礎。描述準確、包裝用心、出貨快速都值得被看見；體驗不佳也請如實反映，幫助其他買家判斷。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- 安全購物守則 -->
+<section>
+  <div class="container">
+    <div class="section-label">安全購物</div>
+    <h2 class="section-title">聰明買家的自保守則</h2>
+    <p class="section-sub">掌握這些原則，遠離二手交易常見的詐騙陷阱。</p>
+
+    <div class="fraud-card">
+      <h3>⚠️ 這些情境請提高警覺</h3>
+      <div class="fraud-item">
+        <span class="fraud-icon">💸</span>
+        <span><strong>催促付款的無評價新賣家</strong>——帳號剛成立、零評價、卻不斷催你「趕快轉帳不然賣別人」。先付款後不出貨是直接交易最常見的詐騙，高價商品請優先面交當面驗貨。</span>
+      </div>
+      <div class="fraud-item">
+        <span class="fraud-icon">🕵️</span>
+        <span><strong>要求離開站內訊息</strong>——堅持改用 LINE、IG 私訊談付款細節的賣家要特別小心。離開站內訊息，爭議發生時平台沒有紀錄可以幫你。</span>
+      </div>
+      <div class="fraud-item">
+        <span class="fraud-icon">🔗</span>
+        <span><strong>假結帳頁連結</strong>——OnlyUsed 沒有站內結帳功能、也不會代收款項。任何自稱「OnlyUsed 安全付款」「平台代收」的連結或說法，100% 是詐騙。</span>
+      </div>
+      <div class="fraud-item">
+        <span class="fraud-icon">🎭</span>
+        <span><strong>假冒客服</strong>——平台客服只會透過官方站內系統或 service@onlyused.me 與你聯繫，且永遠不會索取你的密碼、驗證碼或要求你操作轉帳。</span>
+      </div>
+      <div class="fraud-item">
+        <span class="fraud-icon">📉</span>
+        <span><strong>價格好到不合理</strong>——精品包原價十分之一、全新未拆卻遠低於行情，很可能是仿冒品或詐騙帳號。下單前先查看賣家評價與過往紀錄。</span>
+      </div>
+      <div class="fraud-item">
+        <span class="fraud-icon">📬</span>
+        <span><strong>假物流簡訊</strong>——收到「地址錯誤請點連結修改」的簡訊時，請直接回到 OnlyUsed 訂單頁查詢物流狀態，不要點簡訊中的連結。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- 遇到問題 -->
+<section>
+  <div class="container">
+    <div class="section-label">需要幫助？</div>
+    <h2 class="section-title">遇到問題怎麼辦</h2>
+
+    <div class="report-card">
+      <h3>🤝 四個步驟，依情況選擇</h3>
+      <p>
+        <strong>1. 先與賣家溝通</strong>——多數問題（例如寄錯尺寸）透過站內訊息就能友善協商退款或退貨。<br />
+        <strong>2. 申請平台協助</strong>——協商不成，請在收貨後 3 天內於訂單頁申請平台調解，詳見<a href="/refund-policy">退款政策</a>。<br />
+        <strong>3. 檢舉違規</strong>——發現詐騙或違規行為，請使用商品頁「⋯ → 舉報」功能或來信 <a href="mailto:report@onlyused.me">report@onlyused.me</a>。<br />
+        <strong>4. 遇到詐欺立即報案</strong>——已付款卻遭封鎖失聯，請保留轉帳紀錄與站內訊息截圖，撥打 165 反詐騙專線或向警方報案，平台將全力配合提供資料。
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="section-label">常見問題</div>
+    <h2 class="section-title">買家 Q&A</h2>
+
+    <div class="faq-list">
+      <details>
+        <summary>我需要註冊才能購買嗎？</summary>
+        <p>是的，下單前需完成帳號註冊與驗證。可使用 Google、LINE 或 Email 快速註冊，完全免費。帳號驗證機制能保護買賣雙方，降低詐騙風險。</p>
+      </details>
+      <details>
+        <summary>二手商品的衛生狀況有保障嗎？</summary>
+        <p>平台規範賣家出貨前須清潔整燙、確保無異味，且基於衛生考量，使用過的貼身衣物與內衣禁止販售（全新未拆封除外）。收到商品若有明顯異味或衛生疑慮，可申請退款。建議收到衣物後先清洗再穿著。</p>
+      </details>
+      <details>
+        <summary>在 OnlyUsed 買東西要怎麼付款？</summary>
+        <p>付款方式由你與賣家透過站內訊息自行約定，常見方式為銀行轉帳或面交付現。OnlyUsed 不經手交易款項、不提供站內結帳。請務必保留轉帳紀錄，且所有金額與運費約定都留在站內訊息中。</p>
+      </details>
+      <details>
+        <summary>尺寸不合可以退貨嗎？</summary>
+        <p>二手交易中，單純尺寸不合或不喜歡原則上須由賣家自願接受退貨。強烈建議下單前詳閱尺寸資訊，或透過站內訊息請賣家提供平量尺寸再購買。</p>
+      </details>
+      <details>
+        <summary>收到的商品跟照片差很多怎麼辦？</summary>
+        <p>若商品與描述明顯不符（款式錯誤、未揭露的瑕疵、成色不實），請在收貨後 3 天內透過站內訊息向賣家要求退款，並附上照片證據。賣家拒不處理時可申請平台調解，經認定違規的賣家將被要求退款並受帳號處置。</p>
+      </details>
+      <details>
+        <summary>下單後可以取消訂單嗎？</summary>
+        <p>付款前皆可直接取消訂單。已付款但賣家尚未出貨時，請透過站內訊息與賣家協商取消並退款；若賣家收款後遲不出貨也不回應，請申請平台協助並考慮報案。</p>
+      </details>
+      <details>
+        <summary>退款怎麼拿回來？多久會入帳？</summary>
+        <p>因為款項由賣家直接收取，退款也由賣家直接退還給你（通常為轉帳退回）。平台調解成立的案件，賣家須在 7 天內完成退款，逾期未退將被停權處置；涉及詐欺的，平台將協助你報案處理。</p>
+      </details>
+      <details>
+        <summary>可以跟賣家面交嗎？</summary>
+        <p>可以。面交能當面驗貨、一手交錢一手交貨，對高價商品或新賣家反而是較安全的選擇。請選擇人多的公共場所（捷運站、超商、百貨），並事先在站內訊息確認時間地點留下紀錄。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>賣家</h4>
+      <a href="/sell">立即開店</a>
+      <a href="/seller-guide">賣家指南</a>
+      <a href="/pricing-guide">定價指南</a>
+      <a href="/packaging">包裝寄送</a>
+      <a href="/seller-safety">安全守則</a>
+    </div>
+    <div class="footer-col">
+      <h4>瀏覽</h4>
+      <a href="/feed">動態</a>
+      <a href="/categories">分類</a>
+      <a href="/creators">創作者</a>
+    </div>
+    <div class="footer-col">
+      <h4>買家</h4>
+      <a href="/how-to-buy">如何購買</a>
+      <a href="/how-to-buy#delivery">取貨注意事項</a>
+      <a href="/refund-policy">退款政策</a>
+    </div>
+    <div class="footer-col">
+      <h4>政策規範</h4>
+      <a href="/terms">服務條款</a>
+      <a href="/privacy">隱私權政策</a>
+      <a href="/refund-policy">退款政策</a>
+      <a href="/product-rules">商品規範</a>
+      <a href="/disputes">爭議處理政策</a>
+    </div>
+    <div class="footer-col">
+      <h4>關於 OnlyUsed</h4>
+      <a href="/about">什麼是 OnlyUsed</a>
+      <a href="/support">聯絡我們</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 OnlyUsed. All rights reserved.</span>
+    <span>Taiwan · 繁體中文</span>
+  </div>
+</footer>
+
+</body>
+</html>

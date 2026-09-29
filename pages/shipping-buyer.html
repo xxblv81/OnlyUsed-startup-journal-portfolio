@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>包裹追蹤（買家）| OnlyUsed 範本</title>
+  <meta name="description" content="OnlyUsed 買家訂單頁範本：查看寄件編號並前往物流業者查詢貨態。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #ffb7c5; --pink-light: #fff0f3; --pink-dark: #e8899a;
+      --black: #1a1a1a; --gray: #6b6b6b; --gray-light: #f5f5f5; --white: #ffffff;
+      --green: #2e9e6b; --green-light: #eefaf3;
+      --radius: 14px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body { font-family: var(--font); color: var(--black); background: #faf7f8; line-height: 1.6; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px); border-bottom: 1px solid #f0e8ea;
+      padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--black); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--pink-dark); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--gray); text-decoration: none; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links a.active { color: var(--black); font-weight: 700; }
+
+    .page { max-width: 560px; margin: 0 auto; padding: 40px 20px 80px; }
+    .breadcrumb { font-size: 13px; color: var(--gray); margin-bottom: 18px; }
+    .breadcrumb a { color: var(--gray); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--black); }
+    .breadcrumb .sep { margin: 0 6px; color: #ccc; }
+
+    .page-title { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .page-sub { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
+
+    /* PROGRESS */
+    .progress { display: flex; align-items: flex-start; margin-bottom: 28px; }
+    .p-step { flex: 1; text-align: center; position: relative; }
+    .p-step::before { content: ''; position: absolute; top: 13px; left: -50%; width: 100%;
+      height: 3px; background: var(--pink); z-index: 0; }
+    .p-step:first-child::before { display: none; }
+    .p-step.todo::before { background: #eee0e3; }
+    .p-dot { position: relative; z-index: 1; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--pink); color: var(--black); font-size: 13px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+    .p-step.current .p-dot { background: var(--black); color: var(--white); box-shadow: 0 0 0 4px var(--pink-light); }
+    .p-step.todo .p-dot { background: #eee0e3; color: #b09aa0; }
+    .p-label { font-size: 12px; font-weight: 700; color: var(--gray); }
+    .p-step.current .p-label { color: var(--black); }
+    .p-time { font-size: 10.5px; color: #b8a8ad; margin-top: 2px; }
+
+    /* ORDER CARD */
+    .card { background: var(--white); border: 1.5px solid #f0e8ea; border-radius: var(--radius);
+      padding: 22px 24px; margin-bottom: 16px; }
+    .order-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .order-no { font-size: 13px; font-weight: 800; color: var(--gray); }
+    .status-badge { background: var(--black); color: white; border-radius: 999px;
+      padding: 3px 12px; font-size: 11.5px; font-weight: 700; }
+    .order-item { display: flex; gap: 14px; align-items: center; }
+    .order-thumb { width: 64px; height: 64px; border-radius: 10px; background: #e8d8db;
+      display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+    .order-info h3 { font-size: 15px; font-weight: 800; }
+    .order-info p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+    .order-price { margin-left: auto; font-size: 15px; font-weight: 900; white-space: nowrap; }
+    .order-meta { margin-top: 14px; padding-top: 14px; border-top: 1px dashed #f0e8ea;
+      font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 5px; }
+    .order-meta strong { color: var(--black); }
+
+    /* TRACKING CARD -->  */
+    .track-card { background: var(--white); border: 1.5px solid var(--pink); border-radius: var(--radius);
+      padding: 26px 24px; margin-bottom: 16px; text-align: center; }
+    .track-label { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--pink-dark); margin-bottom: 12px; }
+    .carrier-line { display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 14px; font-weight: 800; margin-bottom: 14px; }
+    .carrier-line .emoji { font-size: 20px; }
+
+    .track-no-box { display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--pink-light); border: 1.5px dashed var(--pink); border-radius: 12px;
+      padding: 16px 18px; margin-bottom: 6px; }
+    .track-no { font-size: 22px; font-weight: 900; letter-spacing: 2.5px; }
+    .copy-btn { border: 1.5px solid var(--pink-dark); background: var(--white); color: var(--pink-dark);
+      border-radius: 999px; font-size: 12px; font-weight: 800; padding: 5px 14px;
+      cursor: pointer; font-family: var(--font); flex-shrink: 0; transition: all 0.15s; }
+    .copy-btn:hover { background: var(--pink-dark); color: white; }
+    .track-updated { font-size: 12px; color: var(--gray); margin-bottom: 18px; }
+
+    .track-link-btn { display: block; width: 100%; background: var(--black); color: white;
+      border-radius: 999px; padding: 15px; font-size: 15px; font-weight: 800;
+      text-decoration: none; transition: background 0.15s; }
+    .track-link-btn:hover { background: #333; }
+    .track-link-note { font-size: 12.5px; color: var(--gray); margin-top: 12px; line-height: 1.65; }
+    .track-link-note strong { color: var(--black); }
+
+    /* HELP -->  */
+    .help-card { background: var(--gray-light); border-radius: var(--radius);
+      padding: 18px 22px; font-size: 13px; color: #555; line-height: 1.7; }
+    .help-card h4 { font-size: 13.5px; font-weight: 900; color: var(--black); margin-bottom: 6px; }
+    .help-card a { color: var(--pink-dark); font-weight: 700; }
+
+    .toast { position: fixed; left: 50%; bottom: 32px; transform: translateX(-50%) translateY(20px);
+      background: var(--black); color: white; border-radius: 999px; padding: 10px 24px;
+      font-size: 13.5px; font-weight: 700; opacity: 0; pointer-events: none; transition: all 0.25s; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Only<span>Used</span></a>
+  <div class="nav-links">
+    <a href="/feed">動態</a>
+    <a href="/categories">分類</a>
+    <a href="/orders" class="active">我的訂單</a>
+    <a href="/how-to-buy">如何購買</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="breadcrumb">
+    <a href="/orders">我的訂單</a><span class="sep">›</span><strong>訂單 #2026070001</strong>
+  </div>
+
+  <h1 class="page-title">包裹追蹤</h1>
+  <p class="page-sub">賣家已寄出你的商品！用下方寄件編號即可查詢包裹狀態。</p>
+
+  <!-- 進度 -->
+  <div class="progress">
+    <div class="p-step">
+      <div class="p-dot">✓</div>
+      <div class="p-label">已下單</div>
+      <div class="p-time">7/18 21:40</div>
+    </div>
+    <div class="p-step">
+      <div class="p-dot">✓</div>
+      <div class="p-label">已付款</div>
+      <div class="p-time">7/19 14:02</div>
+    </div>
+    <div class="p-step current">
+      <div class="p-dot">📦</div>
+      <div class="p-label">已寄出</div>
+      <div class="p-time">7/19 17:25</div>
+    </div>
+    <div class="p-step todo">
+      <div class="p-dot">4</div>
+      <div class="p-label">完成訂單</div>
+    </div>
+  </div>
+
+  <!-- 寄件編號卡 -->
+  <div class="track-card">
+    <div class="track-label">你的貨物寄件編號</div>
+    <div class="carrier-line"><span class="emoji">🟠</span>7-ELEVEN 交貨便 · 取貨門市：信義門市</div>
+
+    <div class="track-no-box">
+      <span class="track-no" id="trackNo">TW123456789</span>
+      <button class="copy-btn" id="copyBtn">複製</button>
+    </div>
+    <p class="track-updated">賣家於 7/19 17:25 填寫</p>
+
+    <!-- 物流查詢連結：正式版請填入 7-ELEVEN／全家官方貨態查詢網址 -->
+    <a class="track-link-btn" id="carrierLink" href="" target="_blank" rel="noopener">前往 7-ELEVEN 貨態查詢 →</a>
+    <p class="track-link-note">點擊後將前往物流業者官方網站，在查詢欄位<strong>貼上上方寄件編號</strong>，即可查看包裹目前狀態。到店後會收到取貨簡訊，請於 7 天內完成取貨。</p>
+  </div>
+
+  <!-- 訂單摘要 -->
+  <div class="card">
+    <div class="order-head">
+      <span class="order-no">訂單 #2026070001</span>
+      <span class="status-badge">已寄出</span>
+    </div>
+    <div class="order-item">
+      <div class="order-thumb">👗</div>
+      <div class="order-info">
+        <h3>薰衣草針織洋裝</h3>
+        <p>近全新（試穿 1 次）· 尺寸 M</p>
+      </div>
+      <div class="order-price">NT$1,280</div>
+    </div>
+    <div class="order-meta">
+      <span><strong>賣家：</strong>mia_closet ⭐ 4.9（126 筆評價）</span>
+      <span><strong>付款方式：</strong>銀行轉帳（已於站內訊息確認）</span>
+    </div>
+  </div>
+
+  <!-- 取貨提醒 -->
+  <div class="help-card">
+    <h4>📦 取貨時記得</h4>
+    收到包裹請<strong>開箱全程錄影</strong>並立即檢查商品，確認無誤後回到本頁點選「完成訂單」並給賣家評價。若商品有問題，請於收貨後 3 天內透過站內訊息向賣家反映，詳見<a href="/refund-policy">退款政策</a>；超過 7 天未取貨，包裹將退回賣家，重寄運費由你負擔。
+  </div>
+</div>
+
+<div class="toast" id="toast">已複製寄件編號</div>
+
+<script>
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    var no = document.getElementById('trackNo').textContent.trim();
+    function done() {
+      var t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(no).then(done, done);
+    } else { done(); }
+  });
+
+  // 連結尚未設定時的提示（正式版填入官方查詢網址後可移除）
+  document.getElementById('carrierLink').addEventListener('click', function (e) {
+    if (!this.getAttribute('href')) {
+      e.preventDefault();
+      alert('物流查詢連結尚未設定。\n正式版請填入 7-ELEVEN／全家官方貨態查詢網址。');
+    }
+  });
+</script>
+
+</body>
+</html>

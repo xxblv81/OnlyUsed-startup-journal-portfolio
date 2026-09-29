@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成為賣家 | OnlyUsed</title>
+  <meta name="description" content="在 OnlyUsed 上架你的二手衣物與穿搭短影音，前 14 天免費試用、平台零抽成，讓你的品味變現。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink: #ffb7c5;
+      --pink-light: #fff0f3;
+      --pink-dark: #e8899a;
+      --black: #1a1a1a;
+      --gray: #6b6b6b;
+      --gray-light: #f5f5f5;
+      --white: #ffffff;
+      --radius: 14px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #f0e8ea;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--pink-dark); }
+    .nav-cta {
+      background: var(--black);
+      color: var(--white);
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.8; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #fff0f3 0%, #ffd6df 50%, #ffb7c5 100%);
+      padding: 100px 24px 80px;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--white);
+      color: var(--pink-dark);
+      border: 1.5px solid var(--pink);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 16px;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 60px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+      color: var(--black);
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--pink-dark);
+    }
+    .hero p {
+      font-size: 18px;
+      color: #444;
+      max-width: 540px;
+      margin: 0 auto 36px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.85; }
+    .btn-secondary {
+      background: var(--white);
+      color: var(--black);
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      transition: transform 0.15s;
+    }
+    .btn-secondary:hover { transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 56px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--black);
+      letter-spacing: -1px;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 80px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--pink-dark);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 520px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--white); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      margin-top: 56px;
+    }
+    .step {
+      background: var(--pink-light);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      position: relative;
+    }
+    .step-num {
+      width: 40px;
+      height: 40px;
+      background: var(--pink);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+    .step h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .step p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ── BENEFITS ── */
+    .benefits { background: var(--gray-light); }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .benefit-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1px solid #f0e8ea;
+    }
+    .benefit-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .benefit-card h3 {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .benefit-card p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    /* ── COMMISSION ── */
+    .commission { background: var(--white); }
+    .commission-box {
+      background: linear-gradient(135deg, var(--pink-light) 0%, #ffd6df 100%);
+      border-radius: 20px;
+      padding: 56px 48px;
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    @media (max-width: 680px) {
+      .commission-box { grid-template-columns: 1fr; padding: 40px 28px; }
+    }
+    .commission-left h2 {
+      font-size: clamp(22px, 4vw, 36px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+    .commission-left p {
+      font-size: 15px;
+      color: #555;
+    }
+    .commission-right { display: flex; flex-direction: column; gap: 16px; }
+    .fee-row {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .fee-label { font-size: 14px; color: var(--gray); font-weight: 500; }
+    .fee-value { font-size: 20px; font-weight: 900; color: var(--black); }
+    .fee-value.green { color: #2da84b; }
+    .fee-note {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── WHAT TO SELL ── */
+    .what { background: var(--gray-light); }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .cat-tag {
+      background: var(--white);
+      border: 1.5px solid #e8d8db;
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cat-tag span { font-size: 18px; }
+    .what-note {
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--gray);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    /* ── SAFETY ── */
+    .safety { background: var(--white); }
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .safety-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .safety-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--pink-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .safety-item h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .safety-item p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.55;
+    }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--gray-light); }
+    .faq-list {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 700px;
+    }
+    details {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      border: 1px solid #f0e8ea;
+      cursor: pointer;
+    }
+    summary {
+      font-size: 15px;
+      font-weight: 700;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    summary::after {
+      content: '+';
+      font-size: 20px;
+      color: var(--pink-dark);
+      font-weight: 300;
+    }
+    details[open] summary::after { content: '−'; }
+    details p {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      background: var(--black);
+      color: var(--white);
+      text-align: center;
+      padding: 100px 24px;
+    }
+    .final-cta h2 {
+      font-size: clamp(28px, 5vw, 50px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+    .final-cta h2 em { font-style: normal; color: var(--pink); }
+    .final-cta p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 40px;
+    }
+    .btn-pink {
+      background: var(--pink);
+      color: var(--black);
+      padding: 16px 40px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-pink:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.45);
+      padding: 56px 24px 32px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-col h4 {
+      font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.9);
+      margin-bottom: 14px;
+    }
+    .footer-col a {
+      display: block; font-size: 13px; color: rgba(255,255,255,0.45);
+      text-decoration: none; line-height: 1; padding: 5px 0;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: rgba(255,255,255,0.85); }
+    .footer-bottom {
+      max-width: 1080px; margin: 24px auto 0;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: rgba(255,255,255,0.3);
+      flex-wrap: wrap; gap: 8px;
+    }
+    @media (max-width: 680px) {
+      .footer-inner { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .hero-stats { gap: 28px; }
+      section { padding: 60px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Only<span>Used</span></a>
+  <a href="/register" class="nav-cta">立即開店</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">✦ 創作者賣場 · 現已開放招募</div>
+  <h1>讓你的衣櫃<br /><em>幫你賺錢</em></h1>
+  <p>上架二手單品與穿搭短影音，讓追蹤你品味的人直接購買。</p>
+  <div class="hero-btns">
+    <a href="/register" class="btn-primary">免費試用 14 天</a>
+    <a href="/marketplace" class="btn-secondary">先逛逛賣場</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">14 天</div>
+      <div class="stat-label">免費試用開賣</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">NT$89</div>
+      <div class="stat-label">之後每月訂閱</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0%</div>
+      <div class="stat-label">平台不抽成</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">售價全歸你</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="container">
+    <div class="section-label">開店流程</div>
+    <h2 class="section-title">三步驟，從衣櫃到賣場</h2>
+    <p class="section-sub">不需要開發票，不需要店面，手機拍照就能上架。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>建立賣家帳號並完成 KYC</h3>
+        <p>用 Google 或 Email 免費註冊，填寫基本資料、上傳大頭照後，進行 KYC 實名認證——上傳身份證件核實身份，通常 24 小時內審核完成，通過後你的創作者賣場就建立完成。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>上架商品或影片</h3>
+        <p>拍照上傳商品，或錄製穿搭短影音並標記商品。設定售價、運費與商品描述，送審後即可公開。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>收款並出貨</h3>
+        <p>買家下單後，你會收到通知。與買家在站內訊息確認付款方式（轉帳、面交等），確認收到款項後再安排出貨。金流與物流由你自主掌握。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="container">
+    <div class="section-label">為什麼選 OnlyUsed</div>
+    <h2 class="section-title">專為創作者設計的賣場</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">🎬</div>
+        <h3>影音商品直購</h3>
+        <p>貼文和短影音上的商品可以直接購買，不用跳轉到其他平台。讓內容本身就是你的賣場。</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔒</div>
+        <h3>站內紀錄保護</h3>
+        <p>訊息、訂單與爭議處理紀錄完整保存在 OnlyUsed 內，發生糾紛時平台介入調解，保護你不受惡意買家干擾。</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">✨</div>
+        <h3>零抽成訂閱制</h3>
+        <p>每月固定 NT$89、前 14 天免費試用。不管你賣多少件、賣多高價，平台一毛都不抽。</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📦</div>
+        <h3>訂單集中管理</h3>
+        <p>訂單、買家溝通一站管理。寄出後填入物流單號，買家可即時追蹤包裹，減少客服詢問。</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📊</div>
+        <h3>賣家數據儀表板</h3>
+        <p>追蹤商品瀏覽、加入購物車、轉換與收益數據，讓你掌握哪些商品最受歡迎。</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🌐</div>
+        <h3>社群流量加持</h3>
+        <p>你的商品會自動出現在探索頁、熱門分類與推薦賣家中，平台幫你曝光，不用自己打廣告。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMISSION -->
+<section class="commission">
+  <div class="container">
+    <div class="section-label">費用說明</div>
+    <h2 class="section-title">透明費率，沒有隱藏收費</h2>
+    <div class="commission-box">
+      <div class="commission-left">
+        <h2>每月一杯咖啡的錢，<br />賣多少都歸你</h2>
+        <p>開賣前 14 天免費試用，之後每月只要 NT$89。沒有上架費、沒有成交抽成、沒有其他費用——你賣出的每一分錢都是你的。</p>
+      </div>
+      <div class="commission-right">
+        <div class="fee-row">
+          <span class="fee-label">開設帳號 / 瀏覽 / 發佈穿搭</span>
+          <span class="fee-value green">免費</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">開賣前 14 天</span>
+          <span class="fee-value green">免費試用</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">賣家月費（試用後）</span>
+          <span class="fee-value">NT$89 / 月</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">商品上架費</span>
+          <span class="fee-value green">免費</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">成交抽成 / 手續費</span>
+          <span class="fee-value green">0%</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label">售價收入</span>
+          <span class="fee-value green">100% 歸你</span>
+        </div>
+        <p class="fee-note">* 商品交易的收款方式與物流由你與買家自行約定，平台不經手交易款項、不另收任何費用。月費可隨時取消，取消後仍可瀏覽與發佈穿搭內容。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT TO SELL -->
+<section class="what">
+  <div class="container">
+    <div class="section-label">可上架商品</div>
+    <h2 class="section-title">你的衣櫃，就是你的賣場</h2>
+    <p class="section-sub">各種女性服飾與配件皆可上架，只要商品狀況良好、符合平台規範即可。</p>
+    <div class="categories">
+      <div class="cat-tag"><span>👗</span> 洋裝</div>
+      <div class="cat-tag"><span>👚</span> 上衣 / 背心</div>
+      <div class="cat-tag"><span>👖</span> 褲子 / 短褲</div>
+      <div class="cat-tag"><span>🩱</span> 泳裝 / 比基尼</div>
+      <div class="cat-tag"><span>🩲</span> 內衣 / 睡衣</div>
+      <div class="cat-tag"><span>🧣</span> 配件 / 飾品</div>
+      <div class="cat-tag"><span>👜</span> 包包</div>
+      <div class="cat-tag"><span>🥿</span> 鞋子</div>
+      <div class="cat-tag"><span>🧥</span> 外套 / 針織</div>
+      <div class="cat-tag"><span>👙</span> 內搭 / 緊身衣</div>
+    </div>
+    <p class="what-note">⚠️ 所有商品須通過平台審查，確保圖片清晰、描述真實、商品符合販售規範。詳見<a href="/product-rules" style="color:var(--pink-dark);">商品規範</a>。</p>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="safety">
+  <div class="container">
+    <div class="section-label">賣家安全保障</div>
+    <h2 class="section-title">我們保護每一位賣家</h2>
+    <div class="safety-grid">
+      <div class="safety-item">
+        <div class="safety-icon">🛡️</div>
+        <div>
+          <h4>身份驗證買家</h4>
+          <p>所有買家須完成帳號驗證才能下單，降低惡意購買與詐騙風險。</p>
+        </div>
+      </div>
+      <div class="safety-item">
+        <div class="safety-icon">💬</div>
+        <div>
+          <h4>站內訊息加密</h4>
+          <p>買賣雙方的溝通紀錄完整保存在平台內，發生爭議時作為處理依據。</p>
+        </div>
+      </div>
+      <div class="safety-item">
+        <div class="safety-icon">💰</div>
+        <div>
+          <h4>收款確認再出貨</h4>
+          <p>金流由你自主，平台建議並提醒：確認款項實際入帳後再出貨，杜絕假匯款截圖詐騙。</p>
+        </div>
+      </div>
+      <div class="safety-item">
+        <div class="safety-icon">⚖️</div>
+        <div>
+          <h4>爭議調解機制</h4>
+          <p>買賣雙方若有糾紛，平台客服依站內訊息與訂單紀錄介入調解，違規方將受帳號處置。</p>
+        </div>
+      </div>
+      <div class="safety-item">
+        <div class="safety-icon">🚫</div>
+        <div>
+          <h4>惡意買家通報</h4>
+          <p>下單不付款、惡意棄單或濫用退貨要求的買家可一鍵檢舉，累犯將被限制下單或停權。</p>
+        </div>
+      </div>
+      <div class="safety-item">
+        <div class="safety-icon">🔕</div>
+        <div>
+          <h4>騷擾檢舉系統</h4>
+          <p>若買家傳送不當訊息或騷擾，賣家可一鍵封鎖並向平台檢舉，我們會即時處理。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="section-label">常見問題</div>
+    <h2 class="section-title">賣家常見問題</h2>
+    <div class="faq-list">
+      <details>
+        <summary>我需要是創作者或有很多粉絲才能開店嗎？</summary>
+        <p>不需要。任何人都可以在 OnlyUsed 上開設賣家帳號開始販售，前 14 天完全免費試用。完成註冊與 KYC 實名認證即可上架，沒有粉絲數門檻。</p>
+      </details>
+      <details>
+        <summary>商品上架後需要多久才會被審查通過？</summary>
+        <p>一般情況下，商品送審後會在 24 小時內完成審查。若商品圖片清晰、描述完整，通常審查更快。不符規範的商品我們會通知原因。</p>
+      </details>
+      <details>
+        <summary>我要怎麼收款？月費怎麼算？</summary>
+        <p>商品交易款項由你與買家自行約定收款方式（銀行轉帳、面交付現等），平台不經手、不抽成，建議確認入帳後再出貨。賣家月費為開賣前 14 天免費試用、之後每月 NT$89，可隨時取消。</p>
+      </details>
+      <details>
+        <summary>我可以同時上架全新商品嗎，還是只能賣二手？</summary>
+        <p>可以。OnlyUsed 接受全新未使用商品、二手良品、以及限定版單品。請在商品描述中如實說明商品狀況。</p>
+      </details>
+      <details>
+        <summary>運費由誰負擔？</summary>
+        <p>賣家可自行設定是否含運，或由買家另付運費。建議在商品描述中清楚說明，避免買家產生疑問。</p>
+      </details>
+      <details>
+        <summary>買家想退貨怎麼辦？</summary>
+        <p>退貨退款由買賣雙方自行協商，平台不經手款項。若雙方無法達成共識，可提交平台調解——客服會依站內訊息、商品頁描述與照片紀錄判斷責任歸屬，違規方將受帳號處置。詳見<a href="/refund-policy" style="color:var(--pink-dark);">退款政策</a>。</p>
+      </details>
+      <details>
+        <summary>KYC 實名認證需要準備什麼？</summary>
+        <p>準備身份證（正反面）、護照或駕照擇一，拍攝時確保光線充足、文字清晰。認證資料僅用於身份核實與交易安全，不對外公開，審核通常在 24 小時內完成。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>現在就讓你的<br /><em>品味變現</em></h2>
+    <p>加入 OnlyUsed，前 14 天免費試用你的創作者賣場。</p>
+    <a href="/register" class="btn-pink">免費試用 14 天 →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>瀏覽</h4>
+      <a href="/feed">動態</a>
+      <a href="/categories">分類</a>
+      <a href="/creators">創作者</a>
+    </div>
+    <div class="footer-col">
+      <h4>買家</h4>
+      <a href="/how-to-buy">如何購買</a>
+      <a href="/delivery-info">取貨注意事項</a>
+    </div>
+    <div class="footer-col">
+      <h4>創作者</h4>
+      <a href="/how-to-post">如何發佈</a>
+      <a href="/seller-guide">賣家指南</a>
+      <a href="/creator-program">創作者招募</a>
+    </div>
+    <div class="footer-col">
+      <h4>政策規範</h4>
+      <a href="/terms">法律條款</a>
+      <a href="/privacy">隱私權政策</a>
+      <a href="/refund-policy">退款與爭議處理</a>
+    </div>
+    <div class="footer-col">
+      <h4>關於 OnlyUsed</h4>
+      <a href="/about">什麼是 OnlyUsed</a>
+      <a href="/support">聯絡我們</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 OnlyUsed. All rights reserved.</span>
+    <span>Taiwan · 繁體中文</span>
+  </div>
+</footer>
+
+</body>
+</html>

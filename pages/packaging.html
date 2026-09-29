@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>包裝寄送指南 | OnlyUsed 賣家</title>
+  <meta name="description" content="OnlyUsed 賣家包裝與寄送規範：3 天出貨時限、配送方式、包裝步驟一次了解。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #ffb7c5; --pink-light: #fff0f3; --pink-dark: #e8899a;
+      --black: #1a1a1a; --gray: #6b6b6b; --gray-light: #f5f5f5; --white: #ffffff;
+      --radius: 14px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body { font-family: var(--font); color: var(--black); background: var(--white); line-height: 1.6; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px); border-bottom: 1px solid #f0e8ea;
+      padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--black); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--pink-dark); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--gray); text-decoration: none; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links a.active { color: var(--black); font-weight: 700; }
+
+    section { padding: 64px 24px; }
+    .container { max-width: 820px; margin: 0 auto; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--pink-dark); margin-bottom: 8px; }
+    .section-title { font-size: clamp(22px, 3.5vw, 34px); font-weight: 900;
+      letter-spacing: -1px; margin-bottom: 12px; }
+    .section-sub { font-size: 15px; color: var(--gray); margin-bottom: 36px; }
+    hr.divider { border: none; border-top: 1px solid #f0e8ea; }
+
+    .hero { background: linear-gradient(160deg, #fff0f3 0%, #ffd6df 50%, #ffb7c5 100%);
+      padding: 72px 24px 60px; text-align: center; }
+    .hero-tag { display: inline-block; background: var(--white); color: var(--pink-dark);
+      border: 1.5px solid var(--pink); border-radius: 999px; font-size: 13px; font-weight: 600;
+      padding: 4px 16px; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(26px, 5vw, 44px); font-weight: 900;
+      line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 14px; }
+    .hero h1 em { font-style: normal; color: var(--pink-dark); }
+    .hero p { font-size: 16px; color: #555; max-width: 460px; margin: 0 auto; }
+
+    /* DEADLINE BANNER */
+    .deadline-banner {
+      background: #1a1a1a; color: white; border-radius: var(--radius);
+      padding: 24px 28px; display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 32px;
+    }
+    .deadline-icon { font-size: 32px; flex-shrink: 0; }
+    .deadline-content h3 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .deadline-content p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.65; }
+    .deadline-content strong { color: var(--pink); }
+
+    /* STEPS */
+    .steps-list { display: flex; flex-direction: column; gap: 0; }
+    .step-row {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 20px; padding: 24px 0; border-bottom: 1px solid #f0e8ea; align-items: start;
+    }
+    .step-row:last-child { border-bottom: none; }
+    .step-num {
+      width: 44px; height: 44px; border-radius: 50%; background: var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: var(--black); flex-shrink: 0;
+    }
+    .step-content h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .step-content p { font-size: 14px; color: #555; line-height: 1.65; }
+
+    /* MATERIAL LIST */
+    .material-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .material-card {
+      border: 1.5px solid #f0e8ea; border-radius: 12px; padding: 18px 20px;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .material-emoji { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .material-info h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .material-info p { font-size: 12px; color: var(--gray); line-height: 1.55; }
+    .material-card.required { border-color: var(--pink); background: var(--pink-light); }
+    .material-card.optional { border-style: dashed; }
+
+    /* COURIER TABLE */
+    .courier-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .courier-table th {
+      background: var(--black); color: white; padding: 12px 16px;
+      text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+    }
+    .courier-table th:first-child { border-radius: 8px 0 0 0; }
+    .courier-table th:last-child { border-radius: 0 8px 0 0; }
+    .courier-table td { padding: 14px 16px; border-bottom: 1px solid #f0e8ea; vertical-align: top; }
+    .courier-table tr:last-child td { border-bottom: none; }
+    .courier-table tr:hover td { background: var(--pink-light); }
+    .rec-badge { background: var(--pink); color: var(--black); font-size: 11px;
+      font-weight: 700; border-radius: 999px; padding: 2px 8px; }
+
+    /* NOTICE BOX */
+    .notice { background: #fffbe6; border: 1.5px solid #ffe066; border-radius: 12px;
+      padding: 16px 20px; font-size: 14px; color: #7a6000; line-height: 1.65;
+      display: flex; gap: 12px; margin-top: 16px; }
+    .tip-box { background: var(--pink-light); border-left: 4px solid var(--pink-dark);
+      border-radius: 0 12px 12px 0; padding: 16px 20px; font-size: 14px; color: #444;
+      line-height: 1.65; margin-top: 20px; }
+
+    /* CHECKLIST */
+    .checklist { display: flex; flex-direction: column; gap: 12px; }
+    .check-item { display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 18px; border: 1.5px solid #f0e8ea; border-radius: 10px; font-size: 14px; line-height: 1.55; }
+    .check-box { width: 22px; height: 22px; border: 2px solid var(--pink); border-radius: 6px; flex-shrink: 0; margin-top: 1px; }
+    .check-item.critical { border-color: var(--pink); background: var(--pink-light); }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    details { background: var(--gray-light); border-radius: var(--radius); padding: 18px 22px; cursor: pointer; }
+    summary { font-size: 15px; font-weight: 700; list-style: none;
+      display: flex; justify-content: space-between; user-select: none; }
+    summary::after { content: '+'; font-size: 20px; color: var(--pink-dark); font-weight: 300; }
+    details[open] summary::after { content: '−'; }
+    details p { margin-top: 10px; font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+    /* FOOTER */
+    footer { background: var(--black); color: rgba(255,255,255,0.45);
+      padding: 56px 24px 32px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-inner { max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 32px;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-col h4 { font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.9); margin-bottom: 14px; }
+    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.45);
+      text-decoration: none; padding: 5px 0; transition: color 0.15s; }
+    .footer-col a:hover { color: rgba(255,255,255,0.85); }
+    .footer-bottom { max-width: 1080px; margin: 24px auto 0;
+      display: flex; justify-content: space-between; font-size: 12px;
+      color: rgba(255,255,255,0.3); flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 680px) {
+      .footer-inner { grid-template-columns: repeat(2,1fr); gap: 28px; }
+      .footer-bottom { justify-content: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Only<span>Used</span></a>
+  <div class="nav-links">
+    <a href="/sell">立即開店</a>
+    <a href="/seller-guide">賣家指南</a>
+    <a href="/pricing-guide">定價指南</a>
+    <a href="/packaging" class="active">包裝寄送</a>
+    <a href="/seller-safety">安全守則</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">賣家資源</div>
+  <h1>包裝好、準時寄，<br /><em>買家才會給五星</em></h1>
+  <p>從包材準備到填入物流單號，完整出貨流程一次搞定。</p>
+</section>
+
+<!-- DEADLINE -->
+<section>
+  <div class="container">
+    <div class="deadline-banner">
+      <div class="deadline-icon">⏰</div>
+      <div class="deadline-content">
+        <h3>出貨時限：確認收款後 3 個工作天內</h3>
+        <p>與買家約定的款項<strong>確認入帳後</strong>，請在 <strong>3 個工作天</strong>（不含例假日）內完成出貨並填入物流追蹤號碼。超過時限將影響你的賣家評分，買家也有權要求退款取消交易。</p>
+      </div>
+    </div>
+
+    <div class="section-label">出貨步驟</div>
+    <h2 class="section-title">出貨五步驟</h2>
+
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>確認訂單與收款</h3>
+          <p>收到訂單通知後，進入「訂單管理」核對商品款式、尺寸是否正確，確認買家的收件地址，並透過站內訊息約定付款方式。<strong>確認款項實際入帳後再出貨</strong>，不要依賴付款截圖。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>整理清潔商品</h3>
+          <p>出貨前請再次確認商品狀態：整燙去皺、用黏毛滾筒清除毛髮，確認無異味。良好的第一印象能大幅降低退換貨機率。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>包裝商品</h3>
+          <p>選擇適合的包材（見下方清單），仔細包好商品防止運送中損壞或潮濕。衣物建議先用密封袋裝好再放入外袋。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>前往門市或安排取件</h3>
+          <p>攜帶包裹前往合作物流門市寄件，或透過線上平台安排到府取件。記得保留寄件收據作為出貨證明。</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>填入物流單號</h3>
+          <p>寄件後，將物流追蹤單號填入訂單管理頁面的「填入物流單號」欄位。系統會自動通知買家，讓對方即時追蹤包裹狀態。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- MATERIALS -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">包材準備</div>
+    <h2 class="section-title">你需要哪些包材？</h2>
+    <p class="section-sub">標記「必備」的是基本出貨需求；「建議」的雖非強制，但能提升買家體驗。</p>
+
+    <div class="material-grid">
+      <div class="material-card required">
+        <div class="material-emoji">🛍️</div>
+        <div class="material-info">
+          <h4>防水外袋／寄送袋 <span style="font-size:11px;color:var(--pink-dark);font-weight:700;">必備</span></h4>
+          <p>防水材質保護商品不受潮。超商或物流業者通常有售，也可自備快遞袋。</p>
+        </div>
+      </div>
+      <div class="material-card required">
+        <div class="material-emoji">🧴</div>
+        <div class="material-info">
+          <h4>夾鏈密封袋 <span style="font-size:11px;color:var(--pink-dark);font-weight:700;">必備</span></h4>
+          <p>衣物放入密封袋再放外袋，雙重防潮保護。也能讓包裹更整潔俐落。</p>
+        </div>
+      </div>
+      <div class="material-card required">
+        <div class="material-emoji">📦</div>
+        <div class="material-info">
+          <h4>紙箱（易碎品用）<span style="font-size:11px;color:var(--pink-dark);font-weight:700;">必備</span></h4>
+          <p>寄送皮帶、飾品、硬殼包等易損商品時必須使用紙箱，並加入填充材料。</p>
+        </div>
+      </div>
+      <div class="material-card optional">
+        <div class="material-emoji">🌸</div>
+        <div class="material-info">
+          <h4>感謝小卡 建議</h4>
+          <p>手寫一張感謝卡，讓買家感受到用心，增加好評機率和回購意願。</p>
+        </div>
+      </div>
+      <div class="material-card optional">
+        <div class="material-emoji">🍃</div>
+        <div class="material-info">
+          <h4>乾燥包 建議</h4>
+          <p>特別是潮濕天氣或長途運送時，放入乾燥包能防止商品受潮產生異味。</p>
+        </div>
+      </div>
+      <div class="material-card optional">
+        <div class="material-emoji">🎀</div>
+        <div class="material-info">
+          <h4>包裝紙／緞帶 建議</h4>
+          <p>精緻的包裝讓買家有拆禮物的驚喜感，大幅提升體驗感，特別適合高價商品。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:20px;">
+      ⚠️ <span>請勿使用內部有殘留食品、藥品氣味的再生外箱寄送衣物——異味難以清除，可能引發買家投訴。</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- COURIERS -->
+<section>
+  <div class="container">
+    <div class="section-label">配送方式</div>
+    <h2 class="section-title">台灣主要配送選項</h2>
+    <p class="section-sub">以下為常見配送方式供參考，費用請以各業者官方公告為準。</p>
+
+    <div style="overflow-x:auto;">
+      <table class="courier-table">
+        <thead>
+          <tr>
+            <th>配送業者</th>
+            <th>寄件方式</th>
+            <th>到貨時間</th>
+            <th>備註</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🐱 黑貓宅急便</strong><br /><span style="font-size:12px;color:var(--gray);">T-Cat</span></td>
+            <td>門市寄件 / 到府取件</td>
+            <td>隔日達（大多數地區）</td>
+            <td><span class="rec-badge">推薦</span> 準時率高，破損率低，買家信任度佳</td>
+          </tr>
+          <tr>
+            <td><strong>🟠 7-ELEVEN i-bon</strong></td>
+            <td>超商門市</td>
+            <td>1–3 個工作天</td>
+            <td>門市遍布方便，超商取件買家接受度高</td>
+          </tr>
+          <tr>
+            <td><strong>🟢 全家 FamilyMart</strong></td>
+            <td>超商門市</td>
+            <td>1–3 個工作天</td>
+            <td>系統穩定，適合輕量衣物寄送</td>
+          </tr>
+          <tr>
+            <td><strong>📮 中華郵政</strong></td>
+            <td>郵局寄件</td>
+            <td>2–5 個工作天</td>
+            <td>費用較低，適合不急件商品；偏遠地區可達</td>
+          </tr>
+          <tr>
+            <td><strong>🚚 其他快遞</strong><br /><span style="font-size:12px;color:var(--gray);">新竹物流、台灣宅配通等</span></td>
+            <td>門市 / 到府取件</td>
+            <td>依業者而異</td>
+            <td>大型包裹（厚重外套、多件商品）費用可能更優惠</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      💡 <strong>小提醒：</strong>填入物流單號後，買家可即時追蹤包裹。建議選擇提供追蹤功能的業者，能減少買家詢問「到哪了？」的次數。
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CHECKLIST -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">出貨清單</div>
+    <h2 class="section-title">寄出前確認清單</h2>
+    <p class="section-sub">每次出貨前用這份清單自我確認，避免發生糾紛。</p>
+
+    <div class="checklist">
+      <div class="check-item critical"><div class="check-box"></div><span><strong>商品與訂單一致</strong>——款式、尺寸、顏色都正確，不是寄到錯誤的買家</span></div>
+      <div class="check-item critical"><div class="check-box"></div><span><strong>收件地址正確</strong>——再次核對訂單上的完整地址，特別是樓層、號碼</span></div>
+      <div class="check-item"><div class="check-box"></div><span>商品已整燙、無明顯皺摺，外觀與商品頁照片一致</span></div>
+      <div class="check-item"><div class="check-box"></div><span>無異味——無香水殘留、無潮味、無菸味</span></div>
+      <div class="check-item"><div class="check-box"></div><span>包裝防水，衣物已放入密封袋</span></div>
+      <div class="check-item"><div class="check-box"></div><span>寄件後已保留收據（可作為出貨證明，若發生糾紛非常重要）</span></div>
+      <div class="check-item critical"><div class="check-box"></div><span><strong>已在訂單頁面填入物流追蹤單號</strong>——這步驟完成後買家才會收到通知</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="section-label">常見問題</div>
+    <h2 class="section-title">包裝寄送 Q&A</h2>
+    <div class="faq-list">
+      <details>
+        <summary>運費由誰負擔？</summary>
+        <p>目前 OnlyUsed 的運費政策由賣家自行決定是否包含在售價內。建議在商品描述中清楚說明運費方式，減少買家疑慮。</p>
+      </details>
+      <details>
+        <summary>超過 3 天還沒出貨會怎樣？</summary>
+        <p>買家有權要求取消交易，你須將已收款項全數退還。超時出貨也會影響你的賣家評分，多次超時可能導致帳號功能受限。若有特殊情況無法準時出貨，請主動透過站內訊息通知買家並說明原因。</p>
+      </details>
+      <details>
+        <summary>買家說包裹到了但商品有損壞怎麼辦？</summary>
+        <p>若損壞是因包裝不完善造成，賣家需負擔責任。建議平時出貨時拍下包裝完成的照片，並保留寄件收據。若是物流造成的損壞，可憑收據向物流業者申請理賠。</p>
+      </details>
+      <details>
+        <summary>買家填的地址有誤，包裹退回了怎麼辦？</summary>
+        <p>請聯絡平台客服，說明情況並提供寄件記錄。客服會協助你與買家重新確認地址，再次寄出的費用通常由買家承擔。</p>
+      </details>
+      <details>
+        <summary>可以請物流業者到府取件嗎？</summary>
+        <p>可以。黑貓宅急便等提供到府取件服務（通常需額外收費）。請直接聯絡物流業者預約，各業者服務詳情請參考其官網。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>賣家</h4>
+      <a href="/sell">立即開店</a>
+      <a href="/seller-guide">賣家指南</a>
+      <a href="/pricing-guide">定價指南</a>
+      <a href="/packaging">包裝寄送</a>
+      <a href="/seller-safety">安全守則</a>
+    </div>
+    <div class="footer-col">
+      <h4>瀏覽</h4>
+      <a href="/feed">動態</a>
+      <a href="/categories">分類</a>
+      <a href="/creators">創作者</a>
+    </div>
+    <div class="footer-col">
+      <h4>買家</h4>
+      <a href="/how-to-buy">如何購買</a>
+      <a href="/delivery-info">取貨注意事項</a>
+    </div>
+    <div class="footer-col">
+      <h4>政策規範</h4>
+      <a href="/terms">法律條款</a>
+      <a href="/privacy">隱私權政策</a>
+      <a href="/refund-policy">退款與爭議處理</a>
+    </div>
+    <div class="footer-col">
+      <h4>關於 OnlyUsed</h4>
+      <a href="/about">什麼是 OnlyUsed</a>
+      <a href="/support">聯絡我們</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 OnlyUsed. All rights reserved.</span>
+    <span>Taiwan · 繁體中文</span>
+  </div>
+</footer>
+</body>
+</html>

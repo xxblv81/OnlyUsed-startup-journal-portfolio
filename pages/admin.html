@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理後台 | OnlyUsed Admin</title>
+  <meta name="description" content="OnlyUsed 管理員後台介面規格範本：訂單、寄物、案件、會員、KYC、審核、訂閱數據。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #ffb7c5; --pink-light: #fff0f3; --pink-dark: #e8899a;
+      --black: #1a1a1a; --gray: #6b6b6b; --gray-light: #f5f5f5; --white: #ffffff;
+      --green: #2e9e6b; --green-light: #eefaf3;
+      --red: #e05252; --red-light: #fdf0f0;
+      --amber: #b07a1e; --amber-light: #fff7e8;
+      --blue: #3873c9; --blue-light: #eef4fd;
+      --side: #171114;
+      --radius: 12px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body { font-family: var(--font); color: var(--black); background: #f6f2f3; line-height: 1.55; }
+
+    .layout { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+
+    /* ===== SIDEBAR ===== */
+    aside { background: #171114; color: rgba(255,255,255,0.6); padding: 20px 14px;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .side-logo { font-size: 18px; font-weight: 800; color: white; letter-spacing: -0.5px;
+      padding: 4px 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 14px; }
+    .side-logo span { color: var(--pink); }
+    .side-logo em { font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.4); display: block; margin-top: 2px; }
+    .side-group { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); padding: 14px 10px 6px; }
+    .side-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+      border-radius: 8px; font-size: 13.5px; text-decoration: none; color: rgba(255,255,255,0.65);
+      transition: all 0.12s; }
+    .side-item:hover { background: rgba(255,255,255,0.06); color: white; }
+    .side-item.active { background: rgba(255,183,197,0.14); color: var(--pink); font-weight: 700; }
+    .side-item .cnt { margin-left: auto; background: var(--pink-dark); color: white;
+      font-size: 10.5px; font-weight: 800; border-radius: 999px; padding: 1px 7px; }
+    .side-item .cnt.red { background: var(--red); }
+
+    /* ===== MAIN ===== */
+    main { padding: 0 28px 60px; min-width: 0; }
+    .topbar { position: sticky; top: 0; z-index: 50; background: rgba(246,242,243,0.95);
+      backdrop-filter: blur(10px); display: flex; align-items: center; gap: 14px;
+      padding: 16px 0 12px; border-bottom: 1px solid #eadfe2; margin-bottom: 24px; }
+    .topbar h1 { font-size: 19px; font-weight: 900; letter-spacing: -0.5px; }
+    .top-date { font-size: 12.5px; color: var(--gray); }
+    .top-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .tfa-badge { display: flex; align-items: center; gap: 6px; background: var(--green-light);
+      color: var(--green); border: 1px solid #bfe6d2; border-radius: 999px;
+      font-size: 11.5px; font-weight: 800; padding: 4px 12px; }
+    .admin-chip { display: flex; align-items: center; gap: 8px; background: white;
+      border: 1.5px solid #eadfe2; border-radius: 999px; padding: 4px 14px 4px 4px;
+      font-size: 12.5px; font-weight: 700; }
+    .admin-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--pink);
+      display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; }
+    .admin-role { font-size: 10.5px; color: var(--gray); font-weight: 600; }
+
+    section { margin-bottom: 34px; scroll-margin-top: 70px; }
+    .sec-title { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+    .sec-title h2 { font-size: 16px; font-weight: 900; }
+    .sec-note { font-size: 12px; color: #a08d93; margin-bottom: 14px; }
+    .sec-note strong { color: var(--pink-dark); }
+
+    /* KPI CARDS */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 12px; }
+    .kpi { background: white; border: 1.5px solid #eadfe2; border-radius: var(--radius); padding: 16px 18px; }
+    .kpi-label { font-size: 12px; font-weight: 700; color: var(--gray); margin-bottom: 6px; }
+    .kpi-val { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+    .kpi-sub { font-size: 11.5px; margin-top: 4px; font-weight: 700; }
+    .up { color: var(--green); } .down { color: var(--red); } .flat { color: var(--gray); }
+    .kpi.alert { border-color: var(--red); background: var(--red-light); }
+    .kpi.warn { border-color: #f0ddb2; background: var(--amber-light); }
+
+    /* PANEL */
+    .panel { background: white; border: 1.5px solid #eadfe2; border-radius: var(--radius); overflow: hidden; }
+    .panel-head { display: flex; align-items: center; padding: 14px 18px; border-bottom: 1px solid #f2eaec; }
+    .panel-head h3 { font-size: 13.5px; font-weight: 900; }
+    .panel-head .more { margin-left: auto; font-size: 12px; color: var(--pink-dark); font-weight: 700; text-decoration: none; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-32 { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; }
+    @media (max-width: 1080px) { .grid-2, .grid-32 { grid-template-columns: 1fr; } }
+
+    /* TABLE */
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th { text-align: left; font-size: 10.5px; font-weight: 800; letter-spacing: 0.8px;
+      text-transform: uppercase; color: #a08d93; padding: 10px 18px; background: #fbf8f9;
+      border-bottom: 1px solid #f2eaec; white-space: nowrap; }
+    td { padding: 11px 18px; border-bottom: 1px solid #f7f1f3; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fdf9fa; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; letter-spacing: 0.5px; }
+    .u { font-weight: 700; }
+    .cell-sub { font-size: 11px; color: var(--gray); display: block; }
+
+    .badge { display: inline-block; font-size: 10.5px; font-weight: 800; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+    .b-green { background: var(--green-light); color: var(--green); }
+    .b-red { background: var(--red-light); color: var(--red); }
+    .b-amber { background: var(--amber-light); color: var(--amber); }
+    .b-blue { background: var(--blue-light); color: var(--blue); }
+    .b-pink { background: var(--pink-light); color: var(--pink-dark); }
+    .b-gray { background: var(--gray-light); color: var(--gray); }
+
+    .act-btn { font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 4px 12px;
+      border: 1.5px solid #eadfe2; background: white; cursor: pointer; font-family: var(--font); }
+    .act-btn:hover { border-color: var(--pink-dark); color: var(--pink-dark); }
+    .act-btn.primary { background: var(--black); border-color: var(--black); color: white; }
+    .act-btn.primary:hover { background: #333; color: white; }
+
+    /* BAR CHART (CSS only) */
+    .chart { padding: 18px; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+    .bar { width: 100%; max-width: 34px; border-radius: 6px 6px 0 0; background: var(--pink);
+      position: relative; }
+    .bar.today { background: var(--pink-dark); }
+    .bar-v { font-size: 10px; font-weight: 800; color: var(--gray); }
+    .bar-l { font-size: 10.5px; color: #b8a8ad; }
+
+    /* FLOW STRIP (寄物狀況漏斗) */
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; padding: 18px; }
+    .flow-step { text-align: center; position: relative; padding: 0 6px; }
+    .flow-step:not(:last-child)::after { content: '→'; position: absolute; right: -7px; top: 16px; color: #d9c7cc; }
+    .flow-num { font-size: 22px; font-weight: 900; }
+    .flow-lab { font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 2px; }
+    .flow-num.red { color: var(--red); }
+
+    /* legend list */
+    .mini-list { padding: 6px 0; }
+    .mini-row { display: flex; align-items: center; gap: 10px; padding: 9px 18px; font-size: 12.5px;
+      border-bottom: 1px solid #f7f1f3; }
+    .mini-row:last-child { border-bottom: none; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .mini-row .val { margin-left: auto; font-weight: 900; }
+
+    footer { text-align: center; font-size: 11.5px; color: #b8a8ad; padding: 20px 0 0; }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ═════════ 側邊選單：後台功能架構 ═════════ -->
+  <aside>
+    <div class="side-logo">Only<span>Used</span> <em>ADMIN CONSOLE</em></div>
+
+    <a class="side-item active" href="#dashboard">📊 總覽 Dashboard</a>
+
+    <div class="side-group">交易營運</div>
+    <a class="side-item" href="#orders">🧾 訂單管理</a>
+    <a class="side-item" href="#shipping">📦 寄物狀況監控<span class="cnt red">6</span></a>
+    <a class="side-item" href="#cases">⚖️ 案件與檢舉<span class="cnt red">9</span></a>
+
+    <div class="side-group">會員與審核</div>
+    <a class="side-item" href="#members">👥 會員管理</a>
+    <a class="side-item" href="#kyc">🪪 KYC 實名審核<span class="cnt">12</span></a>
+    <a class="side-item" href="#products">🏷️ 商品審核<span class="cnt">23</span></a>
+    <a class="side-item" href="#content">🎬 內容管理（貼文/短影音）</a>
+
+    <div class="side-group">營收</div>
+    <a class="side-item" href="#subscription">💳 賣家訂閱與帳務</a>
+
+    <div class="side-group">系統</div>
+    <a class="side-item" href="#analytics">📈 數據分析</a>
+    <a class="side-item" href="#system">🔐 帳號權限與 2FA</a>
+    <a class="side-item" href="#logs">📜 操作日誌</a>
+  </aside>
+
+  <!-- ═════════ 主畫面 ═════════ -->
+  <main>
+    <div class="topbar">
+      <h1>總覽 Dashboard</h1>
+      <span class="top-date">2026/07/19（六）· 最後更新 18:42</span>
+      <div class="top-right">
+        <span class="tfa-badge">🔐 2FA 已驗證</span>
+        <div class="admin-chip">
+          <div class="admin-avatar">A</div>
+          <div>august@onlyused.me<br /><span class="admin-role">超級管理員</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 今日核心 KPI ═══ -->
+    <section id="dashboard">
+      <div class="sec-title"><h2>今日核心指標</h2></div>
+      <p class="sec-note">工程師註記：所有卡片支援「今日 / 7 天 / 30 天」切換，並顯示與前一期間的變化率。紅色卡＝需立即處理的異常。</p>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">今日新訂單</div>
+          <div class="kpi-val">47</div>
+          <div class="kpi-sub up">▲ 12% vs 昨日</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">今日新會員</div>
+          <div class="kpi-val">86</div>
+          <div class="kpi-sub up">▲ 31% vs 昨日</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">今日完成訂單</div>
+          <div class="kpi-val">29</div>
+          <div class="kpi-sub flat">— 持平</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">今日新增賣家訂閱</div>
+          <div class="kpi-val">11</div>
+          <div class="kpi-sub up">▲ 3 位試用轉付費</div>
+        </div>
+        <div class="kpi warn">
+          <div class="kpi-label">待處理審核（KYC+商品）</div>
+          <div class="kpi-val">35</div>
+          <div class="kpi-sub flat">SLA 24h 內</div>
+        </div>
+        <div class="kpi alert">
+          <div class="kpi-val">9</div>
+          <div class="kpi-label">未結案件（爭議+檢舉）</div>
+          <div class="kpi-sub down">含 2 件詐欺通報</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 趨勢圖 ═══ -->
+    <section id="analytics">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><h3>近 7 天訂單量</h3><a class="more" href="#">查看報表 →</a></div>
+          <div class="chart">
+            <div class="chart-bars">
+              <div class="bar-col"><span class="bar-v">31</span><div class="bar" style="height:48%"></div><span class="bar-l">7/13</span></div>
+              <div class="bar-col"><span class="bar-v">38</span><div class="bar" style="height:59%"></div><span class="bar-l">7/14</span></div>
+              <div class="bar-col"><span class="bar-v">29</span><div class="bar" style="height:45%"></div><span class="bar-l">7/15</span></div>
+              <div class="bar-col"><span class="bar-v">44</span><div class="bar" style="height:68%"></div><span class="bar-l">7/16</span></div>
+              <div class="bar-col"><span class="bar-v">52</span><div class="bar" style="height:80%"></div><span class="bar-l">7/17</span></div>
+              <div class="bar-col"><span class="bar-v">64</span><div class="bar" style="height:100%"></div><span class="bar-l">7/18</span></div>
+              <div class="bar-col"><span class="bar-v">47</span><div class="bar today" style="height:73%"></div><span class="bar-l">今天</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>近 7 天新會員（買家 / 賣家）</h3><a class="more" href="#">查看報表 →</a></div>
+          <div class="chart">
+            <div class="chart-bars">
+              <div class="bar-col"><span class="bar-v">52</span><div class="bar" style="height:52%"></div><span class="bar-l">7/13</span></div>
+              <div class="bar-col"><span class="bar-v">61</span><div class="bar" style="height:61%"></div><span class="bar-l">7/14</span></div>
+              <div class="bar-col"><span class="bar-v">58</span><div class="bar" style="height:58%"></div><span class="bar-l">7/15</span></div>
+              <div class="bar-col"><span class="bar-v">73</span><div class="bar" style="height:73%"></div><span class="bar-l">7/16</span></div>
+              <div class="bar-col"><span class="bar-v">69</span><div class="bar" style="height:69%"></div><span class="bar-l">7/17</span></div>
+              <div class="bar-col"><span class="bar-v">100</span><div class="bar" style="height:100%"></div><span class="bar-l">7/18</span></div>
+              <div class="bar-col"><span class="bar-v">86</span><div class="bar today" style="height:86%"></div><span class="bar-l">今天</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="sec-note" style="margin-top:10px;">工程師註記：正式版建議加入——會員累計數、DAU/MAU、留存率、貼文/短影音發佈量與互動率、商品瀏覽→下單轉換率、搜尋熱詞。</p>
+    </section>
+
+    <!-- ═══ 寄物狀況 ═══ -->
+    <section id="shipping">
+      <div class="sec-title"><h2>📦 今日寄物狀況</h2></div>
+      <p class="sec-note">追蹤每筆訂單的出貨進度。規則：賣家<strong>確認收款後 3 個工作天內</strong>須填寫寄件編號，逾期自動列入警示並通知雙方。</p>
+
+      <div class="panel" style="margin-bottom:14px;">
+        <div class="panel-head"><h3>訂單出貨漏斗（進行中訂單 118 筆）</h3></div>
+        <div class="flow">
+          <div class="flow-step"><div class="flow-num">24</div><div class="flow-lab">待雙方確認付款</div></div>
+          <div class="flow-step"><div class="flow-num">31</div><div class="flow-lab">已收款・待出貨</div></div>
+          <div class="flow-step"><div class="flow-num">42</div><div class="flow-lab">已填寄件編號</div></div>
+          <div class="flow-step"><div class="flow-num">15</div><div class="flow-lab">已到店/配達</div></div>
+          <div class="flow-step"><div class="flow-num red">6</div><div class="flow-lab">⚠ 逾期未出貨</div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h3>⚠ 逾期未出貨警示（6）</h3><a class="more" href="#">全部 →</a></div>
+        <table>
+          <thead><tr><th>訂單</th><th>賣家</th><th>收款確認時間</th><th>逾期</th><th>通路</th><th>狀態</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="mono">#2026071502</td>
+              <td class="u">mia_closet<span class="cell-sub">⭐ 4.9 · 126 筆</span></td>
+              <td>7/15 10:22</td>
+              <td><span class="badge b-red">超時 1 天</span></td>
+              <td>🟠 7-11</td>
+              <td><span class="badge b-amber">已發提醒</span></td>
+              <td><button class="act-btn">通知雙方</button></td>
+            </tr>
+            <tr>
+              <td class="mono">#2026071418</td>
+              <td class="u">vivi.vintage<span class="cell-sub">⭐ 4.2 · 18 筆</span></td>
+              <td>7/14 16:05</td>
+              <td><span class="badge b-red">超時 2 天</span></td>
+              <td>🟢 全家</td>
+              <td><span class="badge b-red">賣家未回應</span></td>
+              <td><button class="act-btn primary">開立案件</button></td>
+            </tr>
+            <tr>
+              <td class="mono">#2026071355</td>
+              <td class="u">closet_by_ann<span class="cell-sub">⭐ 5.0 · 41 筆</span></td>
+              <td>7/13 20:47</td>
+              <td><span class="badge b-red">超時 3 天</span></td>
+              <td>🐱 黑貓</td>
+              <td><span class="badge b-blue">賣家已說明（缺貨補寄）</span></td>
+              <td><button class="act-btn">查看對話</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══ 案件狀況 ═══ -->
+    <section id="cases">
+      <div class="sec-title"><h2>⚖️ 案件與檢舉狀況</h2></div>
+      <p class="sec-note">依退款政策流程：買家反映（收貨後 3 天內）→ 賣家回應（3 天）→ 平台調解（5 個工作天）→ 執行（7 天內退款）。詐欺通報須於 24h 內凍結帳號並回覆報案窗口。</p>
+
+      <div class="grid-32">
+        <div class="panel">
+          <div class="panel-head"><h3>進行中案件（9）</h3><a class="more" href="#">全部 →</a></div>
+          <table>
+            <thead><tr><th>案件</th><th>類型</th><th>當事人</th><th>階段</th><th>剩餘 SLA</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="mono">C-0231</td>
+                <td><span class="badge b-red">詐欺通報</span></td>
+                <td class="u">買家 chloe___style<span class="cell-sub">vs 賣家 fast.deal88</span></td>
+                <td>帳號已凍結・警方調閱中</td>
+                <td><span class="badge b-red">4h</span></td>
+                <td><button class="act-btn primary">處理</button></td>
+              </tr>
+              <tr>
+                <td class="mono">C-0230</td>
+                <td><span class="badge b-amber">未揭露瑕疵</span></td>
+                <td class="u">買家 nana.wu<span class="cell-sub">vs 賣家 vivi.vintage</span></td>
+                <td>調解中・審查證據</td>
+                <td><span class="badge b-amber">2 天</span></td>
+                <td><button class="act-btn">處理</button></td>
+              </tr>
+              <tr>
+                <td class="mono">C-0229</td>
+                <td><span class="badge b-blue">逾期未出貨</span></td>
+                <td class="u">買家 emily_c<span class="cell-sub">vs 賣家 style_room</span></td>
+                <td>待賣家回應</td>
+                <td><span class="badge b-green">3 天</span></td>
+                <td><button class="act-btn">處理</button></td>
+              </tr>
+              <tr>
+                <td class="mono">C-0228</td>
+                <td><span class="badge b-pink">仿冒品檢舉</span></td>
+                <td class="u">檢舉人匿名<span class="cell-sub">vs 賣家 luxe.outlet</span></td>
+                <td>商品已下架・待賣家申訴</td>
+                <td><span class="badge b-green">12 天</span></td>
+                <td><button class="act-btn">處理</button></td>
+              </tr>
+              <tr>
+                <td class="mono">C-0227</td>
+                <td><span class="badge b-gray">騷擾訊息</span></td>
+                <td class="u">賣家 mia_closet<span class="cell-sub">vs 買家 user39281</span></td>
+                <td>已警告・觀察中</td>
+                <td>—</td>
+                <td><button class="act-btn">查看</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>本月案件統計</h3></div>
+          <div class="mini-list">
+            <div class="mini-row"><span class="dot" style="background:var(--red);"></span>詐欺通報<span class="val">4</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--amber);"></span>退款爭議（描述不符/瑕疵）<span class="val">17</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--blue);"></span>逾期未出貨<span class="val">12</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--pink-dark);"></span>仿冒品檢舉<span class="val">6</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--gray);"></span>騷擾/不當內容<span class="val">9</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--green);"></span>已結案<span class="val">39</span></div>
+            <div class="mini-row" style="background:#fbf8f9;"><strong>平均結案時間</strong><span class="val">3.2 天</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 會員 ═══ -->
+    <section id="members">
+      <div class="sec-title"><h2>👥 會員管理</h2></div>
+      <p class="sec-note">功能需求：搜尋（帳號/Email/電話/KYC 姓名）、篩選（買家/賣家/訂閱中/停權）、單一會員頁需含：基本資料、KYC 狀態、2FA 狀態、訂單與案件紀錄、評價、登入紀錄、處置歷史（警告/限制/停權）。</p>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">會員總數</div><div class="kpi-val">12,483</div><div class="kpi-sub up">▲ 週增 486</div></div>
+        <div class="kpi"><div class="kpi-label">賣家數（完成 KYC）</div><div class="kpi-val">1,872</div><div class="kpi-sub up">▲ 週增 64</div></div>
+        <div class="kpi"><div class="kpi-label">已開啟 2FA 會員</div><div class="kpi-val">38%</div><div class="kpi-sub flat">目標 60%</div></div>
+        <div class="kpi"><div class="kpi-label">本週停權帳號</div><div class="kpi-val">7</div><div class="kpi-sub down">詐欺 2・仿冒 3・其他 2</div></div>
+      </div>
+    </section>
+
+    <!-- ═══ KYC ═══ -->
+    <section id="kyc">
+      <div class="panel">
+        <div class="panel-head"><h3>🪪 KYC 實名審核佇列（12）｜SLA 24 小時</h3><a class="more" href="#">全部 →</a></div>
+        <table>
+          <thead><tr><th>申請人</th><th>證件類型</th><th>提交時間</th><th>等待</th><th>AI 預檢</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="u">daisy.select<span class="cell-sub">buyer → seller 升級</span></td>
+              <td>身份證</td><td>7/19 16:40</td>
+              <td><span class="badge b-green">2h</span></td>
+              <td><span class="badge b-green">通過（相似度 98%）</span></td>
+              <td><button class="act-btn primary">審核</button></td>
+            </tr>
+            <tr>
+              <td class="u">yuki_wardrobe<span class="cell-sub">新註冊賣家</span></td>
+              <td>駕照</td><td>7/19 11:05</td>
+              <td><span class="badge b-amber">7h</span></td>
+              <td><span class="badge b-amber">模糊・建議補件</span></td>
+              <td><button class="act-btn primary">審核</button></td>
+            </tr>
+            <tr>
+              <td class="u">coco2026<span class="cell-sub">新註冊賣家</span></td>
+              <td>身份證</td><td>7/18 22:31</td>
+              <td><span class="badge b-red">20h</span></td>
+              <td><span class="badge b-red">證件姓名與帳號資料不符</span></td>
+              <td><button class="act-btn primary">審核</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sec-note" style="margin-top:8px;">工程師註記：審核頁需顯示證件影像（浮水印防外流）、OCR 比對結果、退件原因選單；核准後自動開通賣家功能並發送通知。個資存取需留審計紀錄。</p>
+    </section>
+
+    <!-- ═══ 商品審核 ═══ -->
+    <section id="products">
+      <div class="panel">
+        <div class="panel-head"><h3>🏷️ 商品審核佇列（23）｜SLA 24 小時</h3><a class="more" href="#">全部 →</a></div>
+        <table>
+          <thead><tr><th>商品</th><th>賣家</th><th>售價</th><th>AI 預檢</th><th>等待</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="u">Chanel 羊毛外套<span class="cell-sub">近全新 · 外套/針織</span></td>
+              <td>luxe.outlet</td><td>NT$3,200</td>
+              <td><span class="badge b-red">疑似仿冒（價格異常）</span></td>
+              <td>3h</td>
+              <td><button class="act-btn primary">審核</button></td>
+            </tr>
+            <tr>
+              <td class="u">碎花洋裝<span class="cell-sub">二手良品 · 洋裝</span></td>
+              <td>daisy.select</td><td>NT$420</td>
+              <td><span class="badge b-green">通過</span></td>
+              <td>1h</td>
+              <td><button class="act-btn">快速核准</button></td>
+            </tr>
+            <tr>
+              <td class="u">蕾絲睡衣<span class="cell-sub">標示：全新未拆 · 內衣/睡衣</span></td>
+              <td>night.shop<span class="cell-sub"></span></td><td>NT$680</td>
+              <td><span class="badge b-amber">貼身衣物・需人工確認吊牌</span></td>
+              <td>5h</td>
+              <td><button class="act-btn primary">審核</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══ 內容管理 ═══ -->
+    <section id="content">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><h3>🎬 貼文 / 短影音概況（今日）</h3></div>
+          <div class="mini-list">
+            <div class="mini-row"><span class="dot" style="background:var(--pink-dark);"></span>新發佈穿搭貼文<span class="val">134</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--pink);"></span>新發佈短影音<span class="val">58</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--blue);"></span>標記商品的內容佔比<span class="val">72%</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--amber);"></span>被檢舉內容（待處理）<span class="val">3</span></div>
+            <div class="mini-row"><span class="dot" style="background:var(--red);"></span>AI 標記違規（裸露/站外導流）<span class="val">5</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>內容檢舉佇列</h3><a class="more" href="#">全部 →</a></div>
+          <table>
+            <thead><tr><th>內容</th><th>原因</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td class="u">短影音 #R-8841<span class="cell-sub">by fast.deal88</span></td><td><span class="badge b-red">站外導流（LINE ID）</span></td><td><button class="act-btn primary">處理</button></td></tr>
+              <tr><td class="u">貼文 #P-20417<span class="cell-sub">by user_hana</span></td><td><span class="badge b-amber">內容不當</span></td><td><button class="act-btn">處理</button></td></tr>
+              <tr><td class="u">貼文 #P-20395<span class="cell-sub">by style_room</span></td><td><span class="badge b-gray">重複刊登</span></td><td><button class="act-btn">處理</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 訂閱與帳務 ═══ -->
+    <section id="subscription">
+      <div class="sec-title"><h2>💳 賣家訂閱與帳務（平台營收）</h2></div>
+      <p class="sec-note">商業模式：賣家月費 NT$89（前 14 天免費試用），平台不經手商品交易款項。此區是平台實際營收來源，需串接金流商的訂閱扣款。</p>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">訂閱中賣家</div><div class="kpi-val">1,204</div><div class="kpi-sub up">▲ 週增 38</div></div>
+        <div class="kpi"><div class="kpi-label">試用中賣家</div><div class="kpi-val">312</div><div class="kpi-sub flat">14 天試用期內</div></div>
+        <div class="kpi"><div class="kpi-label">試用 → 付費轉換率</div><div class="kpi-val">41%</div><div class="kpi-sub up">▲ 3pt vs 上月</div></div>
+        <div class="kpi"><div class="kpi-label">MRR 月經常性收入</div><div class="kpi-val">NT$107K</div><div class="kpi-sub up">▲ 5.2%</div></div>
+        <div class="kpi"><div class="kpi-label">本月流失（取消訂閱）</div><div class="kpi-val">46</div><div class="kpi-sub down">Churn 3.8%</div></div>
+        <div class="kpi warn"><div class="kpi-label">扣款失敗待處理</div><div class="kpi-val">14</div><div class="kpi-sub flat">3 天後自動停售權限</div></div>
+      </div>
+    </section>
+
+    <!-- ═══ 系統與權限 ═══ -->
+    <section id="system">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><h3>🔐 管理員帳號與權限（RBAC）</h3><a class="more" href="#">管理 →</a></div>
+          <table>
+            <thead><tr><th>帳號</th><th>角色</th><th>2FA</th><th>最後登入</th></tr></thead>
+            <tbody>
+              <tr><td class="u">august@onlyused.me</td><td><span class="badge b-pink">超級管理員</span></td><td><span class="badge b-green">✓</span></td><td>7/19 18:02<span class="cell-sub">台北 · Chrome</span></td></tr>
+              <tr><td class="u">ops01@onlyused.me</td><td><span class="badge b-blue">審核員（KYC/商品）</span></td><td><span class="badge b-green">✓</span></td><td>7/19 17:44</td></tr>
+              <tr><td class="u">cs01@onlyused.me</td><td><span class="badge b-gray">客服（案件/會員）</span></td><td><span class="badge b-red">未開啟</span></td><td>7/19 15:20</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>安全政策需求</h3></div>
+          <div class="mini-list" style="font-size:12.5px;">
+            <div class="mini-row">✅ 管理員登入<strong>強制 2FA</strong>（TOTP／簡訊擇一，建議 TOTP）</div>
+            <div class="mini-row">✅ 角色權限分級：超級管理員／審核員／客服／唯讀分析</div>
+            <div class="mini-row">✅ 敏感操作（停權、查看證件、修改訂單）需二次確認＋寫入日誌</div>
+            <div class="mini-row">✅ 登入異常（新裝置/異地）Email 警示</div>
+            <div class="mini-row">✅ Session 30 分鐘閒置自動登出</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 操作日誌 ═══ -->
+    <section id="logs">
+      <div class="panel">
+        <div class="panel-head"><h3>📜 近期操作日誌（審計）</h3><a class="more" href="#">全部 →</a></div>
+        <table>
+          <thead><tr><th>時間</th><th>操作者</th><th>動作</th><th>對象</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">18:31</td><td>ops01</td><td><span class="badge b-green">核准 KYC</span></td><td>daisy.select</td></tr>
+            <tr><td class="mono">17:58</td><td>august</td><td><span class="badge b-red">凍結帳號（詐欺通報 C-0231）</span></td><td>fast.deal88</td></tr>
+            <tr><td class="mono">17:12</td><td>cs01</td><td><span class="badge b-amber">發送出貨提醒</span></td><td>訂單 #2026071502</td></tr>
+            <tr><td class="mono">16:47</td><td>ops01</td><td><span class="badge b-red">退件商品（疑似仿冒）</span></td><td>Chanel 羊毛外套</td></tr>
+            <tr><td class="mono">16:02</td><td>august</td><td><span class="badge b-blue">結案（調解成立・賣家退款）</span></td><td>案件 C-0225</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>OnlyUsed Admin Console — 介面規格範本（假資料）· 供工程需求討論用</footer>
+  </main>
+</div>
+
+<script>
+  // 側邊選單錨點高亮
+  var items = document.querySelectorAll('.side-item[href^="#"]');
+  items.forEach(function (a) {
+    a.addEventListener('click', function () {
+      items.forEach(function (x) { x.classList.remove('active'); });
+      a.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

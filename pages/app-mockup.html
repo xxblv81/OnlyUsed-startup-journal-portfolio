@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OnlyUsed — App 模擬畫面</title>
+<style>/* 圖示改用內建字元（原為 Tabler Icons CDN） */
+.ti{font-style:normal;display:inline-block;line-height:1;}
+.ti-wifi::before{content:"📶";}
+.ti-battery-2::before{content:"🔋";}
+.ti-user-circle::before{content:"👤";}
+.ti-heart::before{content:"♥";}
+.ti-message-circle::before{content:"💬";}
+.ti-bookmark::before{content:"⚑";}
+.ti-send::before{content:"➤";}
+.ti-shopping-bag::before{content:"🛍";}
+.ti-chevron-down::before{content:"▾";}
+.ti-chevron-right::before{content:"›";}
+.ti-home::before{content:"⌂";}
+.ti-search::before{content:"⌕";}
+.ti-plus::before{content:"＋";}
+.ti-shopping-cart::before{content:"🛒";}
+.ti-user::before{content:"👤";}
+.ti-x::before{content:"✕";}
+.ti-tag::before{content:"🏷";}
+.ti-shirt::before{content:"👕";}
+.ti-grip-vertical::before{content:"⋮";}
+.ti-truck::before{content:"🚚";}
+.ti-star::before{content:"★";}
+.ti-eye::before{content:"👁";}
+</style>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         background: #faf9fb; display: flex; flex-direction: column;
+         align-items: center; min-height: 100vh; padding: 32px 16px 48px; }
+  h1 { font-size: 13px; font-weight: 500; color: #999; letter-spacing: 0.15em;
+       text-transform: uppercase; margin-bottom: 20px; }
+  .tabs { display: flex; gap: 32px; margin-bottom: 18px;
+          border-bottom: 0.5px solid #e8e0ec; padding-bottom: 0; }
+  .tab { background: none; border: none; cursor: pointer; font-size: 13px;
+         font-weight: 400; color: #999; padding: 0 0 12px;
+         border-bottom: 1.5px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+  .tab.active { color: #E84D7A; border-bottom-color: #E84D7A; font-weight: 500; }
+  #phone { width: 292px; border-radius: 44px; border: 1.5px solid rgba(232,77,122,0.28);
+           overflow: hidden; box-shadow: 0 20px 60px rgba(232,77,122,0.1), 0 4px 20px rgba(0,0,0,0.08); }
+  textarea { font-family: inherit; }
+  input { font-family: inherit; }
+  button { font-family: inherit; }
+  #tray-items::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+<h1>Only Used · App Mockup</h1>
+
+<div class="tabs">
+  <button class="tab active" id="tab-buyer" onclick="switchView('buyer')">買家動態</button>
+  <button class="tab" id="tab-seller" onclick="switchView('seller')">賣家後台</button>
+</div>
+
+<div id="phone">
+
+  <div id="status-bar" style="height:26px; background:#0a0a0a; position:relative; display:flex; align-items:center; justify-content:space-between; padding:0 14px; flex-shrink:0; z-index:20;">
+    <span style="font-size:10px; color:rgba(255,255,255,0.72); font-weight:500;">9:41</span>
+    <div style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:72px; height:15px; background:#060606; border-radius:0 0 10px 10px;"></div>
+    <div style="display:flex; gap:4px; align-items:center;">
+      <i class="ti ti-wifi" style="font-size:11px; color:rgba(255,255,255,0.65);"></i>
+      <i class="ti ti-battery-2" style="font-size:11px; color:rgba(255,255,255,0.65);"></i>
+    </div>
+  </div>
+
+  <div id="buyer-view" style="width:100%; height:558px; overflow:hidden; display:flex; flex-direction:column;">
+
+    <div id="video-wrapper" style="height:558px; position:relative; overflow:hidden; transition:height 0.32s cubic-bezier(0.4,0,0.2,1); flex-shrink:0; cursor:pointer;" onclick="handleVideoTap(event)">
+
+      <div id="video-bg" style="position:absolute; inset:0; background:#0a0a0a;">
+        <div id="sh-a" style="position:absolute; top:-50px; right:-20px; width:190px; height:190px; border-radius:50%; background:#150810;"></div>
+        <div id="sh-b" style="position:absolute; bottom:140px; left:-30px; width:160px; height:160px; border-radius:50%; background:#100608;"></div>
+        <div id="sh-c" style="position:absolute; top:36%; left:28%; width:100px; height:100px; border-radius:50%; background:#0e060c;"></div>
+      </div>
+
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:1; pointer-events:none;">
+        <i class="ti ti-user-circle" style="font-size:110px; color:rgba(255,255,255,0.04);"></i>
+      </div>
+
+      <div style="position:absolute; top:0; left:0; right:0; height:110px; background:linear-gradient(#000000aa, transparent); pointer-events:none; z-index:2;"></div>
+      <div style="position:absolute; bottom:0; left:0; right:0; height:200px; background:linear-gradient(transparent, #000000cc); pointer-events:none; z-index:2;"></div>
+
+      <div id="prog-bar" style="position:absolute; top:8px; left:50%; transform:translateX(-50%); display:flex; gap:4px; z-index:6; pointer-events:none;">
+        <div class="pline" style="width:22px; height:2px; border-radius:1px; background:rgba(255,255,255,0.9);"></div>
+        <div class="pline" style="width:22px; height:2px; border-radius:1px; background:rgba(255,255,255,0.25);"></div>
+        <div class="pline" style="width:22px; height:2px; border-radius:1px; background:rgba(255,255,255,0.25);"></div>
+      </div>
+
+      <div style="position:absolute; top:18px; left:0; right:0; display:flex; justify-content:center; z-index:5; pointer-events:none;">
+        <span style="font-size:9px; font-weight:500; letter-spacing:0.26em; color:rgba(232,77,122,0.55); text-transform:uppercase;">Only Used</span>
+      </div>
+
+      <div style="position:absolute; top:30px; left:12px; right:60px; z-index:6; display:flex; align-items:center; gap:8px;" onclick="event.stopPropagation()">
+        <div id="u-av" style="width:30px; height:30px; border-radius:50%; background:#E84D7A; border:1.5px solid rgba(232,77,122,0.55); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:500; color:white; flex-shrink:0;">佐</div>
+        <div>
+          <span id="u-name" style="font-size:12px; font-weight:500; color:rgba(255,255,255,0.93); display:block; line-height:1.2;">zoey.looks</span>
+          <span id="u-city" style="font-size:9px; color:rgba(232,77,122,0.8);">Seoul × Taipei</span>
+        </div>
+        <button style="font-size:9px; background:transparent; border:0.5px solid rgba(232,77,122,0.6); border-radius:4px; padding:2px 8px; color:rgba(232,77,122,0.9); cursor:pointer; flex-shrink:0;">追蹤</button>
+      </div>
+
+      <div style="position:absolute; right:8px; top:44%; transform:translateY(-50%); z-index:6; display:flex; flex-direction:column; align-items:center; gap:14px;" onclick="event.stopPropagation()">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <button id="like-btn" onclick="toggleLike()" style="width:36px; height:36px; border-radius:50%; background:rgba(232,77,122,0.1); border:0.5px solid rgba(232,77,122,0.3); display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,0.85);">
+            <i id="heart-ic" class="ti ti-heart" style="font-size:17px;"></i>
+          </button>
+          <span id="like-n" style="font-size:9px; color:rgba(255,255,255,0.5);">2.8k</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <button onclick="toggleComment()" style="width:36px; height:36px; border-radius:50%; background:rgba(232,77,122,0.1); border:0.5px solid rgba(232,77,122,0.3); display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,0.85);">
+            <i class="ti ti-message-circle" style="font-size:17px;"></i>
+          </button>
+          <span id="cm-n" style="font-size:9px; color:rgba(255,255,255,0.5);">143</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <button id="save-btn" onclick="toggleSave()" style="width:36px; height:36px; border-radius:50%; background:rgba(232,77,122,0.1); border:0.5px solid rgba(232,77,122,0.3); display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,0.85);">
+            <i id="save-ic" class="ti ti-bookmark" style="font-size:17px;"></i>
+          </button>
+          <span style="font-size:9px; color:rgba(255,255,255,0.5);">收藏</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <button style="width:36px; height:36px; border-radius:50%; background:rgba(232,77,122,0.1); border:0.5px solid rgba(232,77,122,0.3); display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,0.85);">
+            <i class="ti ti-send" style="font-size:17px;"></i>
+          </button>
+          <span style="font-size:9px; color:rgba(255,255,255,0.5);">分享</span>
+        </div>
+      </div>
+
+      <div style="position:absolute; bottom:228px; left:12px; right:56px; z-index:5; pointer-events:none;">
+        <p id="p-desc" style="font-size:12px; color:rgba(255,255,255,0.9); margin:0 0 3px; line-height:1.5;">今日穿搭 🌸 法式復古風，喜歡嗎？</p>
+        <p id="p-tags" style="font-size:10px; color:rgba(232,77,122,0.65); margin:0;">#法式穿搭 #復古風 #onlyused</p>
+      </div>
+
+      <div id="prod-pill" style="position:absolute; bottom:64px; left:14px; z-index:9; display:none;" onclick="event.stopPropagation(); openTray();">
+        <div style="background:rgba(10,10,10,0.85); border:0.5px solid rgba(232,77,122,0.45); border-radius:20px; padding:5px 12px; display:inline-flex; align-items:center; gap:5px; cursor:pointer;">
+          <i class="ti ti-shopping-bag" style="font-size:12px; color:#E84D7A;"></i>
+          <span id="pill-txt" style="font-size:10px; color:rgba(255,255,255,0.85);">3件穿搭商品</span>
+        </div>
+      </div>
+
+      <div id="product-tray" style="position:absolute; bottom:52px; left:0; right:0; height:174px; overflow:hidden; z-index:10; transition:height 0.3s cubic-bezier(0.4,0,0.2,1);" onclick="event.stopPropagation()">
+        <div style="background:white; border-radius:20px 20px 0 0; height:100%; overflow:hidden;">
+          <div style="display:flex; justify-content:center; padding-top:9px; margin-bottom:7px;">
+            <div style="width:32px; height:3px; border-radius:2px; background:#F0D0DC;"></div>
+          </div>
+          <div style="padding:0 14px; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <div>
+              <span style="font-size:11px; font-weight:500; color:#0F0F0F; letter-spacing:0.06em;">本篇穿搭</span>
+              <span id="tray-ct" style="font-size:10px; color:rgba(232,77,122,0.7); margin-left:5px;">3件商品</span>
+            </div>
+            <button onclick="closeTray()" style="background:none; border:none; cursor:pointer; padding:0; color:rgba(15,15,15,0.35); display:flex; align-items:center; gap:3px;">
+              <span style="font-size:10px; color:rgba(15,15,15,0.35);">收起</span>
+              <i class="ti ti-chevron-down" style="font-size:13px;"></i>
+            </button>
+          </div>
+          <div id="tray-items" style="display:flex; gap:8px; padding:0 14px 14px; overflow-x:auto; scrollbar-width:none;"></div>
+        </div>
+      </div>
+
+      <div style="position:absolute; bottom:0; left:0; right:0; height:52px; background:rgba(8,8,8,0.95); display:flex; align-items:center; justify-content:space-around; border-top:0.5px solid rgba(232,77,122,0.1); z-index:9;" onclick="event.stopPropagation()">
+        <button style="background:none; border:none; color:#E84D7A; cursor:pointer; padding:0;"><i class="ti ti-home" style="font-size:20px;"></i></button>
+        <button style="background:none; border:none; color:rgba(255,255,255,0.28); cursor:pointer; padding:0;"><i class="ti ti-search" style="font-size:20px;"></i></button>
+        <button style="width:32px; height:32px; border-radius:50%; border:1.5px solid rgba(232,77,122,0.5); background:rgba(232,77,122,0.1); color:rgba(232,77,122,0.8); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;"><i class="ti ti-plus" style="font-size:16px;"></i></button>
+        <button style="background:none; border:none; color:rgba(255,255,255,0.28); cursor:pointer; padding:0;"><i class="ti ti-shopping-cart" style="font-size:20px;"></i></button>
+        <button style="background:none; border:none; color:rgba(255,255,255,0.28); cursor:pointer; padding:0;"><i class="ti ti-user" style="font-size:20px;"></i></button>
+      </div>
+
+    </div><!-- /video-wrapper -->
+
+    <div id="comment-panel" style="height:0; overflow:hidden; transition:height 0.32s cubic-bezier(0.4,0,0.2,1); flex-shrink:0; border-radius:20px 20px 0 0; border:0.5px solid rgba(232,77,122,0.2); border-bottom:none; background:white;">
+      <div style="display:flex; justify-content:center; padding-top:9px; margin-bottom:5px;">
+        <div style="width:32px; height:3px; border-radius:2px; background:#F0D0DC;"></div>
+      </div>
+      <div style="padding:0 14px 8px; display:flex; align-items:center; justify-content:space-between; border-bottom:0.5px solid rgba(232,77,122,0.1);">
+        <span style="font-size:13px; font-weight:500; color:#0F0F0F;">留言</span>
+        <button onclick="toggleComment()" style="background:none; border:none; cursor:pointer; padding:0; color:rgba(232,77,122,0.4);"><i class="ti ti-x" style="font-size:16px;"></i></button>
+      </div>
+      <div style="padding:10px 14px; display:flex; flex-direction:column; gap:9px;">
+        <div style="display:flex; gap:8px;">
+          <div style="width:26px; height:26px; border-radius:50%; background:#a87bbf; display:flex; align-items:center; justify-content:center; font-size:9px; color:white; flex-shrink:0;">苗</div>
+          <div style="background:#FFF0F5; border-radius:3px 12px 12px 12px; padding:7px 10px; flex:1;">
+            <span style="font-size:9px; color:#E84D7A; display:block; margin-bottom:2px;">@miu.daily</span>
+            <p style="font-size:12px; color:#0F0F0F; margin:0; line-height:1.4;">這件洋裝在哪買的！！ 求求連結 🙏</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <div style="width:26px; height:26px; border-radius:50%; background:#E84D7A; display:flex; align-items:center; justify-content:center; font-size:9px; color:white; flex-shrink:0;">奈</div>
+          <div style="background:#FFF0F5; border-radius:3px 12px 12px 12px; padding:7px 10px; flex:1;">
+            <span style="font-size:9px; color:#E84D7A; display:block; margin-bottom:2px;">@sena.wears</span>
+            <p style="font-size:12px; color:#0F0F0F; margin:0; line-height:1.4;">整套都好看🔥 外套已加入購物車！</p>
+          </div>
+        </div>
+      </div>
+      <div style="padding:6px 14px; display:flex; gap:8px; align-items:center; border-top:0.5px solid rgba(232,77,122,0.08);">
+        <div style="width:24px; height:24px; border-radius:50%; background:#72b68a; display:flex; align-items:center; justify-content:center; font-size:9px; color:white; flex-shrink:0;">我</div>
+        <input placeholder="留下想法…" style="flex:1; border:0.5px solid rgba(232,77,122,0.28); border-radius:18px; padding:6px 12px; font-size:12px; background:white; color:#0F0F0F; outline:none;" onclick="event.stopPropagation()" />
+        <button style="background:none; border:none; cursor:pointer; padding:0; color:#E84D7A;"><i class="ti ti-send" style="font-size:18px;"></i></button>
+      </div>
+    </div>
+
+  </div><!-- /buyer-view -->
+
+  <div id="seller-view" style="width:100%; height:558px; overflow-y:auto; display:none; flex-direction:column;">
+    <div style="padding:11px 14px; display:flex; align-items:center; justify-content:space-between; background:#0F0F0F;">
+      <button style="background:none; border:none; cursor:pointer; color:rgba(255,255,255,0.45); padding:0;"><i class="ti ti-x" style="font-size:18px;"></i></button>
+      <span style="font-size:14px; font-weight:500; color:white;">新增穿搭</span>
+      <button style="background:#E84D7A; border:none; cursor:pointer; color:white; font-size:12px; font-weight:500; padding:5px 14px; border-radius:8px;">發布</button>
+    </div>
+    <div style="background:white; flex:1;">
+      <div style="margin:12px; border-radius:14px; overflow:hidden; border:1.5px dashed rgba(232,77,122,0.4);">
+        <div style="height:138px; background:#FFF8FA; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; cursor:pointer;">
+          <div style="width:44px; height:44px; border-radius:50%; background:rgba(232,77,122,0.1); border:1px solid rgba(232,77,122,0.35); display:flex; align-items:center; justify-content:center;">
+            <i class="ti ti-plus" style="font-size:20px; color:#E84D7A;"></i>
+          </div>
+          <span style="font-size:12px; color:#E84D7A; font-weight:500;">上傳穿搭影片或照片</span>
+          <span style="font-size:10px; color:rgba(232,77,122,0.4);">直式 · 最長 60 秒</span>
+        </div>
+      </div>
+      <div style="margin:0 12px 8px; padding:9px 12px; border-radius:12px; background:white; border:0.5px solid rgba(232,77,122,0.15);">
+        <textarea rows="2" placeholder="寫下這套穿搭的故事…" style="width:100%; border:none; background:transparent; resize:none; font-size:13px; color:#0F0F0F; outline:none; line-height:1.55;"></textarea>
+      </div>
+      <div style="margin:0 12px 8px; padding:8px 12px; border-radius:12px; background:white; border:0.5px solid rgba(232,77,122,0.15); display:flex; flex-wrap:wrap; gap:5px; align-items:center;">
+        <span style="font-size:11px; background:#FFF0F5; color:#E84D7A; border-radius:5px; padding:2px 8px;">#法式穿搭</span>
+        <span style="font-size:11px; background:#FFF0F5; color:#E84D7A; border-radius:5px; padding:2px 8px;">#復古風</span>
+        <span style="font-size:11px; background:#FFF0F5; color:#E84D7A; border-radius:5px; padding:2px 8px;">#onlyused</span>
+        <button style="font-size:11px; color:white; background:#E84D7A; border:none; border-radius:5px; padding:2px 9px; cursor:pointer;">+ 標籤</button>
+      </div>
+      <div style="margin:0 12px 8px; padding:10px 12px; border-radius:12px; background:white; border:0.5px solid rgba(232,77,122,0.15);">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <i class="ti ti-tag" style="font-size:14px; color:#E84D7A;"></i>
+            <span style="font-size:13px; font-weight:500; color:#0F0F0F;">標記商品</span>
+          </div>
+          <button style="font-size:12px; color:#E84D7A; background:none; border:none; cursor:pointer; padding:0;">+ 新增</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          <div style="display:flex; align-items:center; gap:9px; padding:8px 9px; border-radius:10px; border:0.5px solid rgba(232,77,122,0.18); background:#FFF8FA;">
+            <div style="width:36px; height:36px; border-radius:8px; background:white; border:0.5px solid rgba(232,77,122,0.18); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="ti ti-shirt" style="font-size:16px; color:#E84D7A;"></i></div>
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:12px; font-weight:500; color:#0F0F0F; margin-bottom:3px;">法式碎花洋裝</div>
+              <div style="display:flex; gap:5px; align-items:center;">
+                <span style="font-size:12px; color:#E84D7A; font-weight:500;">NT$ 820</span>
+                <span style="font-size:10px; background:white; border:0.5px solid rgba(232,77,122,0.22); border-radius:4px; padding:1px 5px; color:rgba(232,77,122,0.7);">M</span>
+                <span style="font-size:10px; background:rgba(232,77,122,0.1); color:#E84D7A; border-radius:4px; padding:1px 6px;">上架中</span>
+              </div>
+            </div>
+            <i class="ti ti-grip-vertical" style="font-size:14px; color:rgba(232,77,122,0.28);"></i>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px; padding:8px 9px; border-radius:10px; border:0.5px solid rgba(232,77,122,0.18); background:#FFF8FA;">
+            <div style="width:36px; height:36px; border-radius:8px; background:white; border:0.5px solid rgba(232,77,122,0.18); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="ti ti-shirt" style="font-size:16px; color:#E84D7A;"></i></div>
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:12px; font-weight:500; color:#0F0F0F; margin-bottom:3px;">復古格紋外套</div>
+              <div style="display:flex; gap:5px; align-items:center;">
+                <span style="font-size:12px; color:#E84D7A; font-weight:500;">NT$ 680</span>
+                <span style="font-size:10px; background:white; border:0.5px solid rgba(232,77,122,0.22); border-radius:4px; padding:1px 5px; color:rgba(232,77,122,0.7);">S</span>
+                <span style="font-size:10px; background:rgba(232,77,122,0.1); color:#E84D7A; border-radius:4px; padding:1px 6px;">上架中</span>
+              </div>
+            </div>
+            <i class="ti ti-grip-vertical" style="font-size:14px; color:rgba(232,77,122,0.28);"></i>
+          </div>
+        </div>
+      </div>
+      <div style="margin:0 12px 8px; border-radius:12px; background:white; border:0.5px solid rgba(232,77,122,0.15); overflow:hidden;">
+        <div style="padding:10px 12px; border-bottom:0.5px solid rgba(232,77,122,0.1); display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:7px;"><i class="ti ti-truck" style="font-size:14px; color:#E84D7A;"></i><span style="font-size:13px; color:#0F0F0F;">運送方式</span></div>
+          <div style="display:flex; align-items:center; gap:3px;"><span style="font-size:12px; color:rgba(15,15,15,0.45);">7-11 · 全家 · 宅配</span><i class="ti ti-chevron-right" style="font-size:13px; color:rgba(15,15,15,0.3);"></i></div>
+        </div>
+        <div style="padding:10px 12px; border-bottom:0.5px solid rgba(232,77,122,0.1); display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:7px;"><i class="ti ti-star" style="font-size:14px; color:#E84D7A;"></i><span style="font-size:13px; color:#0F0F0F;">商品狀況</span></div>
+          <div style="display:flex; align-items:center; gap:3px;"><span style="font-size:12px; color:rgba(15,15,15,0.45);">9成新</span><i class="ti ti-chevron-right" style="font-size:13px; color:rgba(15,15,15,0.3);"></i></div>
+        </div>
+        <div style="padding:10px 12px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:7px;"><i class="ti ti-eye" style="font-size:14px; color:#E84D7A;"></i><span style="font-size:13px; color:#0F0F0F;">誰可以看</span></div>
+          <div style="display:flex; align-items:center; gap:3px;"><span style="font-size:12px; color:rgba(15,15,15,0.45);">所有人</span><i class="ti ti-chevron-right" style="font-size:13px; color:rgba(15,15,15,0.3);"></i></div>
+        </div>
+      </div>
+      <div style="height:16px;"></div>
+    </div>
+  </div><!-- /seller-view -->
+
+  <div id="home-bar" style="height:24px; background:#0a0a0a; display:flex; align-items:center; justify-content:center;">
+    <div style="width:52px; height:3px; border-radius:2px; background:rgba(232,77,122,0.35);"></div>
+  </div>
+
+</div><!-- /phone -->
+
+<p style="margin-top:20px; font-size:11px; color:#bbb; text-align:center;">滾動滾輪切換貼文 · 點商品抽屜「收起」可收合 · 點留言按鈕開啟留言</p>
+
+<script>
+const posts=[
+  {u:'zoey.looks',init:'佐',av:'#E84D7A',city:'Seoul × Taipei',bg:'#0a0a0a',sa:'#150810',sb:'#100608',sc:'#0e060c',
+   desc:'今日穿搭 🌸 法式復古風，喜歡嗎？',tags:'#法式穿搭 #復古風 #onlyused',lk:'2.8k',cm:'143',
+   prods:[{n:'法式碎花洋裝',p:'NT$ 820',s:'M號'},{n:'復古格紋外套',p:'NT$ 680',s:'S號'},{n:'高腰直筒褲',p:'NT$ 450',s:'28腰'}]},
+  {u:'miu.daily',init:'苗',av:'#9B6EA8',city:'Taipei',bg:'#08080f',sa:'#10082a',sb:'#0c0620',sc:'#0e0824',
+   desc:'週末日系穿搭 ✨ 舒適又好看超推！',tags:'#日系穿搭 #二手衣 #onlyused',lk:'1.6k',cm:'89',
+   prods:[{n:'日系格子上衣',p:'NT$ 380',s:'F碼'},{n:'寬版丹寧褲',p:'NT$ 520',s:'M號'}]},
+  {u:'sena.wears',init:'奈',av:'#E8765A',city:'Taichung',bg:'#0c0806',sa:'#1e1008',sb:'#18100a',sc:'#150e08',
+   desc:'韓系冬日穿搭 🧣 毛呢大衣超顯瘦',tags:'#韓系穿搭 #毛呢外套 #onlyused',lk:'3.4k',cm:'267',
+   prods:[{n:'毛呢長版外套',p:'NT$ 1,200',s:'S號'},{n:'針織毛衣',p:'NT$ 420',s:'M號'}]}
+];
+
+let cur=0,trayOpen=true,commentOpen=false,liked=false,saved=false;
+
+function buildCards(prods){
+  return prods.map(pr=>`
+    <div style="flex-shrink:0;width:108px;border-radius:12px;border:0.5px solid #F5DAEA;background:white;overflow:hidden;cursor:pointer;">
+      <div style="height:56px;background:#FFF5F9;display:flex;align-items:center;justify-content:center;position:relative;">
+        <i class="ti ti-shirt" style="font-size:26px;color:rgba(232,77,122,0.22);"></i>
+        <div style="position:absolute;top:5px;right:5px;background:#E84D7A;border-radius:5px;padding:2px 5px;">
+          <span style="font-size:8px;font-weight:500;color:white;">${pr.p}</span>
+        </div>
+      </div>
+      <div style="padding:7px 8px 8px;">
+        <div style="font-size:11px;font-weight:500;color:#0F0F0F;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${pr.n}</div>
+        <div style="font-size:9px;color:rgba(15,15,15,0.45);margin-bottom:7px;">${pr.s}</div>
+        <button style="width:100%;background:#0F0F0F;border:none;border-radius:6px;padding:5px 0;color:white;font-size:10px;cursor:pointer;font-weight:500;">購買</button>
+      </div>
+    </div>`).join('');
+}
+
+function updateProg(){
+  document.querySelectorAll('.pline').forEach((l,i)=>{
+    l.style.background=i===cur?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.25)';
+  });
+}
+
+function render(){
+  const p=posts[cur];
+  document.getElementById('video-bg').style.background=p.bg;
+  document.getElementById('sh-a').style.background=p.sa;
+  document.getElementById('sh-b').style.background=p.sb;
+  document.getElementById('sh-c').style.background=p.sc;
+  document.getElementById('u-av').textContent=p.init;
+  document.getElementById('u-av').style.background=p.av;
+  document.getElementById('u-name').textContent=p.u;
+  document.getElementById('u-city').textContent=p.city;
+  document.getElementById('p-desc').textContent=p.desc;
+  document.getElementById('p-tags').textContent=p.tags;
+  document.getElementById('like-n').textContent=p.lk;
+  document.getElementById('cm-n').textContent=p.cm;
+  document.getElementById('tray-items').innerHTML=buildCards(p.prods);
+  document.getElementById('tray-ct').textContent=p.prods.length+'件商品';
+  document.getElementById('pill-txt').textContent=p.prods.length+'件穿搭商品';
+  liked=false; saved=false;
+  document.getElementById('heart-ic').style.color='rgba(255,255,255,0.85)';
+  document.getElementById('like-btn').style.background='rgba(232,77,122,0.1)';
+  document.getElementById('save-ic').style.color='rgba(255,255,255,0.85)';
+  document.getElementById('save-btn').style.background='rgba(232,77,122,0.1)';
+  if(trayOpen){
+    document.getElementById('product-tray').style.height='174px';
+    document.getElementById('prod-pill').style.display='none';
+  } else {
+    document.getElementById('product-tray').style.height='0';
+    document.getElementById('prod-pill').style.display='block';
+  }
+  updateProg();
+}
+
+function openTray(){trayOpen=true;document.getElementById('product-tray').style.height='174px';document.getElementById('prod-pill').style.display='none';}
+function closeTray(){trayOpen=false;document.getElementById('product-tray').style.height='0';document.getElementById('prod-pill').style.display='block';}
+
+function handleVideoTap(e){
+  if(commentOpen)return;
+  const rect=e.currentTarget.getBoundingClientRect();
+  const y=(e.clientY-rect.top)/rect.height;
+  if(!trayOpen){if(y<0.42)prevPost();else nextPost();}
+}
+
+function nextPost(){cur=(cur+1)%posts.length;render();}
+function prevPost(){cur=(cur-1+posts.length)%posts.length;render();}
+
+function toggleComment(){
+  if(trayOpen)closeTray();
+  commentOpen=!commentOpen;
+  document.getElementById('comment-panel').style.height=commentOpen?'222px':'0';
+  document.getElementById('video-wrapper').style.height=commentOpen?'336px':'558px';
+}
+
+function toggleLike(){
+  liked=!liked;
+  document.getElementById('heart-ic').style.color=liked?'#E84D7A':'rgba(255,255,255,0.85)';
+  document.getElementById('like-btn').style.background=liked?'rgba(232,77,122,0.2)':'rgba(232,77,122,0.1)';
+  const p=posts[cur];
+  document.getElementById('like-n').textContent=liked?(parseFloat(p.lk)+0.1).toFixed(1)+'k':p.lk;
+}
+
+function toggleSave(){
+  saved=!saved;
+  document.getElementById('save-ic').style.color=saved?'#F5C0D4':'rgba(255,255,255,0.85)';
+  document.getElementById('save-btn').style.background=saved?'rgba(232,77,122,0.18)':'rgba(232,77,122,0.1)';
+}
+
+function switchView(v){
+  const iB=v==='buyer';
+  document.getElementById('buyer-view').style.display=iB?'flex':'none';
+  document.getElementById('seller-view').style.display=iB?'none':'flex';
+  document.getElementById('status-bar').style.background=iB?'#0a0a0a':'#0F0F0F';
+  document.getElementById('home-bar').style.background=iB?'#0a0a0a':'#0F0F0F';
+  document.getElementById('tab-buyer').className='tab'+(iB?' active':'');
+  document.getElementById('tab-seller').className='tab'+(iB?'':' active');
+}
+
+document.getElementById('video-wrapper').addEventListener('wheel',function(e){
+  e.preventDefault();
+  if(e.deltaY>30)nextPost();else if(e.deltaY<-30)prevPost();
+},{passive:false});
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>商品規範 | OnlyUsed</title>
+  <meta name="description" content="OnlyUsed 商品規範：可販售類別、成色等級標準、照片與描述規範、禁售清單、審核與違規處置。" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink: #ffb7c5; --pink-light: #fff0f3; --pink-dark: #e8899a;
+      --black: #1a1a1a; --gray: #6b6b6b; --gray-light: #f5f5f5; --white: #ffffff;
+      --green: #2e9e6b; --green-light: #eefaf3; --red: #e05252; --red-light: #fdf0f0;
+      --radius: 14px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); color: var(--black); background: var(--white); line-height: 1.7; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px); border-bottom: 1px solid #f0e8ea;
+      padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--black); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--pink-dark); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--gray); text-decoration: none; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links a.active { color: var(--black); font-weight: 700; }
+
+    /* ===== POLICY HEADER ===== */
+    .policy-hero { background: linear-gradient(160deg, #fff0f3 0%, #ffe3e9 60%, #ffd6df 100%);
+      padding: 56px 24px 0; }
+    .policy-hero-inner { max-width: 1040px; margin: 0 auto; }
+    .policy-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--pink-dark); margin-bottom: 10px; }
+    .policy-hero h1 { font-size: clamp(28px, 4.5vw, 42px); font-weight: 900;
+      letter-spacing: -1.5px; margin-bottom: 12px; }
+    .policy-meta { font-size: 13.5px; color: #8a7580; margin-bottom: 8px; }
+    .policy-meta strong { color: #6b5560; }
+    .policy-intro { font-size: 15px; color: #6b5560; max-width: 640px; margin-bottom: 32px; }
+
+    .policy-tabs { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; }
+    .policy-tabs::-webkit-scrollbar { display: none; }
+    .policy-tabs a {
+      flex-shrink: 0; font-size: 14px; font-weight: 600; color: #8a7580; text-decoration: none;
+      padding: 12px 18px 14px; border-radius: 12px 12px 0 0; white-space: nowrap;
+      border: 1px solid transparent; border-bottom: none; transition: color 0.15s;
+    }
+    .policy-tabs a:hover { color: var(--black); }
+    .policy-tabs a.active {
+      background: var(--white); color: var(--black); font-weight: 800;
+      border-color: #f0e8ea; box-shadow: 0 -4px 12px rgba(232,137,154,0.08);
+    }
+
+    /* ===== LAYOUT ===== */
+    .policy-body { max-width: 1040px; margin: 0 auto; padding: 48px 24px 80px;
+      display: grid; grid-template-columns: 240px 1fr; gap: 56px; align-items: start; }
+
+    .toc { position: sticky; top: 84px; }
+    .toc-title { font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gray); margin-bottom: 14px; }
+    .toc a { display: flex; gap: 10px; align-items: baseline; font-size: 13.5px; color: var(--gray);
+      text-decoration: none; padding: 7px 12px; border-radius: 8px; border-left: 2px solid transparent; }
+    .toc a:hover { color: var(--black); background: var(--gray-light); }
+    .toc a.current { color: var(--pink-dark); font-weight: 700; background: var(--pink-light);
+      border-left-color: var(--pink-dark); border-radius: 0 8px 8px 0; }
+    .toc-num { font-size: 11px; font-weight: 800; opacity: 0.55; }
+    .toc-download { margin-top: 20px; padding-top: 20px; border-top: 1px solid #f0e8ea;
+      font-size: 12.5px; color: var(--gray); line-height: 1.6; }
+    .toc-download a { display: inline; padding: 0; color: var(--pink-dark); font-weight: 700; border: none; }
+
+    .policy-content { min-width: 0; }
+    .policy-section { margin-bottom: 56px; scroll-margin-top: 84px; }
+    .policy-section:last-child { margin-bottom: 0; }
+    .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px;
+      padding-bottom: 12px; border-bottom: 2px solid var(--pink-light); }
+    .sec-num { font-size: 24px; font-weight: 900; color: var(--pink); letter-spacing: -1px; }
+    .sec-head h2 { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; }
+    .policy-section p { font-size: 14.5px; color: #444; margin-bottom: 12px; }
+    .policy-section p:last-child { margin-bottom: 0; }
+    .policy-section strong { color: var(--black); }
+    .policy-section a { color: var(--pink-dark); font-weight: 600; }
+    .policy-section ul { margin: 0 0 12px 0; padding-left: 0; list-style: none; }
+    .policy-section ul li { font-size: 14.5px; color: #444; padding: 6px 0 6px 24px; position: relative; }
+    .policy-section ul li::before { content: ''; position: absolute; left: 6px; top: 15px;
+      width: 6px; height: 6px; border-radius: 50%; background: var(--pink); }
+
+    .summary-card { background: var(--pink-light); border: 1.5px solid var(--pink);
+      border-radius: var(--radius); padding: 24px 28px; margin-bottom: 48px; }
+    .summary-card h3 { font-size: 15px; font-weight: 900; margin-bottom: 12px; color: var(--pink-dark); }
+    .summary-card ul { list-style: none; }
+    .summary-card li { font-size: 14px; color: #555; padding: 5px 0 5px 26px; position: relative; line-height: 1.6; }
+    .summary-card li::before { content: '✓'; position: absolute; left: 0; top: 5px;
+      color: var(--pink-dark); font-weight: 900; }
+
+    /* Category chips */
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 16px 0; }
+    .cat-chip { border: 1.5px solid #f0e8ea; border-radius: 10px; padding: 12px 16px;
+      font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .cat-chip:hover { border-color: var(--pink); background: var(--pink-light); }
+
+    /* Condition table */
+    .p-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+    .p-table th { background: var(--black); color: white; padding: 12px 16px;
+      text-align: left; font-size: 12.5px; font-weight: 700; letter-spacing: 0.5px; }
+    .p-table th:first-child { border-radius: 8px 0 0 0; }
+    .p-table th:last-child { border-radius: 0 8px 0 0; }
+    .p-table td { padding: 13px 16px; border-bottom: 1px solid #f0e8ea; vertical-align: top; color: #444; }
+    .p-table tr:last-child td { border-bottom: none; }
+    .p-table tr:hover td { background: var(--pink-light); }
+    .grade-badge { display: inline-block; font-size: 12px; font-weight: 800; border-radius: 999px;
+      padding: 3px 12px; white-space: nowrap; }
+    .grade-s { background: #eefaf3; color: #2e9e6b; border: 1px solid #bfe6d2; }
+    .grade-a { background: #eef4fd; color: #3873c9; border: 1px solid #c5d9f2; }
+    .grade-b { background: #fff7e8; color: #b07a1e; border: 1px solid #f0ddb2; }
+    .grade-c { background: #f5f0fa; color: #7d55b0; border: 1px solid #ddcdf0; }
+
+    /* Do / Don't */
+    .elig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+    @media (max-width: 720px) { .elig-grid { grid-template-columns: 1fr; } }
+    .elig-card { border-radius: 12px; padding: 20px 22px; }
+    .elig-card.yes { background: var(--green-light); border: 1.5px solid #bfe6d2; }
+    .elig-card.no { background: var(--red-light); border: 1.5px solid #f2c9c9; }
+    .elig-card h4 { font-size: 14px; font-weight: 900; margin-bottom: 12px; }
+    .elig-card.yes h4 { color: var(--green); }
+    .elig-card.no h4 { color: var(--red); }
+    .elig-card ul { list-style: none; margin: 0; }
+    .elig-card li { font-size: 13.5px; color: #4a4a4a; padding: 5px 0 5px 22px; position: relative; line-height: 1.55; }
+    .elig-card.yes li::before { content: '✓'; position: absolute; left: 0; top: 5px; width: auto; height: auto;
+      border-radius: 0; background: none; color: var(--green); font-weight: 900; }
+    .elig-card.no li::before { content: '✕'; position: absolute; left: 0; top: 5px; width: auto; height: auto;
+      border-radius: 0; background: none; color: var(--red); font-weight: 900; }
+
+    /* Prohibited list */
+    .prohibited-list { display: flex; flex-direction: column; border: 1.5px solid #f0e8ea;
+      border-radius: var(--radius); overflow: hidden; margin: 16px 0; }
+    .prohibited-item { display: flex; align-items: flex-start; gap: 14px;
+      padding: 16px 20px; border-bottom: 1px solid #f0e8ea; font-size: 14px; }
+    .prohibited-item:last-child { border-bottom: none; }
+    .prohibited-item:hover { background: #fff5f5; }
+    .prohibited-badge { background: #ff5f5f; color: white; font-size: 10px; font-weight: 800;
+      border-radius: 4px; padding: 2px 6px; flex-shrink: 0; margin-top: 4px; white-space: nowrap; }
+    .prohibited-badge.soft { background: #f0a94a; }
+    .prohibited-content strong { color: var(--black); display: block; margin-bottom: 2px; }
+    .prohibited-content span { font-size: 13px; color: var(--gray); }
+
+    /* Consequence */
+    .consequence-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0; }
+    @media (max-width: 640px) { .consequence-grid { grid-template-columns: 1fr; } }
+    .consequence-card { border: 1.5px solid #f0e8ea; border-radius: 12px; padding: 20px; text-align: center; }
+    .consequence-num { font-size: 24px; margin-bottom: 6px; }
+    .consequence-label { font-size: 13.5px; font-weight: 800; margin-bottom: 4px; }
+    .consequence-desc { font-size: 12.5px; color: var(--gray); line-height: 1.55; }
+
+    .info-box { background: var(--gray-light); border-radius: 12px; padding: 16px 20px;
+      font-size: 13.5px; color: #555; line-height: 1.7; margin: 16px 0; display: flex; gap: 12px; }
+    .warn-box { background: #fffbe6; border: 1.5px solid #ffe066; border-radius: 12px;
+      padding: 16px 20px; font-size: 13.5px; color: #7a6000; line-height: 1.7; margin: 16px 0; display: flex; gap: 12px; }
+    .info-box .bi, .warn-box .bi { flex-shrink: 0; font-size: 17px; }
+
+    .contact-card { background: #1a1a1a; color: white; border-radius: var(--radius); padding: 28px 32px; }
+    .contact-card h3 { font-size: 17px; font-weight: 900; margin-bottom: 10px; color: var(--pink); }
+    .contact-card p { font-size: 14px; color: rgba(255,255,255,0.75) !important; }
+    .contact-card a { color: var(--pink); }
+
+    /* FOOTER */
+    footer { background: var(--black); color: rgba(255,255,255,0.45);
+      padding: 56px 24px 32px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-inner { max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 32px;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-col h4 { font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.9); margin-bottom: 14px; }
+    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.45);
+      text-decoration: none; padding: 5px 0; transition: color 0.15s; }
+    .footer-col a:hover { color: rgba(255,255,255,0.85); }
+    .footer-bottom { max-width: 1080px; margin: 24px auto 0;
+      display: flex; justify-content: space-between; font-size: 12px;
+      color: rgba(255,255,255,0.3); flex-wrap: wrap; gap: 8px; }
+
+    @media (max-width: 860px) {
+      .policy-body { grid-template-columns: 1fr; gap: 32px; }
+      .toc { position: static; display: flex; flex-wrap: wrap; gap: 6px; }
+      .toc-title, .toc-download { display: none; }
+      .toc a { border: 1px solid #f0e8ea; border-radius: 999px; padding: 6px 14px; font-size: 12.5px; }
+      .toc a.current { border-radius: 999px; border-left: 1px solid var(--pink-dark); }
+    }
+    @media (max-width: 680px) {
+      .footer-inner { grid-template-columns: repeat(2,1fr); gap: 28px; }
+      .footer-bottom { justify-content: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Only<span>Used</span></a>
+  <div class="nav-links">
+    <a href="/sell">立即開店</a>
+    <a href="/seller-guide">賣家指南</a>
+    <a href="/pricing-guide">定價指南</a>
+    <a href="/packaging">包裝寄送</a>
+    <a href="/seller-safety">安全守則</a>
+  </div>
+</nav>
+
+<header class="policy-hero">
+  <div class="policy-hero-inner">
+    <div class="policy-label">政策規範 · Policies</div>
+    <h1>商品規範</h1>
+    <p class="policy-meta"><strong>最後更新：</strong>2026 年 7 月 13 日 ｜ <strong>生效日期：</strong>2026 年 7 月 13 日</p>
+    <p class="policy-intro">本規範定義 OnlyUsed 上可販售的商品範圍、成色標準、照片與描述要求。所有上架商品均須符合本規範並通過平台審核。</p>
+
+    <div class="policy-tabs">
+      <a href="/terms">服務條款</a>
+      <a href="/privacy">隱私權政策</a>
+      <a href="/refund-policy">退款政策</a>
+      <a href="/product-rules" class="active">商品規範</a>
+      <a href="/disputes">爭議處理政策</a>
+    </div>
+  </div>
+</header>
+
+<div class="policy-body">
+
+  <aside class="toc">
+    <div class="toc-title">本頁目錄</div>
+    <a href="#s1" class="current"><span class="toc-num">01</span>總則</a>
+    <a href="#s2"><span class="toc-num">02</span>可販售商品類別</a>
+    <a href="#s3"><span class="toc-num">03</span>成色等級標準</a>
+    <a href="#s4"><span class="toc-num">04</span>商品照片規範</a>
+    <a href="#s5"><span class="toc-num">05</span>商品描述規範</a>
+    <a href="#s6"><span class="toc-num">06</span>定價與費用</a>
+    <a href="#s7"><span class="toc-num">07</span>禁止販售商品</a>
+    <a href="#s8"><span class="toc-num">08</span>上架行為規範</a>
+    <a href="#s9"><span class="toc-num">09</span>審核與違規處置</a>
+    <a href="#s10"><span class="toc-num">10</span>申訴與聯絡</a>
+    <div class="toc-download">上架操作教學請見<a href="/seller-guide">賣家指南</a>。</div>
+  </aside>
+
+  <main class="policy-content">
+
+    <div class="summary-card">
+      <h3>📌 重點速覽</h3>
+      <ul>
+        <li>限女性時尚品項：服飾、鞋包、飾品與配件（全新或二手皆可）</li>
+        <li>成色須依平台四級標準如實標示，瑕疵一律主動揭露</li>
+        <li>照片須為實物拍攝，至少 4 張，禁用官方圖與他人圖片</li>
+        <li>仿冒品、已使用貼身衣物、來源不明商品一律禁售</li>
+        <li>販售需訂閱：前 14 天免費，之後 NT$89/月，無抽成無其他費用</li>
+        <li>商品送審後 24 小時內完成審核</li>
+      </ul>
+    </div>
+
+    <section class="policy-section" id="s1">
+      <div class="sec-head"><span class="sec-num">01</span><h2>總則</h2></div>
+      <p>OnlyUsed 是結合穿搭社群的女性時尚二手平台。我們相信每件商品都該透過真人穿搭被看見，也相信誠實的商品資訊是社群信任的基礎。</p>
+      <p>賣家上架商品即表示同意本規範，並保證：對商品擁有合法處分權、商品資訊真實準確、商品狀況與描述相符。違反本規範的商品將被下架，情節嚴重者依第 09 條處置。</p>
+    </section>
+
+    <section class="policy-section" id="s2">
+      <div class="sec-head"><span class="sec-num">02</span><h2>可販售商品類別</h2></div>
+      <p>以下女性時尚品項可於平台上架，接受<strong>全新、近全新與二手良品</strong>：</p>
+      <div class="cat-grid">
+        <div class="cat-chip">👗 洋裝</div>
+        <div class="cat-chip">👚 上衣 / 背心</div>
+        <div class="cat-chip">👖 褲子 / 短褲</div>
+        <div class="cat-chip">🧵 裙子</div>
+        <div class="cat-chip">🧥 外套 / 針織</div>
+        <div class="cat-chip">🩱 泳裝 / 比基尼</div>
+        <div class="cat-chip">🩲 內衣 / 睡衣 <span style="font-size:11px; color:var(--red); font-weight:800;">限全新</span></div>
+        <div class="cat-chip">👙 內搭 / 緊身衣</div>
+        <div class="cat-chip">👜 包包</div>
+        <div class="cat-chip">🥿 鞋子</div>
+        <div class="cat-chip">🧣 配件 / 飾品</div>
+        <div class="cat-chip">🕶️ 帽子 / 眼鏡 / 皮帶</div>
+      </div>
+      <div class="warn-box"><span class="bi">⚠️</span><span>內衣、睡衣、泳裝等貼身衣物<strong>僅限全新未拆封（含吊牌）</strong>商品上架，基於衛生安全考量，已使用或已試穿的貼身衣物一律禁售。</span></div>
+      <p>非上述類別的商品（3C、美妝、居家用品、男裝等）目前不開放上架。分類錯誤的商品將被要求修改或下架。</p>
+    </section>
+
+    <section class="policy-section" id="s3">
+      <div class="sec-head"><span class="sec-num">03</span><h2>成色等級標準</h2></div>
+      <p>上架時必須依下表如實標示成色。成色標示與實物不符，是爭議調解時認定賣家責任的直接依據，退款與退貨運費將由賣家負擔。</p>
+      <table class="p-table">
+        <thead>
+          <tr><th>等級</th><th>定義</th><th>建議定價</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="grade-badge grade-s">全新未拆</span></td>
+            <td>全新品，吊牌完整、未拆封、從未試穿。試穿過的商品不得標示此等級。</td>
+            <td>原價 7–8 折</td>
+          </tr>
+          <tr>
+            <td><span class="grade-badge grade-a">近全新</span></td>
+            <td>僅試穿 1–2 次，無任何使用痕跡、無污漬、無異味，狀況等同新品。</td>
+            <td>原價 5–6 折</td>
+          </tr>
+          <tr>
+            <td><span class="grade-badge grade-b">二手良品</span></td>
+            <td>正常穿著過但保養良好，無明顯瑕疵；輕微起毛球或水洗痕跡須於描述中說明。</td>
+            <td>原價 3–4 折</td>
+          </tr>
+          <tr>
+            <td><span class="grade-badge grade-c">使用感明顯</span></td>
+            <td>有可見的使用痕跡（褪色、鬆弛、小瑕疵），所有瑕疵須逐一於照片與描述中揭露。</td>
+            <td>原價 3 折以下</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="info-box"><span class="bi">💡</span><span>拿不準等級時，請<strong>往低一級標</strong>。買家收到比預期更好的商品會給五星好評；反過來則是退貨與差評。</span></div>
+    </section>
+
+    <section class="policy-section" id="s4">
+      <div class="sec-head"><span class="sec-num">04</span><h2>商品照片規範</h2></div>
+      <p>照片是買家判斷商品的唯一依據，也是審核的重點項目。每件商品須上傳<strong>至少 4 張、建議 4–8 張</strong>實拍照片。</p>
+      <div class="elig-grid">
+        <div class="elig-card yes">
+          <h4>✓ 必須做到</h4>
+          <ul>
+            <li>所有照片為實際販售商品的實物拍攝</li>
+            <li>包含正面、背面全貌與材質細節</li>
+            <li>品牌標籤、尺寸標、洗標拍攝清楚</li>
+            <li>所有瑕疵處近拍特寫</li>
+            <li>自然光下拍攝，色彩貼近實物</li>
+          </ul>
+        </div>
+        <div class="elig-card no">
+          <h4>✕ 禁止行為</h4>
+          <ul>
+            <li>使用品牌官方圖、網路圖片或他人照片</li>
+            <li>過度濾鏡、修圖導致色差誤導</li>
+            <li>用馬賽克、貼圖遮擋瑕疵部位</li>
+            <li>照片中含站外聯絡方式（LINE ID、IG 帳號浮水印）</li>
+            <li>與販售商品無關的圖片</li>
+          </ul>
+        </div>
+      </div>
+      <p>穿著示範照能大幅提升成交率，鼓勵搭配穿搭貼文與短影音呈現，但商品頁仍須包含商品本體的平拍或細節照。</p>
+    </section>
+
+    <section class="policy-section" id="s5">
+      <div class="sec-head"><span class="sec-num">05</span><h2>商品描述規範</h2></div>
+      <p>商品描述須完整填寫以下欄位：</p>
+      <ul>
+        <li><strong>品牌</strong>——如實填寫；無品牌或不明請選「無品牌」，禁止冒用其他品牌名稱</li>
+        <li><strong>尺寸</strong>——標示尺碼並建議附平量尺寸（肩寬、胸圍、衣長等）</li>
+        <li><strong>顏色與材質</strong>——依洗標填寫材質成分</li>
+        <li><strong>成色等級</strong>——依第 03 條標準標示</li>
+        <li><strong>瑕疵揭露</strong>——任何肉眼可見的瑕疵（污漬、脫線、褪色、起毛球、異味）都必須文字說明並附照片</li>
+        <li><strong>運費方式</strong>——清楚說明含運或運費另計</li>
+      </ul>
+      <div class="warn-box"><span class="bi">⚠️</span><span><strong>瑕疵揭露是義務，不是選項。</strong>未揭露的瑕疵所引起的退換貨，成本由賣家全額負擔，並列入違規紀錄。</span></div>
+      <p>描述中禁止出現：站外聯絡方式或導購連結、與商品無關的關鍵字堆疊、誇大或虛偽不實的宣稱（如假造購入價格、虛構品牌聯名）。</p>
+    </section>
+
+    <section class="policy-section" id="s6">
+      <div class="sec-head"><span class="sec-num">06</span><h2>定價與費用</h2></div>
+      <p>OnlyUsed 採<strong>賣家訂閱制</strong>：開賣前 14 天免費試用，之後每月 NT$89。無上架費、無成交抽成、無其他費用，你設定的售價 100% 歸你。</p>
+      <ul>
+        <li>販售商品需維持有效的賣家訂閱；瀏覽、發佈穿搭貼文、購買皆免費</li>
+        <li>商品交易的收款方式與物流由買賣雙方自行約定，平台不經手款項</li>
+        <li>付款方式、金額與運費須透過站內訊息確認並保留紀錄</li>
+        <li>定價須為誠實一口價，禁止先哄抬再假折扣的虛偽定價</li>
+      </ul>
+      <p>詳細定價策略請參考<a href="/pricing-guide">定價指南</a>。</p>
+    </section>
+
+    <section class="policy-section" id="s7">
+      <div class="sec-head"><span class="sec-num">07</span><h2>禁止販售商品</h2></div>
+      <p>以下商品一律禁止上架。違反者商品立即下架，情節嚴重者帳號永久停用並配合主管機關調查：</p>
+      <div class="prohibited-list">
+        <div class="prohibited-item">
+          <span class="prohibited-badge">嚴禁</span>
+          <div class="prohibited-content">
+            <strong>仿冒品 / 假貨</strong>
+            <span>所有仿冒品牌商標的商品。販售仿冒品違反商標法，平台將保存證據並配合主管機關調查。</span>
+          </div>
+        </div>
+        <div class="prohibited-item">
+          <span class="prohibited-badge">嚴禁</span>
+          <div class="prohibited-content">
+            <strong>已使用的貼身衣物、內衣、成人用品</strong>
+            <span>基於衛生安全，使用過或試穿過的內衣褲、貼身衣物禁止販售。全新未拆封（含吊牌）不在此限。</span>
+          </div>
+        </div>
+        <div class="prohibited-item">
+          <span class="prohibited-badge">嚴禁</span>
+          <div class="prohibited-content">
+            <strong>違法商品</strong>
+            <span>任何違反中華民國法律的商品，包含管制物品、侵權商品及其衍生商品。</span>
+          </div>
+        </div>
+        <div class="prohibited-item">
+          <span class="prohibited-badge">嚴禁</span>
+          <div class="prohibited-content">
+            <strong>遭竊或來源不明商品</strong>
+            <span>禁止販售來源不明、可能為非法取得的商品。平台發現異常將暫停帳號並通報主管機關。</span>
+          </div>
+        </div>
+        <div class="prohibited-item">
+          <span class="prohibited-badge soft">禁止</span>
+          <div class="prohibited-content">
+            <strong>非時尚類商品</strong>
+            <span>OnlyUsed 限定女性服飾、鞋包、飾品與時尚配件。3C、美妝保養品、食品、居家用品等不得上架。</span>
+          </div>
+        </div>
+        <div class="prohibited-item">
+          <span class="prohibited-badge soft">禁止</span>
+          <div class="prohibited-content">
+            <strong>嚴重污損、無法正常使用的商品</strong>
+            <span>破損嚴重、無法修復、有衛生疑慮（發霉、蟲蛀）的商品不得上架。</span>
+          </div>
+        </div>
+        <div class="prohibited-item">
+          <span class="prohibited-badge soft">禁止</span>
+          <div class="prohibited-content">
+            <strong>與上架資訊不符的商品</strong>
+            <span>照片、描述與實物明顯不符屬詐欺性上架，直接進入違規處置流程。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="policy-section" id="s8">
+      <div class="sec-head"><span class="sec-num">08</span><h2>上架行為規範</h2></div>
+      <p>為維護平台瀏覽品質與搜尋公平，禁止以下上架行為：</p>
+      <ul>
+        <li><strong>重複刊登</strong>——同一件商品重複上架多筆刊登，或售出後未下架造成超賣</li>
+        <li><strong>關鍵字堆疊</strong>——標題或描述塞入無關品牌名、熱門關鍵字以操縱搜尋</li>
+        <li><strong>站外導流</strong>——在商品頁、貼文或個人簡介留下站外聯絡方式，引導買家繞過站內訊息洽談。付款方式雖由雙方自行約定，但所有洽談與約定必須在站內訊息完成，這是發生爭議時保護雙方的唯一紀錄</li>
+        <li><strong>佔位刊登</strong>——上架非實際可售的商品（如「代找」「預購詢問」佔位文）</li>
+        <li><strong>操縱評價</strong>——以假交易、互刷等方式製造不實評價</li>
+      </ul>
+    </section>
+
+    <section class="policy-section" id="s9">
+      <div class="sec-head"><span class="sec-num">09</span><h2>審核與違規處置</h2></div>
+      <p>商品送審後，平台將於 <strong>24 小時內</strong>完成審核。照片清晰、資訊完整的商品通常更快通過；未通過者將收到具體原因通知，修改後可重新送審。</p>
+      <p>違反本規範採三階段處置：</p>
+      <div class="consequence-grid">
+        <div class="consequence-card">
+          <div class="consequence-num">1️⃣</div>
+          <div class="consequence-label">警告通知</div>
+          <div class="consequence-desc">輕微或初次違規，站內通知說明原因並要求限期改正</div>
+        </div>
+        <div class="consequence-card">
+          <div class="consequence-num">2️⃣</div>
+          <div class="consequence-label">下架 / 功能限制</div>
+          <div class="consequence-desc">違規商品立即下架，上架與發文功能暫時凍結，時長依情節而定</div>
+        </div>
+        <div class="consequence-card">
+          <div class="consequence-num">3️⃣</div>
+          <div class="consequence-label">帳號永久停用</div>
+          <div class="consequence-desc">販售仿冒品、詐欺性上架、重複違規者永久封禁，並配合主管機關調查</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="policy-section" id="s10">
+      <div class="sec-head"><span class="sec-num">10</span><h2>申訴與聯絡</h2></div>
+      <div class="contact-card">
+        <h3>對處置結果有異議？</h3>
+        <p>若你認為商品遭誤判下架（例如正品被舉報為仿冒品），請於收到通知後 <strong>14 天內</strong>來信 <a href="mailto:service@onlyused.me">service@onlyused.me</a>，附上訂單／商品編號與證明文件（購買憑證、品牌卡等）。安全團隊將重新審查，確認無誤後恢復上架。<br /><br />發現他人違規上架，請使用商品頁「⋯ → 舉報」功能或來信 <a href="mailto:report@onlyused.me">report@onlyused.me</a>。</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>賣家</h4>
+      <a href="/sell">立即開店</a>
+      <a href="/seller-guide">賣家指南</a>
+      <a href="/pricing-guide">定價指南</a>
+      <a href="/packaging">包裝寄送</a>
+      <a href="/seller-safety">安全守則</a>
+    </div>
+    <div class="footer-col">
+      <h4>瀏覽</h4>
+      <a href="/feed">動態</a>
+      <a href="/categories">分類</a>
+      <a href="/creators">創作者</a>
+    </div>
+    <div class="footer-col">
+      <h4>買家</h4>
+      <a href="/how-to-buy">如何購買</a>
+      <a href="/how-to-buy#delivery">取貨注意事項</a>
+      <a href="/refund-policy">退款政策</a>
+    </div>
+    <div class="footer-col">
+      <h4>政策規範</h4>
+      <a href="/terms">服務條款</a>
+      <a href="/privacy">隱私權政策</a>
+      <a href="/refund-policy">退款政策</a>
+      <a href="/product-rules">商品規範</a>
+      <a href="/disputes">爭議處理政策</a>
+    </div>
+    <div class="footer-col">
+      <h4>關於 OnlyUsed</h4>
+      <a href="/about">什麼是 OnlyUsed</a>
+      <a href="/support">聯絡我們</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 OnlyUsed. All rights reserved.</span>
+    <span>Taiwan · 繁體中文</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var links = document.querySelectorAll('.toc a[href^="#"]');
+    var sections = Array.prototype.map.call(links, function (a) {
+      return document.querySelector(a.getAttribute('href'));
+    });
+    function onScroll() {
+      var pos = window.scrollY + 120;
+      var idx = 0;
+      sections.forEach(function (sec, i) { if (sec && sec.offsetTop <= pos) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle('current', i === idx); });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+</body>
+</html>
