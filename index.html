@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OnlyUsed 創辦人作品集</title>
-<link rel="stylesheet" href="app.css?v=3" />
+<link rel="stylesheet" href="app.css?v=4" />
 <style>
 /* ===== 作品集新增元件 ===== */
 .fid.s{background:var(--blue-bg);color:var(--blue);}
@@ -76,9 +76,19 @@ dialog.gate::backdrop{background:rgba(21,15,21,.8);backdrop-filter:blur(8px);}
 .gate h2{font-size:1.3rem;margin-bottom:8px;}
 .gate p{font-size:.92rem;color:var(--body);}
 .gate .row-btns{margin-top:16px;}
+/* 示意圖標籤：商品照片過於私密，未放上實際圖片 */
+.tile-img::before,.auc-img::before,.post-media::before,.mkt-photo::before,.mh-visual::before{
+  content:"示意圖・未放實際照片";position:absolute;left:10px;bottom:10px;z-index:4;
+  padding:3px 9px;border-radius:999px;background:rgba(12,8,12,.72);color:#FFE3EA;
+  font-size:.68rem;font-weight:800;line-height:1.4;letter-spacing:.02em;pointer-events:none;
+  border:1px solid rgba(255,183,197,.4);backdrop-filter:blur(6px);white-space:nowrap;}
+:root[data-lang="en"] .tile-img::before,:root[data-lang="en"] .auc-img::before,:root[data-lang="en"] .post-media::before,:root[data-lang="en"] .mkt-photo::before,:root[data-lang="en"] .mh-visual::before{content:"Illustrative · no real photo";}
+.mh-visual::before{left:14px;top:14px;bottom:auto;}
+.photo-note{display:flex;gap:8px;align-items:flex-start;background:var(--card);border:1px dashed var(--hot-2);border-radius:14px;padding:10px 14px;font-size:.86rem;color:var(--ink-2);}
+.photo-note[hidden]{display:none;}
 @media (max-width:1180px){.flowline{grid-template-columns:repeat(3,minmax(0,1fr));}.bid-panel{grid-template-columns:1fr;}}
 @media (max-width:960px){.versions,.tiers{grid-template-columns:1fr;}.deck-strip{grid-template-columns:repeat(3,minmax(0,1fr));}}
-@media (max-width:560px){.flowline{grid-template-columns:1fr;}.profile{grid-template-columns:1fr;}}
+@media (max-width:560px){.flowline{grid-template-columns:1fr;}.profile{grid-template-columns:1fr;}.post-head{flex-wrap:wrap;row-gap:6px;}.post-head .vis{order:4;margin-left:50px;}}
 </style>
 </head>
 <body>
@@ -167,10 +177,10 @@ dialog.gate::backdrop{background:rgba(21,15,21,.8);backdrop-filter:blur(8px);}
     <main class="column">
       <div class="restore" role="note">
         <svg class="svg"><use href="#i-info"/></svg>
-        <p class="short"><span class="zh">原網站已下架，這是依留存文件重建的還原版；畫面中的帳號、商品、價格皆為示意，不含露骨內容。 <a href="#/map">完整說明</a></span><span class="en">The original site has been taken down; this is a restoration from preserved documents. Accounts, products and prices are illustrative, with no explicit content. <a href="#/map">Full note</a></span></p>
+        <p class="short"><span class="zh">原網站已下架，這是依留存文件重建的還原版；畫面中的帳號、商品、價格皆為示意；商品照片因過於私密未放上，圖片僅供示意。 <a href="#/map">完整說明</a></span><span class="en">The original site has been taken down; this is a restoration from preserved documents. Accounts, products and prices are illustrative; product photos are too private to publish, so all images are placeholders. <a href="#/map">Full note</a></span></p>
         <div class="full">
-          <p class="zh"><strong>原本的 OnlyUsed 網站（onlyused.me）已經下架。</strong>這份作品集依據下架前留存的介面樣式、2026/04 的平台功能規格、2026/05 的提案簡報與當時的頁面檔案重建，盡可能還原平台原本的樣子。規格書、簡報與 13 個台灣版頁面是原始檔案；首頁、動態、拍賣等畫面依原站設計系統與規格書重新製作。畫面中的帳號、商品、價格與數字皆為示意資料，並非真實營運數據，也不含任何露骨內容。</p>
-          <p class="en"><strong>The original OnlyUsed website (onlyused.me) has been taken down.</strong> This portfolio was rebuilt from the interface styles preserved before the takedown, the April 2026 platform spec, the May 2026 pitch deck and the page files of the time, to restore the platform as faithfully as possible. The spec, the deck and the 13 Taiwan-version pages are original files; Home, Feed, Auctions and the other screens were recreated from the original design system and the spec. All accounts, products, prices and figures are illustrative, not real operating data, and there is no explicit content.</p>
+          <p class="zh"><strong>原本的 OnlyUsed 網站（onlyused.me）已經下架。</strong>這份作品集依據下架前留存的介面樣式、2026/04 的平台功能規格、2026/05 的提案簡報與當時的頁面檔案重建，盡可能還原平台原本的樣子。規格書、簡報與 13 個台灣版頁面是原始檔案；首頁、動態、拍賣等畫面依原站設計系統與規格書重新製作。畫面中的帳號、商品、價格與數字皆為示意資料，並非真實營運數據，也不含任何露骨內容；商品照片因過於私密，一律沒有放上實際圖片，圖片區塊僅供示意。</p>
+          <p class="en"><strong>The original OnlyUsed website (onlyused.me) has been taken down.</strong> This portfolio was rebuilt from the interface styles preserved before the takedown, the April 2026 platform spec, the May 2026 pitch deck and the page files of the time, to restore the platform as faithfully as possible. The spec, the deck and the 13 Taiwan-version pages are original files; Home, Feed, Auctions and the other screens were recreated from the original design system and the spec. All accounts, products, prices and figures are illustrative, not real operating data, and there is no explicit content. Product photos are too private to publish, so no real images are used — every picture is a placeholder.</p>
           <div class="restore-actions">
             <a class="btn btn-dark" href="#/case/overview"><span class="zh">看創辦人作品集 →</span><span class="en">Read the founder case study →</span></a>
             <a class="btn btn-line" href="#/case/files"><span class="zh">打開原始檔案</span><span class="en">Open the original files</span></a>
@@ -178,6 +188,7 @@ dialog.gate::backdrop{background:rgba(21,15,21,.8);backdrop-filter:blur(8px);}
         </div>
       </div>
       <nav class="crumb" id="crumb" aria-label="Breadcrumb" hidden></nav>
+      <div class="photo-note" id="photoNote" role="note" hidden>📷 <span><span class="zh">因商品照片過於私密，這裡沒有放上實際圖片；畫面中的圖片區塊僅供示意。</span><span class="en">Product photos are too private to publish, so no real images are shown here; every picture on this screen is illustrative only.</span></span></div>
 
       <!-- ============ 全覽 ============ -->
       <section class="view" data-view="map" hidden>
@@ -516,6 +527,7 @@ dialog.gate::backdrop{background:rgba(21,15,21,.8);backdrop-filter:blur(8px);}
 <dialog class="gate" id="gate">
   <h2><span class="zh">本平台僅限 18 歲以上</span><span class="en">This platform is 18+ only</span></h2>
   <p><span class="zh">原站在登入時以彈窗確認年齡（2026/04 法律風險清單的對策之一）。這是還原展示，不會記錄任何資料。</span><span class="en">The original site confirmed age with a pop-up at sign-in (a mitigation from the April 2026 risk list). This is a restored demo; nothing is recorded.</span></p>
+  <p><span class="zh">因商品照片過於私密，接下來的畫面都沒有放上實際圖片，圖片區塊僅供示意。</span><span class="en">Product photos are too private to publish, so the screens ahead show no real images — every picture is illustrative only.</span></p>
   <div class="row-btns"><button class="btn btn-dark" id="gateYes"><span class="zh">我已年滿 18 歲</span><span class="en">I'm 18 or older</span></button><button class="btn btn-line" id="gateNo"><span class="zh">離開，回到全覽</span><span class="en">Leave, back to overview</span></button></div>
 </dialog>
 <dialog class="viewer" id="viewer">
@@ -523,6 +535,6 @@ dialog.gate::backdrop{background:rgba(21,15,21,.8);backdrop-filter:blur(8px);}
   <iframe id="viewerFrame" title="Preview" src="about:blank"></iframe>
 </dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

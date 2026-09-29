@@ -437,6 +437,7 @@
     current=v;
     document.querySelectorAll('.view').forEach(function(el){ el.hidden=el.getAttribute('data-view')!==v; });
     document.querySelector('.column').toggleAttribute('data-compact',v!=='map');
+    document.getElementById('photoNote').hidden=!(SITEMAP[v]&&v!=='terms');
     curSec=(v==='case'&&SEC[sec])?sec:'overview';
     crumb(v,curSec);
     if(v==='case'){ var tg=document.getElementById(curSec); setActive('case/'+curSec);
